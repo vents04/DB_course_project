@@ -157,6 +157,28 @@ This log tracks all steps where AI (Claude Code) was used throughout the course 
 
 **Why PlantUML:** Text-based, free online viewer at plantuml.com/plantuml, version-controllable, matches the syntax style of the BA exercise reference material, renders to PNG/SVG for presentations.
 
+### 13. Task 3 — Technology Architecture
+
+**What was done:** Created `deliverables/03_architecture/` with two files:
+- `technology_architecture.drawio` — draw.io 2.0 XML, importable into app.diagrams.net. 69 shapes + 37 labeled connections.
+- `architecture.md` — metadata file with zone-by-zone breakdown, component tables (OS, tech, ports), connection details, security/compliance mapping, and glossary.
+
+**Architecture coverage (per task.md Task 3 requirements a-d):**
+- (a) Servers with OS and application servers: every component labeled with OS (RHEL 9, Ubuntu 22.04 LTS, Windows Server 2022, Alpine) and app server (Tomcat 10, JBoss EAP 7.4, IIS 10, NGINX, Kubernetes/OpenShift)
+- (b) Network segmentation: 7 zones separated by 3 firewalls (perimeter, internal, egress) + WAF + Reverse Proxy + API Gateway
+- (c) Technologies, protocols, and ports: every component has tech stack + port; every connection has protocol + port label
+- (d) Inter-application connections: 37 labeled edges showing communication paths
+
+**Architecture design choices:**
+- Kept existing systems (BBO_BE, CORE_BANKING, CORE_ACC, CARD_SYSTEM, CRM) unchanged per the project postulate ("bank already has online channels")
+- New complaint-specific services (AI_CHATBOT, NLP_ENGINE, CMS, AI_COPILOT, NOTIF_SERVICE, AUDIT_LOG, Specialist Workbench, Analytics) designed as Kubernetes-deployed microservices with Istio mTLS
+- AUDIT_LOG on WORM PostgreSQL with hash chain for tamper-evidence (DORA + EBA compliance)
+- Multi-channel notification fan-out via NOTIF_SERVICE (in-app + email + push) aligned with the BPM process decision (DSK Bank's model)
+- Kafka event backbone for async decoupling of CMS from notifications and analytics
+- External integrations (SMTP, FCM, APNS, LLM API, regulators, KEP validation) behind egress firewall whitelist
+
+**Why single `.drawio` + single `.md`:** User explicitly requested one XML file (importable into app.diagrams.net) plus one metadata `.md` file. Keeping it in one diagram makes the architecture understandable as a whole rather than requiring the reader to mentally merge multiple views.
+
 ---
 
 *This log will be updated as the project progresses.*
