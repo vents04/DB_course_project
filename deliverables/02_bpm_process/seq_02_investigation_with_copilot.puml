@@ -1,0 +1,75 @@
+@startuml seq_02_investigation_with_copilot
+title Sequence 2 — Разследване на жалба с AI Ко-пилот (специалист)
+
+' === Infrastructure actors (from BA exercise) ===
+participant "BBO_BE" as BBO_BE
+participant "CORE_BANKING\n(Основна\nбанкова система)" as CORE_BANKING
+participant "CORE_ACC\n(Модул Сметки)" as CORE_ACC
+
+' === Complaint-specific services ===
+participant "CMS" as CMS
+participant "AI_COPILOT" as AI_COPILOT
+participant "CRM" as CRM
+actor       "SPEC_CARDS\n(Специалист Карти)" as SPEC
+
+' === Domain system (not infrastructure) — used only for card scenarios ===
+participant "CARD_SYSTEM\n(домейн система)" as CARD_SYSTEM
+
+== Назначаване на специалист ==
+CMS -> CMS : Маршрутизиране по категория\n→ Специалист Карти
+CMS -> SPEC : Назначава жалба #UCB-2026-1317654
+
+== AI Ко-пилот сглобява контекст ==
+SPEC -> AI_COPILOT : Поискай контекст за жалба #1317654
+
+AI_COPILOT -> CORE_BANKING : GET клиентски профил
+CORE_BANKING --> AI_COPILOT : Име, сегмент, статус, KYC
+
+AI_COPILOT -> CORE_ACC : GET сметки + последни 30 дни транзакции
+CORE_ACC --> AI_COPILOT : Сметки, баланси, транзакции
+
+note right of AI_COPILOT
+  За спорна картова транзакция
+  Ко-пилотът прави допълнително
+  обогатяване от CARD_SYSTEM
+  (домейн система).
+end note
+
+AI_COPILOT -> CARD_SYSTEM : GET детайли за картата + спорна транзакция
+CARD_SYSTEM --> AI_COPILOT : Номер на карта, merchant, MCC, timestamp
+
+AI_COPILOT -> CRM : GET история на взаимодействия + предишни жалби
+CRM --> AI_COPILOT : 2 предишни жалби, всички разрешени
+
+AI_COPILOT -> CMS : GET подобни минали случаи по ключови думи
+CMS --> AI_COPILOT : 3 подобни случая, средно време: 2.5 дни
+
+AI_COPILOT --> SPEC : **Пакет с контекст:**\n• Профил + сегмент\n• Транзакция + merchant\n• История на взаимодействия\n• 3 подобни случая\n• **Предложено решение:** връщане на такса + извинение
+
+== Разследване и (ако е нужна) доп. информация ==
+SPEC -> SPEC : Преглед на пакета + предложеното решение
+
+alt Нужна е допълнителна информация от клиента
+    SPEC -> CMS : Изисква доп. информация от клиента
+    CMS -> BBO_BE : Заявка към клиента\n(in-app + email + push)
+    note right of CMS
+      Процесът е на пауза до получаване
+      на отговор от клиента.
+      SLA часовникът се спира.
+    end note
+    BBO_BE --> CMS : Клиентът е прикачил документ
+    CMS --> SPEC : Нов документ по жалба #1317654
+end
+
+== Специалистът разследва ==
+SPEC -> CORE_ACC : Допълнителна проверка по засегнатата сметка
+CORE_ACC --> SPEC : Потвърдена спорна транзакция
+SPEC -> SPEC : Формулира решение\n(приема предложението на Ко-пилота\nс малка корекция)
+
+note over SPEC
+  Решението НЕ се изпълнява тук.
+  Следваща стъпка: Sequence 3
+  (одобрение → изпълнение → отговор).
+end note
+
+@enduml

@@ -1,0 +1,79 @@
+@startuml seq_03_decision_and_execution
+title Sequence 3 — Одобрение, изпълнение и отговор (с аудит)
+
+' === Infrastructure actors (from BA exercise) ===
+actor       "BBM_USER\n(Клиент)" as BBM_USER
+participant "BBM" as BBM
+participant "BBO_BE" as BBO_BE
+participant "CORE_BANKING\n(Основна\nбанкова система)" as CORE_BANKING
+participant "CORE_ACC\n(Модул Сметки)" as CORE_ACC
+
+' === Complaint-specific services ===
+actor       "SPEC_CARDS" as SPEC
+participant "CMS" as CMS
+participant "AUDIT_LOG\n(одит регистър)" as AUDIT
+participant "NOTIF_SERVICE\n(in-app + email + push)" as NOTIF
+
+== Решение и изрично одобрение (Tier C) ==
+SPEC -> CMS : Подава решение\n(връщане на такса 15 лв. + извинение)
+CMS -> AUDIT : Записва: „Специалист X взе решение за #1317654"\n+ тип действие, сума, обосновка
+AUDIT --> CMS : Записано (timestamp)
+
+alt Монетарно / регулирано действие
+    note right of SPEC
+      BPMN правило: нито един монетарен превод
+      без изрично одобрение от специалист.
+    end note
+    SPEC -> CMS : Изрично одобрение за изпълнение
+    CMS -> AUDIT : Записва „Одобрено за изпълнение"
+    AUDIT --> CMS : OK
+
+    CMS -> CORE_BANKING : Иниции финансова корекция\n(клиентски ID, жалба #1317654)
+    CORE_BANKING -> CORE_ACC : Кредитирай сметка със 15 лв.\n(referenced by ref#)
+    CORE_ACC --> CORE_BANKING : Транзакция изпълнена, ID: TX-20260409-...
+    CORE_BANKING --> CMS : Завършено (TX-ID)
+    CMS -> AUDIT : Записва „Изпълнено: TX-20260409-...\nсума 15 лв., сметка XXXX1234"
+end
+
+== Многоканален отговор ==
+CMS -> NOTIF : Изпрати отговор\n(жалба #1317654, решение, компенсация, следващи стъпки)
+
+par In-app
+    NOTIF -> BBO_BE : Push to in-app
+    BBO_BE -> BBM : Deliver
+    BBM --> BBM_USER : 💬 Отговор в приложението
+else Email
+    NOTIF -> BBM_USER : 📧 Email с официалния отговор
+else Push
+    NOTIF -> BBM_USER : 📱 Push нотификация
+end
+
+== Клиентът преглежда и реагира ==
+BBM_USER -> BBM : Отваря жалба #1317654
+BBM -> BBO_BE : GET /complaints/1317654
+BBO_BE -> CMS : Извлича пълен отговор
+CMS --> BBO_BE : Отговор + предприети действия + компенсация
+BBO_BE --> BBM : Покажи отговора
+
+alt Клиентът приема
+    BBM_USER -> BBM : „Приемам решението"
+    BBM -> CMS : Марка: Закрита
+    CMS -> AUDIT : Записва „Закрита след приемане от клиента"
+    CMS -> NOTIF : Изпрати проучване за удовлетвореност
+    NOTIF -> BBM_USER : 📊 „Оценете обслужването: ⭐⭐⭐⭐⭐"
+else Клиентът иска уточнение
+    BBM_USER -> BBM : Въпрос за уточнение
+    BBM -> CMS : Допълнителен въпрос
+    CMS -> SPEC : Пренасочване за уточнение
+    note right of CMS
+      Процесът се връща към
+      Sequence 2 (разследване).
+    end note
+else Клиентът ескалира
+    BBM_USER -> BBM : „Искам ескалация"
+    BBM -> CMS : Заявка за ескалация
+    CMS -> AUDIT : Записва „Ескалирано от клиента"
+    CMS -> CMS : Назначава ръководител\nза вътрешен преглед
+end
+
+@enduml

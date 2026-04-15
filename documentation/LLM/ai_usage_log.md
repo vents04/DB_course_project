@@ -140,6 +140,23 @@ This log tracks all steps where AI (Claude Code) was used throughout the course 
 
 **Why this approach:** The user correctly identified the regulatory risk of chatbot-autonomous monetary actions. The tiered model makes the human-in-the-loop explicit for anything involving money or personal data, while preserving the UX benefit of AI handling informational queries and routing safe client-initiated actions. Converting to BPMN 2.0 XML makes the deliverable loadable in real BPM software (not just a rendered image), which is the industry standard for business process modeling.
 
+### 12. Task 2 — Added sequence diagrams for system integration view
+
+**What was done:** Added 4 PlantUML sequence diagrams alongside the existing BPMN file (existing BPMN was not modified):
+- `seq_01_submission_and_registration.puml` — client login through to formal complaint registration with multi-channel notification
+- `seq_02_investigation_with_copilot.puml` — AI Co-pilot context assembly across infrastructure and domain systems
+- `seq_03_decision_and_execution.puml` — specialist decision, explicit approval for monetary actions, AUDIT_LOG recording, execution through CORE_BANKING/CORE_ACC, client response handling
+- `seq_04_fast_path_tier_ab.puml` — Tier A/B deflection flow (no formal complaint, chatbot-handled)
+
+**Actor model (clarified per user feedback):**
+- **Infrastructure actors** (preserved from UniCredit BA exercise): BBM_USER, BBM, BBO_BE, CORE_BANKING, CORE_ACC
+- **New complaint-specific services**: AI_CHATBOT, NLP_ENGINE, CMS, AI_COPILOT, NOTIF_SERVICE, AUDIT_LOG, SPEC_{CARDS/ACC/CREDIT/DIGI}
+- **Domain systems** (not infrastructure, used only for specific scenarios): CARD_SYSTEM, CRM
+
+**Why BPMN + Sequence diagrams instead of one single diagram:** BPMN answers the business-process question (who does what, in what order, under what rules); sequence diagrams answer the system-integration question (which system calls which, over time). Keeping them separate preserves readability and matches industry practice. The BA exercise from UniCredit itself uses sequence diagrams with the exact infrastructure actor set adopted here.
+
+**Why PlantUML:** Text-based, free online viewer at plantuml.com/plantuml, version-controllable, matches the syntax style of the BA exercise reference material, renders to PNG/SVG for presentations.
+
 ---
 
 *This log will be updated as the project progresses.*
