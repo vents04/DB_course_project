@@ -119,6 +119,27 @@ This log tracks all steps where AI (Claude Code) was used throughout the course 
 
 **Why this approach:** The task requires a process from the client's perspective with defined steps, forward/backward rules, and actor roles. The BPM flowchart provides the high-level view, while the sequence diagrams provide the detailed system interaction view — matching the style from the BA exercise reference material. The process directly builds on the proposal from Task 1's research, maintaining consistency across deliverables.
 
+### 11. Task 2 — BPMN 2.0 conversion + regulatory fix
+
+**What was done:**
+
+1. **Identified a regulatory compliance gap** in both the research and BPM diagram: the original design had the AI chatbot autonomously executing monetary actions (e.g., fee reversal, card block) based only on client acceptance. This violated EBA/ESMA JC 2018 35 (dedicated complaints management function must review every complaint), UCB's own policy, and DORA audit-trail requirements.
+
+2. **Introduced a tiered handling model (A/B/C/D)** in the research (Section 6.2):
+   - Tier A — informational only (no bank action)
+   - Tier B — safe client-initiated actions (card block, notifications)
+   - Tier C — AI-suggested, specialist-approved (fee refunds, compensation)
+   - Tier D — full manual investigation (fraud, credit disputes, high-value disputes)
+
+3. **Added multi-channel notifications at every touchpoint** — every confirmation is now delivered via in-app + email + push (matches DSK Bank's observed practice).
+
+4. **Converted the BPM deliverable format:**
+   - Created `complaint_process.bpmn` — BPMN 2.0 XML with collaboration (Client pool + Bank pool), 4 swim lanes (AI Chatbot, CMS, Specialist, Manager), 20 tasks, 6 gateways, 37 sequence flows, proper BPMNDI positioning
+   - Loadable in bpmn.io, draw.io, Camunda Modeler
+   - `bpm_process.md` restructured as a metadata/README file with actor definitions, phase tables, forward/backward rules, SLA timelines, regulatory references, and glossary
+
+**Why this approach:** The user correctly identified the regulatory risk of chatbot-autonomous monetary actions. The tiered model makes the human-in-the-loop explicit for anything involving money or personal data, while preserving the UX benefit of AI handling informational queries and routing safe client-initiated actions. Converting to BPMN 2.0 XML makes the deliverable loadable in real BPM software (not just a rendered image), which is the industry standard for business process modeling.
+
 ---
 
 *This log will be updated as the project progresses.*

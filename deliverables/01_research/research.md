@@ -166,10 +166,26 @@ DSK Bank offers the most complete digital complaint experience among the tested 
 - **Shortest stated response time** among Bulgarian banks (3 working days vs. UBB's 45 days)
 - **Mentions D.bot** — indicating chatbot capability exists in their ecosystem
 
+**Actual resolution (received ~13 hours after submission):**
+
+DSK Bank delivered a personalized email response approximately 13 hours after the complaint was submitted — the complaint was sent at 01:18 (Bulgarian time) and the response arrived at 14:01 the same day. This is significantly faster than their stated 3 working days SLA.
+
+![DSK Bank — Actual response email (received ~13 hours after submission)](images/dsk_actual_response.png)
+
+Key observations about the response:
+- **Personalized salutation:** Addresses the client by surname ("Здравейте, г-н Ванчев") — not a generic template
+- **Empathetic opening:** "Благодарим Ви, че се свързахте с нас. Съжаляваме за възникналата ситуация."
+- **Actionable recommendation:** Asks to confirm the DSK Mobile app is on the latest version, with specific instructions (Google Play / App Store)
+- **Proactive status update:** Informs that there is no current service interruption
+- **Open follow-up channel:** Offers the chat platform for further questions
+- **Signed off as:** "Поздрави, Екипът на Банка ДСК"
+
+This represents the real-world performance of DSK's complaint handling — not just stated SLAs, but an actual human, personalized, under-SLA response.
+
 **Mobile app / chatbot experience:**
 - DSK has a virtual AI assistant (D.bot), but when asked "I want to file a complaint" it **directs the user to submit via the website** — the chatbot does not handle complaint intake itself. The assistant was also observed to be buggy during testing.
 
-This means that despite DSK having the best post-submission experience among Bulgarian banks, the actual complaint *entry point* still requires leaving the app/chatbot and going to a separate web form — the same fundamental gap shared by all three Bulgarian banks.
+This means that despite DSK having the best post-submission experience among Bulgarian banks — including a faster-than-stated resolution time — the actual complaint *entry point* still requires leaving the app/chatbot and going to a separate web form. This is the fundamental gap shared by all three Bulgarian banks.
 
 ### 2.4 Bulgarian Banks — Local Comparison
 
@@ -183,6 +199,7 @@ This means that despite DSK having the best post-submission experience among Bul
 | Email acknowledgment | Not observed | Not received (burner email caveat) | Yes — immediate |
 | Reference number | Not observed | Not provided | Yes — #1317654 |
 | Response timeline stated | Yes — 85% within 3 days; 15/35 days legal (on website, not post-submit) | 45 days (on-screen) | 3 working days (email) / 30 days for complaints (email) |
+| Actual response time (tested) | Not received | Not received (burner email caveat) | **~13 hours** — personalized, actionable |
 | Priority triage communicated | No | No | Yes — visual icons in email |
 | Escalation paths documented | Yes — ПКПС, КЗП, FIN-NET | Not on form | Not on form |
 | Dedicated complaints team | Yes — "Централизирано управление на оплакванията" | Unknown | "Грижа за клиента" |
@@ -390,66 +407,121 @@ Based on the international benchmarks and regulatory requirements, the following
 3. **Full transparency** — real-time status tracking, clear timelines, proactive updates *(inspired by Monzo's transparency commitment)*
 4. **Omnichannel** — consistent experience across Bulbank Mobile, Bulbank Online, and branch (for those who still prefer it)
 
-### 6.2 Proposed Complaint Flow
+### 6.2 Tiered Handling Model
 
-1. **Initiation** — Client opens complaint from Bulbank Mobile/Online (Help > Complaints). AI chatbot collects initial details: category (transaction dispute, service quality, fees, other), description, and optional attachments (screenshots, documents)
-2. **Smart Categorization** — NLP engine auto-categorizes the complaint, assesses sentiment and urgency, and suggests relevant self-service resolutions for common issues *(inspired by Revolut's chatbot + DBS Digibot)*
-3. **Acknowledgment** — Instant digital acknowledgment with complaint reference number, estimated resolution timeline, and assigned handler info *(addresses the gap observed in UniCredit Bulbank's current web form)*
-4. **Routing** — Complaint routed to domain specialist (not generic complaints team) *(inspired by Monzo's specialist routing)*. AI co-pilot provides handler with full customer context, similar past cases, and suggested resolution paths *(inspired by DBS CSO Assistant)*
-5. **Investigation** — Handler investigates with access to transaction history, previous interactions, and relevant department input. Client receives proactive status updates via push notification
-6. **Resolution** — Official response delivered in-app with explanation. Client can accept, request clarification, or escalate. Financial redress (if applicable) applied automatically
-7. **Escalation** — If unresolved: internal review > BNB/CPC > Payment Disputes Conciliation Commission. All escalation paths accessible from within the app *(required by EBA guidelines + Bulgarian regulatory framework)*
-8. **Feedback Loop** — Post-resolution survey. Complaint data aggregated for trend analysis, feeding into product and process improvements *(inspired by Monzo's continuous improvement model)*
+To comply with EBA guidelines (every complaint reviewed by the complaints management function) and UCB's own stated policy (specialized team handles each complaint), AI automation must not autonomously execute monetary or regulated actions. Instead, a **four-tier handling model** is proposed:
+
+| Tier | Description | Example actions | Decision authority |
+|---|---|---|---|
+| **Tier A — Pure self-service (informational)** | Guidance or information retrieval; no change in bank state | Explaining a transaction, showing account details, answering procedural questions, guiding the user to a settings page | Chatbot (no bank action executed) |
+| **Tier B — Safe reversible automation (client-initiated)** | Non-monetary, defensive, reversible actions that the client can already perform in the app; the chatbot just routes the intent | Temporary card block, notification preference change, statement download | Client (chatbot executes existing client-accessible operations) |
+| **Tier C — AI-suggested, human-approved** | AI prepares a recommendation with full context; a specialist reviews and approves before any monetary or regulated action executes | Fee refund, goodwill compensation, dispute resolution, transaction reversal | Specialist (with AI Co-pilot assistance) |
+| **Tier D — Full manual investigation** | High-stakes or regulated categories; no AI shortcut path | Fraud claims, credit disputes (ЗПК/ЗКНИП), payment service disputes (ЗПУПС), GDPR data subject requests, transaction disputes above a threshold | Specialist + possibly compliance / legal review |
+
+**Why this tiered model is required:**
+- EBA/ESMA Joint Committee Guidelines (JC 2018 35): *"Complaints management function — dedicated organizational unit responsible for complaints"* and *"all complaints must be registered, categorized, and tracked"*
+- UCB's own stated policy: every complaint is reviewed by the specialized team "Централизирано управление на оплакванията"
+- DORA audit-trail and risk-management obligations
+- Anti-fraud: autonomous money movement by a chatbot is a fraud vector (prompt injection, social engineering)
+
+### 6.3 Proposed Complaint Flow
+
+1. **Initiation** — Client opens complaint from Bulbank Mobile/Online (Help > Complaints). AI chatbot collects initial details: category, description, and optional attachments
+2. **Smart Categorization** — NLP engine auto-categorizes the complaint, assesses sentiment and urgency, and determines the applicable tier (A / B / C / D) *(inspired by Revolut's chatbot + DBS Digibot)*
+3. **Tier A/B handling** — If the intent can be resolved by information or safe client-initiated action, the chatbot provides the answer / executes the client-level action. The interaction is **logged as a support case** (not as a formal complaint) but still captured for analytics
+4. **Formal complaint registration** — For Tier C and Tier D intents (and any Tier A/B case where the client opts for a formal complaint), the complaint is formally registered with a reference number, category, priority, and timestamps
+5. **Acknowledgment** — Client receives an instant acknowledgment via **both in-app message + email** — reference number, estimated resolution timeline, assigned handler info *(addresses the gap observed in UniCredit Bulbank's current web form, and matches DSK Bank's two-channel approach)*
+6. **Routing** — Complaint routed to domain specialist (not a generic complaints team) *(inspired by Monzo's specialist routing)*. AI co-pilot assembles full customer context, similar past cases, and suggested resolution paths for the specialist *(inspired by DBS CSO Assistant)*
+7. **Investigation** — Specialist investigates with the AI Co-pilot's context assembly. Client receives proactive status updates via **push notification + email**. If additional information is needed, the specialist requests it through the app (push + email)
+8. **Specialist decision** — Specialist approves or rejects the AI Co-pilot's suggested resolution (Tier C), or formulates their own resolution from scratch (Tier D). All decisions, approvals, and rationale are recorded for audit
+9. **Resolution delivery** — Official response delivered via **in-app message + email** with explanation, actions taken, and compensation details (if applicable). If monetary compensation applies, the system executes the transaction only after the specialist's explicit approval
+10. **Client response** — Client can accept, request clarification, or escalate
+11. **Escalation** — If unresolved: internal review by manager → BNB / CPC / Payment Disputes Conciliation Commission / FIN-NET. All escalation paths accessible from within the app *(required by EBA guidelines + Bulgarian regulatory framework)*
+12. **Feedback Loop** — Post-resolution survey. Complaint data aggregated for trend analysis, feeding into product and process improvements *(inspired by Monzo's continuous improvement model)*
+
+**Client-facing confirmation channels (on every touchpoint):**
+- **In-app message** — primary, authenticated, visible in complaint history
+- **Email** — delivery confirmation, external record, works even if the app is uninstalled (matches DSK Bank's email-based acknowledgment model)
+- **Push notification** — real-time awareness, triggers client attention
 
 #### Diagram: Proposed Complaint Flow
 
 ```mermaid
 flowchart TD
-    Client([Client in Bulbank Mobile/Online\n— already authenticated])
+    Client([Client in Bulbank Mobile/Online<br/>— already authenticated])
 
     Client --> Initiate[Opens Help > Complaints]
-    Initiate --> Chatbot[AI Chatbot collects:\n• Category\n• Description\n• Attachments]
+    Initiate --> Chatbot[AI Chatbot collects:<br/>Category, description, attachments]
 
-    Chatbot --> NLP[Smart Categorization\nNLP: sentiment, urgency, category]
-    NLP --> SelfServe{Common issue with\nself-service resolution?}
+    Chatbot --> NLP[NLP: categorization, sentiment,<br/>urgency, tier determination]
+    NLP --> Tier{Tier?}
 
-    SelfServe -->|Yes| AutoResolve[Instant resolution\ne.g. fee reversal, card block]
-    AutoResolve --> Feedback
+    Tier -->|Tier A<br/>informational| TierA[Chatbot provides info<br/>or guidance<br/>No bank action]
+    Tier -->|Tier B<br/>safe client-initiated| TierB[Chatbot executes<br/>client-level action<br/>e.g. card block]
+    Tier -->|Tier C<br/>AI-suggested| Register
+    Tier -->|Tier D<br/>full manual| Register
 
-    SelfServe -->|No| Ack[Instant Acknowledgment\n• Reference number\n• Estimated timeline\n• Assigned handler]
+    TierA --> LogCase[Log as support case<br/>for analytics]
+    TierB --> LogCase
+    LogCase --> OfferFormal{Client wants<br/>formal complaint?}
+    OfferFormal -->|No| Feedback
+    OfferFormal -->|Yes| Register
 
-    Ack --> Route[Smart Routing\nto domain specialist]
-    Route --> CoPilot[AI Co-pilot assembles:\n• Customer context\n• Transaction history\n• Similar past cases\n• Suggested resolution]
+    Register[Formal complaint registered<br/>ref#, category, priority, timestamps]
+    Register --> Ack[📧📱 Acknowledgment<br/>in-app + email + push<br/>ref#, timeline, handler]
 
-    CoPilot --> Investigate[Handler investigates]
-    Investigate --> Updates[Proactive push notifications\nwith status updates]
-    Updates --> Resolution{Resolution}
+    Ack --> Route[Route to domain specialist]
+    Route --> CoPilot[AI Co-pilot assembles context<br/>profile, transactions, past cases,<br/>suggested resolution]
 
-    Resolution -->|Client accepts| Feedback
-    Resolution -->|Client disputes| Escalation
+    CoPilot --> Investigate[Specialist investigates]
+    Investigate --> NeedInfo{Need more<br/>info from client?}
+    NeedInfo -->|Yes| RequestInfo[📧📱 Request via<br/>in-app + email + push]
+    RequestInfo --> ClientProvides[Client provides info]
+    ClientProvides --> Investigate
 
-    Escalation --> Internal[Internal review]
-    Internal --> External[BNB / CPC /\nPayment Disputes Commission]
+    NeedInfo -->|No| SpecDecision[Specialist decides:<br/>approve AI suggestion Tier C<br/>or formulate own Tier D]
 
-    Feedback([Post-resolution survey\n→ trend analysis\n→ product improvements])
+    SpecDecision --> ExecAction{Monetary /<br/>regulated action?}
+    ExecAction -->|Yes| ExecWithApproval[Specialist explicitly approves;<br/>system executes + logs to audit]
+    ExecAction -->|No| Response
+    ExecWithApproval --> Response
+
+    Response[📧📱 Response via in-app + email + push]
+
+    Response --> ClientResp{Client response}
+    ClientResp -->|Accepts| Feedback
+    ClientResp -->|Wants clarification| Investigate
+    ClientResp -->|Escalates| Internal[Internal review<br/>by manager]
+
+    Internal --> MgrDecision{Manager new decision}
+    MgrDecision -->|Client accepts| Feedback
+    MgrDecision -->|Client still unhappy| External[External escalation:<br/>BNB / CPC / ПКПС / FIN-NET]
+
+    External --> Feedback
+    Feedback([Post-resolution survey<br/>→ trend analysis<br/>→ product improvements])
 
     style Client fill:#d4edda,stroke:#28a745
-    style AutoResolve fill:#d4edda,stroke:#28a745
     style Feedback fill:#cce5ff,stroke:#007bff
-    style Escalation fill:#fff3cd,stroke:#ffc107
+    style External fill:#ffcccc,stroke:#cc0000
+    style ExecWithApproval fill:#d4edda,stroke:#28a745
+    style SpecDecision fill:#d4edda,stroke:#28a745
+    style Tier fill:#fff3cd,stroke:#ffc107
+    style ExecAction fill:#fff3cd,stroke:#ffc107
 ```
 
-### 6.3 Innovations Beyond Current Market
+### 6.4 Innovations Beyond Current Market
 
 | Innovation | Inspiration | UniCredit Bulbank Enhancement |
 |---|---|---|
-| AI chatbot triage | Revolut, DBS | Bilingual (BG/EN) chatbot with banking domain knowledge |
+| AI chatbot triage | Revolut, DBS | Bilingual (BG/EN) chatbot with banking domain knowledge; tier determination (A/B/C/D) at intake |
+| Tiered handling model | EBA regulatory requirements | Clear separation of informational, client-initiated, AI-suggested-human-approved, and full-manual flows |
 | Specialist routing | Monzo | Auto-routing based on complaint category + customer segment |
-| AI co-pilot for staff | DBS CSO Assistant | Real-time context assembly from core banking + CRM |
-| Self-service resolution | Revolut | Instant resolution for common issues (fee reversal, card block) |
+| AI co-pilot for staff | DBS CSO Assistant | Real-time context assembly from core banking + CRM; prepares suggestions only — specialist must approve |
+| Tier A/B deflection | Revolut | Informational answers and safe client-initiated actions resolved without formal complaint overhead |
+| Multi-channel confirmations | DSK Bank two-email flow | Every touchpoint delivered via in-app + email + push |
 | Transparency dashboard | Monzo | Client-facing real-time status + estimated resolution date |
 | Complaint analytics | Monzo feedback loop, DBS | Automated trend detection, alerting for systemic issues |
-| Regulatory compliance | EBA Guidelines | Built-in audit trail, auto-generated BNB/EBA reports |
+| Regulatory compliance | EBA Guidelines, DORA | Built-in audit trail for every specialist decision and monetary action; auto-generated BNB/EBA reports |
 | Euro-readiness | Bulgarian context | Dual-currency complaint handling (BGN/EUR) for transition period |
 
 ---
@@ -484,4 +556,4 @@ flowchart TD
 ### Firsthand Testing
 - UniCredit Bulbank online complaint form — tested 2026-04-09; submission completed, no immediate on-screen confirmation or acknowledgment email observed at time of writing
 - UBB online feedback/complaint form — tested 2026-04-09; on-screen confirmation displayed immediately with empathetic messaging and 45-day response timeline; no reference number provided; no email confirmation received (caveat: burner email used). Mobile app virtual assistant redirects complaint queries to the web form.
-- DSK Bank online feedback form — tested 2026-04-09; two emails received: (1) immediate acknowledgment with priority triage explanation and 30-day complaint timeline, (2) reference number #1317654 assigned with 3-working-day response commitment. D.bot chatbot does not handle complaints — directs users to website; chatbot observed to be buggy.
+- DSK Bank online feedback form — tested 2026-04-09; two acknowledgment emails received: (1) immediate acknowledgment with priority triage explanation and 30-day complaint timeline, (2) reference number #1317654 assigned with 3-working-day response commitment. **Actual personalized response received ~13 hours after submission** (complaint sent 01:18, response received 14:01 same day) — well under the stated SLA. D.bot chatbot does not handle complaints — directs users to website; chatbot observed to be buggy.
