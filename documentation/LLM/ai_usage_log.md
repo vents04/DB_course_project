@@ -179,6 +179,66 @@ This log tracks all steps where AI (Claude Code) was used throughout the course 
 
 **Why single `.drawio` + single `.md`:** User explicitly requested one XML file (importable into app.diagrams.net) plus one metadata `.md` file. Keeping it in one diagram makes the architecture understandable as a whole rather than requiring the reader to mentally merge multiple views.
 
+### 14. Task 3 — Detailed glossary
+
+**What was done:** Expanded the glossary in `architecture.md` from 4 brief sections (~25 entries) to 17 categorized sections (~180 entries). Covers: infrastructure actors, new complaint components, domain systems, operating systems, app servers, languages/frameworks, containers/orchestration, databases, messaging, network infrastructure, security/authentication, protocols, port reference, external services, monitoring/management, regulatory/compliance, general abbreviations.
+
+**Why:** Every term referenced in the architecture diagram (shape labels, protocol/port edge labels) or in the accompanying text is now defined in the glossary, so a reader encountering any acronym can look it up without searching externally.
+
+### 15. Task 4 — Agile Product Backlog
+
+**What was done:** Created `deliverables/04_project_plan/` with:
+- `product_backlog.xlsx` — Excel workbook following the instructor template (`Product-backlog-template.xls`) with 5 sheets: PRODUCT BACKLOG (42 user stories, 221 story points, grouped into 6 epics, with dropdowns for priority/sprint/owner/estimate/epic), PROJECT DETAILS, DROPDOWN MENUS, ROADMAP (new sheet — sprint goals and dates), RESOURCES (team composition table + burndown chart template with actual line chart). Generated via Python + openpyxl.
+- `project_plan.md` — metadata: Agile-over-Waterfall justification, Scrum team composition (13.75 FTE), epic structure (6 epics), 12-week / 6-sprint roadmap, Definition of Done, risk register, mapping back to the template structure.
+
+**Why Agile not Waterfall:** NLP/AI components need iteration on real user data; regulatory environment (DORA, EBA) is evolving; legacy integrations are unpredictable; stakeholders need early visibility; client UX requires real-user validation. Waterfall risks (specification-heavy AI work, regulatory drift, big-bang integration) made it unsuitable.
+
+**Stories are grouped into 6 epics** derived directly from the Task 2 BPM and Task 3 architecture, ensuring consistency across deliverables: E1 Foundation & Infrastructure, E2 Complaint Intake (Chatbot + NLP), E3 Workflow Registration & Notifications, E4 Specialist Workbench & AI Co-pilot, E5 Resolution Escalation & Audit, E6 Analytics Launch & Non-functional.
+
+**Why extending the template is encouraged (per CLAUDE.md):** The instructor template had minimum columns; we added Epic grouping, Acceptance Criteria, and a new ROADMAP sheet for sprint goals — all useful for a real Agile project. The original column structure is preserved.
+
+### 16. Task 4 — Methodology reversal: Agile → Waterfall
+
+**What was done:** Replaced the Agile product backlog with a Waterfall project plan. `product_backlog.xlsx` deleted; `project_plan.xlsx` created with 6 sheets (PROJECT PLAN, PROJECT DETAILS, PHASES & SIGN-OFFS, RESOURCES, RISKS, DROPDOWN MENUS). `project_plan.md` rewritten to justify Waterfall.
+
+**Why the change:** The user pushed back on Agile with strong arguments:
+1. Regulatory compliance is **binary** — EBA/DORA/GDPR/PSD2 must be fully in place from day 1; cannot ship "compliance MVP"
+2. Client/specialist expectations at launch require a complete, working system — not incremental features
+3. Legacy integrations (CORE_BANKING, CARD_SYSTEM) require formal interface contracts and sequential sign-offs
+4. Stakeholder sign-off gates (Legal, Compliance, Risk, Security) must happen before production
+
+These arguments are objectively correct for a heavily-regulated banking complaint system. Agile works best for consumer products where "shippable increment" is valuable in isolation; in a regulated environment, an increment without audit trail or escalation paths is not shippable at all.
+
+**Two-release structure** (derived from the Tier model in research Section 6.2, reinterpreted as a rollout strategy):
+- **Release 1 (Level 1) — 14 months:** Compliance-Critical CMS covering Tier C/D (formal complaint handling, audit, escalation, regulatory reporting). Fully functional without AI — specialists manually categorize and research context. This is the regulatorily-sufficient baseline.
+- **Release 2 (Level 2) — 8 months:** AI/UX enhancements (AI_CHATBOT, NLP_ENGINE, AI_COPILOT, Tier A/B deflection, Analytics). These optimize productivity but don't change compliance posture.
+
+**Waterfall phases (Release 1):** P0 Initiation (1m) → P1 Requirements (2m) → P2 Design (2m) → P3 Implementation (4m) → P4 Testing (2m) → P5 Deployment (1m) → P6 Hypercare (2m). Four explicit sign-off gates (Requirements, Design, Go/no-go, Release Closure) plus GA milestone.
+
+**Effort:** ~14.85 FTE avg across Release 1; ~9.25 FTE across Release 2. 52 WBS tasks with Gantt-style dates, predecessors, effort, and owners in the xlsx.
+
+**Template alignment:** Product-backlog-template.xls was Agile-oriented and no longer fits. Used the `Project Plan.pdf` reference instead. The xlsx now has WBS/Gantt structure appropriate for Waterfall. Kept preserved: team composition model, risk register structure, component/epic naming.
+
+### 17. Task 4 — Revision 3: Hybrid (Waterfall + Agile)
+
+**What was done:** Replaced the pure Waterfall plan with a Hybrid methodology (Water-Scrum-Fall / SAFe-inspired). `project_plan.xlsx` regenerated with 7 sheets; `project_plan.md` rewritten.
+
+**Why the change:** User asked whether Waterfall + Agile could be combined. This is a legitimate industry pattern (SAFe, Water-Scrum-Fall) used by most regulated enterprises including UniCredit Group itself. Pure Waterfall sacrificed flexibility unnecessarily; pure Agile sacrificed compliance governance. Hybrid keeps Waterfall's sign-off gates (Requirements, Design, Go/no-go, Release Closure) while running Phase 3 Implementation and Phase 4 Testing as 2-week Scrum sprints.
+
+**Structure:**
+- **Waterfall backbone** (7 phases with formal gates): P0 Initiation, P1 Requirements, P2 Design, P5 Deployment remain Waterfall-style
+- **Agile delivery inside phases:**
+  - P3 Implementation (4 months) = **8 Scrum sprints × 2 weeks** with 40 user stories, 197 story points, 8 epics
+  - P4 Testing (2 months) = 4 test sprints × 2 weeks
+  - P6 Hypercare (2 months) = Kanban flow
+- **Release 2 (AI/UX)** is intentionally more Agile-heavy — single Requirements gate + single Design gate, rest is pure Scrum
+
+**Template alignment:** Both templates from `other-relevant-materials/` are now used together — `Project Plan.pdf` drives the Waterfall WBS in PROJECT PLAN sheet, `Product-backlog-template.xls` drives the SPRINT BACKLOG sheet for the Agile portion. This is typical for SAFe projects in banking.
+
+**Deliverables (final):**
+- `project_plan.xlsx` — 7 sheets: PROJECT PLAN (Waterfall WBS with sprint-level breakdown in P3), SPRINT BACKLOG (40 stories × 8 sprints for P3), PROJECT DETAILS, PHASES & SIGN-OFFS (with delivery mode per phase), RESOURCES, RISKS (including hybrid-specific risks), DROPDOWN MENUS
+- `project_plan.md` — justification comparing Hybrid vs Pure Waterfall vs Pure Agile, industry precedent (UniCredit SAFe adoption, JPMorgan, Deutsche Bank), full structure with sprint plan, Scrum ceremonies, Definition of Done
+
 ---
 
 *This log will be updated as the project progresses.*
