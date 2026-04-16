@@ -275,6 +275,35 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** Изискване от задачата — за курсов проект/курсова работа, документът трябва да бъде в Word формат, с добро форматиране, justify подравняване, шрифт 12/14 и номерация на страници.
 
+### 20. Task 1 — Research trim for defence-readiness
+
+**What was done:** Cut ~119 lines (21%) from `research.md`, 559 → 440 lines, to make the document easier to remember and defend orally.
+
+**Cuts:**
+1. **Section 2.2 UBB** — compressed from ~30 to ~10 lines. Kept the "big three Bulgarian banks" framing (UCB / DSK / UBB), the key test result, and the shared in-app gap; kept the `ubb_confirmation.png` image. Dropped the detailed form-CX analysis and verbose post-submission quotes.
+2. **"Bulgarian Banks — Digital Complaint Maturity" Mermaid diagram** — dropped. Was a visual restatement of the 2.4 comparison table.
+3. **Section 3.3 International Comparison Matrix** — trimmed from 14 rows to 8. Kept the rows that drive proposal decisions (in-app, AI triage, status tracking, reference number, email ack, resolution target, AI co-pilot, omnichannel). Dropped rows that are trivia for this argument (categorization, on-screen confirm, acknowledgment speed, priority triage shown, file attachments, improvement loop).
+4. **Section 4.3 Compliance Implications** — condensed from a 6-item bullet list to a single paragraph, with a pointer to Task 3 for implementation details.
+5. **Section 5 "Technology Patterns"** — dropped entirely (architecture approaches, components table, integration points). Task 3's `architecture.md` is the authoritative source for every technology listed there.
+6. **Section 6.4 "Innovations Beyond Current Market" table** — dropped entirely. Inspiration mapping was already called out inline in 5.3 (the proposed flow).
+
+**Renumbering:** Section 6 → Section 5, Section 7 → Section 6. Subsections 6.1/6.2/6.3 → 5.1/5.2/5.3.
+
+**Downstream updates:**
+- `project_plan.md` — updated the single cross-reference "Section 6.2" → "Section 5.2" for the Tier model citation. No other downstream artifact referenced the cut sections.
+- No changes needed in Task 2 BPM or Task 3 Architecture — neither cited UBB details, Section 5 patterns, or Section 6.4 innovations table.
+
+**Preserved (load-bearing):**
+- UCB KEP insight (§2.1) — raison d'être of the proposal
+- UCB current-journey Mermaid diagram (§2.1) — anchors the KEP-gap argument
+- DSK Bank section (§2.3) — inspires multi-channel notification model
+- Revolut / Monzo / DBS (§3.1–3.2) — each drives a distinct proposal element
+- EBA + Bulgarian regulatory framework (§4.1–4.2) — compliance basis for Tasks 2/3
+- Tier model A/B/C/D (§5.2) — used across Tasks 2/3/4
+- Proposed flow + Mermaid diagram (§5.3) — bridge to Task 2
+
+**Why:** The team will defend the project orally in the last two exercises. A 559-line research document is too dense to internalize per team member. The trim keeps every piece of evidence that a defender might be asked about while removing redundancy with downstream tasks and less-distinctive benchmark data.
+
 ---
 
 *This log will be updated as the project progresses.*

@@ -95,30 +95,14 @@ UBB (KBC Group) and DSK Bank (OTP Group) were selected for local benchmarking be
 
 ### 2.2 Local Competitor: United Bulgarian Bank (UBB)
 
-UBB (part of KBC Group) offers a web-based feedback form with a more structured complaint experience than UniCredit Bulbank:
+UBB (part of KBC Group) is the third of the top-tier Bulgarian banks tested alongside UCB and DSK. **Tested 2026-04-09:**
 
-**Form CX analysis (observed without submitting):**
-- User selects identity type (natural person / legal entity) and client status upfront
-- Complaint categories are specific: card transaction disputes, fund transfers, deposits/accounts, utility payments, personal data, credit register, insurance, loans, online/mobile banking
-- Required fields: description (max 3,000 chars), personal ID or client number, phone, name, email
-- Supports file attachments: .doc, .docx, .pdf, .jpg, .png, .bmp (up to 6MB)
-- Downloadable complaint template available
-- Two mandatory GDPR consent checkboxes
-- No information about response timelines or escalation paths visible on the form itself
-
-**Post-submission experience (tested 2026-04-09):**
+- Structured web form (categories, file attachments up to 6MB, dual GDPR consent)
+- On-screen confirmation with empathetic language and **legal 45-day response timeline**; no reference number provided
+- No email acknowledgment observed (burner email caveat)
+- Mobile app virtual assistant **redirects complaint queries to the web form** — same in-app gap as UCB and DSK
 
 ![UBB — Post-submission confirmation](images/ubb_confirmation.png)
-
-- On-screen confirmation: "Your message has been successfully received."
-- Empathetic language: "We do understand that dissatisfaction is a rather unpleasant feeling, hence we will do our best to reply to you as soon as possible."
-- **Explicit legal timeline: response within not more than 45 days**
-- Signed off as "The UBB Team"
-- No reference number or tracking link provided
-- No email confirmation received (note: test used a burner email — may not be representative)
-
-**Mobile app / chatbot experience:**
-- UBB has a virtual assistant chatbot, but when asked about complaints it **redirects the user to the online web submission form** — there is no way to file a complaint within the app itself other than leaving it
 
 ### 2.3 Local Competitor: DSK Bank (OTP Group)
 
@@ -212,48 +196,6 @@ DSK Bank's experience is notably closer to international standards — particula
 
 All three Bulgarian banks still lack in-app complaint submission, real-time status tracking, and AI-assisted triage — the baseline set by international players (see Section 3).
 
-#### Diagram: Bulgarian Banks — Digital Complaint Maturity
-
-```mermaid
-graph LR
-    subgraph UCB["UniCredit Bulbank"]
-        UCB1[Web form ⚠️ KEP required]
-        UCB2[No confirmation]
-        UCB3[No reference number]
-        UCB4[No in-app]
-        UCB5[No chatbot]
-    end
-
-    subgraph UBB_box["UBB"]
-        UBB1[Web form ✓]
-        UBB2[On-screen confirmation ✓]
-        UBB3[No reference number]
-        UBB4[No in-app]
-        UBB5[Chatbot → redirects to web]
-    end
-
-    subgraph DSK["DSK Bank"]
-        DSK1[Web form ✓]
-        DSK2[2 confirmation emails ✓]
-        DSK3[Reference number ✓]
-        DSK4[No in-app]
-        DSK5[D.bot → redirects to web]
-    end
-
-    subgraph Target["International Standard"]
-        T1[In-app submission ✓]
-        T2[Instant acknowledgment ✓]
-        T3[Reference + tracking ✓]
-        T4[AI chatbot triage ✓]
-        T5[Real-time status ✓]
-    end
-
-    style UCB fill:#ffcccc,stroke:#cc0000
-    style UBB_box fill:#fff3cd,stroke:#ffc107
-    style DSK fill:#d4edda,stroke:#28a745
-    style Target fill:#cce5ff,stroke:#007bff
-```
-
 ---
 
 ## 3. International Benchmarks
@@ -300,16 +242,10 @@ graph LR
 |---|---|---|---|---|---|---|
 | In-app complaint | Yes | Yes | Yes | Web only | Web only | Web only |
 | AI chatbot triage | Yes | No | Yes (Gen AI) | No | Redirects to web | Redirects to web |
-| Categorization | Via chatbot | Via chatbot | Via chatbot | Not observed | Structured | Dropdown |
 | Status tracking | Yes | Yes | Yes | Not observed | No | No |
-| On-screen confirm | Yes | Yes | Yes | Yes (minimal) | Yes + timeline | Yes (modal) |
 | Reference number | Yes | Yes | Yes | Not observed | No | **Yes** |
 | Email acknowledgment | Yes | Yes | Yes | Not observed | Not received* | **Yes — 2 emails** |
-| Acknowledgment speed | Immediate | 3 days** | Immediate | Not observed | Immediate | Immediate |
 | Resolution target | 15 days | 7 days** | Varies | Unknown | 45 days | 3 days / 30 days |
-| Priority triage shown | No | No | No | No | No | **Yes** |
-| File attachments | Via chat | Via chat | Via chat | Unknown | Yes (6MB) | Not observed |
-| Improvement loop | Yes | Yes (core) | Yes | No evidence | No evidence | No evidence |
 | AI co-pilot for staff | No | No | Yes (CSO) | No evidence | No evidence | No evidence |
 | Omnichannel | High | High | High | Low | Low | Low-Medium |
 
@@ -351,63 +287,23 @@ These guidelines apply to banks, investment firms, payment institutions (PSD2), 
 
 ### 4.3 Compliance Implications for Digital Complaints
 
-Any digital complaint system must:
-1. Register and categorize every complaint (EBA requirement)
-2. Provide acknowledgment within a defined timeline
-3. Maintain audit trails for regulatory reporting
-4. Support escalation to BNB / CPC / Ombudsman
-5. Comply with GDPR for personal data handling
-6. Meet DORA requirements for ICT resilience and incident reporting
+A compliant digital system must register and categorize every complaint (EBA), acknowledge within a defined timeline, maintain audit trails for regulatory reporting, support escalation to BNB / CPC / Ombudsman, comply with GDPR, and meet DORA ICT resilience and incident-reporting requirements. Technology patterns and component choices that implement these obligations are detailed in **Task 3 — Technology Architecture**.
 
 ---
 
-## 5. Technology Patterns for Digital Complaint Systems
-
-### 5.1 Architecture Approaches
-
-Modern complaint management systems in banking follow these patterns:
-
-- **Microservices architecture** — independent services for intake, routing, case management, notifications, and analytics; enables independent scaling and deployment
-- **Event-driven architecture** — streaming platforms (e.g., Apache Kafka) for real-time data flow between services
-- **Workflow orchestration** — engines like Camunda Zeebe for process automation, enforcing SLAs, deadlines, retries, and human approval steps
-- **Case management** — each complaint as a "case" with full lifecycle tracking, document attachment, status history, and audit trail
-
-### 5.2 Key Technology Components
-
-| Component | Purpose | Example Technologies |
-|---|---|---|
-| Workflow Engine | Process orchestration, SLA enforcement | Camunda, Flowable, Activiti |
-| Case Management | Complaint lifecycle tracking | Custom microservice, Salesforce Service Cloud |
-| AI/NLP | Complaint categorization, sentiment analysis, chatbot | OpenAI/Claude API, custom NLP models |
-| Notification Service | Multi-channel alerts (push, email, SMS) | Firebase, Twilio, custom service |
-| API Gateway | Unified entry point, auth, rate limiting | Kong, AWS API Gateway |
-| Document Store | Attachment handling, compliance archiving | S3, MinIO |
-| Analytics | Complaint trends, SLA monitoring, dashboards | ELK Stack, Grafana, custom BI |
-
-### 5.3 Integration Points
-
-A digital complaint system for UniCredit Bulbank would integrate with:
-- **Bulbank Mobile / Bulbank Online** — complaint submission UI embedded in existing channels
-- **Core Banking System** — customer identity, account data, transaction history
-- **CRM** — customer relationship context, previous interactions
-- **Document Management** — regulatory archiving of complaint records
-- **Reporting** — BNB/EBA regulatory reporting, internal dashboards
-
----
-
-## 6. Proposal: Digital Complaint System for UniCredit Bulbank
+## 5. Proposal: Digital Complaint System for UniCredit Bulbank
 
 Based on the international benchmarks and regulatory requirements, the following approach is proposed, combining the best elements from each reference.
 
 **A key architectural insight from the current state analysis:** UniCredit Bulbank's online complaint form currently requires a Qualified Electronic Signature (KEP) for any complaint involving personal data or banking secrecy — which covers the vast majority of real complaints. This requirement exists because the web form cannot verify the client's identity. However, within Bulbank Mobile or Bulbank Online, the client is **already authenticated** through the app's login (biometrics, PIN, credentials). This means in-app complaint submission inherently solves the KEP problem — the client's identity is already established, removing the legal barrier that makes the current online channel unusable for substantive complaints. This alone is the single strongest argument for moving complaint handling into the banking app.
 
-### 6.1 Core Principles
+### 5.1 Core Principles
 1. **Complaints as opportunities** — every complaint feeds back into product improvement *(inspired by Monzo's philosophy)*
 2. **AI-first, human-always** — AI handles triage and routing, but human escalation is always one tap away *(inspired by Revolut + DBS)*
 3. **Full transparency** — real-time status tracking, clear timelines, proactive updates *(inspired by Monzo's transparency commitment)*
 4. **Omnichannel** — consistent experience across Bulbank Mobile, Bulbank Online, and branch (for those who still prefer it)
 
-### 6.2 Tiered Handling Model
+### 5.2 Tiered Handling Model
 
 To comply with EBA guidelines (every complaint reviewed by the complaints management function) and UCB's own stated policy (specialized team handles each complaint), AI automation must not autonomously execute monetary or regulated actions. Instead, a **four-tier handling model** is proposed:
 
@@ -424,7 +320,7 @@ To comply with EBA guidelines (every complaint reviewed by the complaints manage
 - DORA audit-trail and risk-management obligations
 - Anti-fraud: autonomous money movement by a chatbot is a fraud vector (prompt injection, social engineering)
 
-### 6.3 Proposed Complaint Flow
+### 5.3 Proposed Complaint Flow
 
 1. **Initiation** — Client opens complaint from Bulbank Mobile/Online (Help > Complaints). AI chatbot collects initial details: category, description, and optional attachments
 2. **Smart Categorization** — NLP engine auto-categorizes the complaint, assesses sentiment and urgency, and determines the applicable tier (A / B / C / D) *(inspired by Revolut's chatbot + DBS Digibot)*
@@ -509,24 +405,9 @@ flowchart TD
     style ExecAction fill:#fff3cd,stroke:#ffc107
 ```
 
-### 6.4 Innovations Beyond Current Market
-
-| Innovation | Inspiration | UniCredit Bulbank Enhancement |
-|---|---|---|
-| AI chatbot triage | Revolut, DBS | Bilingual (BG/EN) chatbot with banking domain knowledge; tier determination (A/B/C/D) at intake |
-| Tiered handling model | EBA regulatory requirements | Clear separation of informational, client-initiated, AI-suggested-human-approved, and full-manual flows |
-| Specialist routing | Monzo | Auto-routing based on complaint category + customer segment |
-| AI co-pilot for staff | DBS CSO Assistant | Real-time context assembly from core banking + CRM; prepares suggestions only — specialist must approve |
-| Tier A/B deflection | Revolut | Informational answers and safe client-initiated actions resolved without formal complaint overhead |
-| Multi-channel confirmations | DSK Bank two-email flow | Every touchpoint delivered via in-app + email + push |
-| Transparency dashboard | Monzo | Client-facing real-time status + estimated resolution date |
-| Complaint analytics | Monzo feedback loop, DBS | Automated trend detection, alerting for systemic issues |
-| Regulatory compliance | EBA Guidelines, DORA | Built-in audit trail for every specialist decision and monetary action; auto-generated BNB/EBA reports |
-| Euro-readiness | Bulgarian context | Dual-currency complaint handling (BGN/EUR) for transition period |
-
 ---
 
-## 7. Sources
+## 6. Sources
 
 ### Official / Institutional Sources
 - [Revolut — How can I file a complaint?](https://help.revolut.com/help/more/legal-topics/how-do-i-complain/)
