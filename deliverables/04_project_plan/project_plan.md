@@ -65,7 +65,7 @@
 
 ## 2. Two-release rollout стратегия
 
-Проектът е разделен на **две последователни releases**, следвайки tiered модела от research-а (Задача 1, Section 6.2):
+Проектът е разделен на **две последователни releases**, следвайки tiered модела от research-а (Задача 1, Section 5.2):
 
 | Release | Обхват (по Tier модел) | Стойност | Времетраене |
 |---|---|---|---|
@@ -215,10 +215,10 @@ Phase 4 също се изпълнява като Agile test sprints:
 
 ## 8. Ключови рискове (hybrid-specific)
 
-| Риск | Тъмен | Мика |
+| Риск | Вероятност × Ефект | Мярка |
 |---|---|---|
-| **Hybrid methodology confusion** — екипът мисли, че е pure Agile и пренебрегва gates | Med × Med | Clear expectations при kickoff; explicit явна комуникация за gates |
-| **Velocity под-очаквана** в спринтовете на P3 | Med × Med | Sprint retrospectives; scope rebalancing (нисък-priority stories се отлагат за Release 2) |
+| **Hybrid methodology confusion** — екипът мисли, че е pure Agile и пренебрегва gates | Med × Med | Clear expectations при kickoff; явна комуникация за gates |
+| **Velocity под-очаквана** в спринтовете на P3 | Med × Med | Sprint retrospectives; scope rebalancing (stories с нисък приоритет се отлагат за Release 2) |
 | **Technical debt** от спринт скорост | Med × Med | 20% capacity за refactoring всеки sprint; DoD включва debt cleanup |
 | **Integration с CORE_BANKING** отнема повече от Sprint 7 | High × High | Early POC в P2; Sprint 7 е dedicated за integration; buffer в Sprint 8 |
 | **Регулаторна промяна** по време на проект | Med × High | Compliance Advisor мониторира; buffer в P4 |
@@ -227,7 +227,7 @@ Phase 4 също се изпълнява като Agile test sprints:
 
 ---
 
-## 9. Defintion of Done (Sprint-level)
+## 9. Definition of Done (Sprint-level)
 
 Story е DONE, когато:
 1. ✅ Код ревюиран и merge-нат
