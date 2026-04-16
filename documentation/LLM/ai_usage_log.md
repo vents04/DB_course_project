@@ -257,6 +257,24 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** The original BPMN was structurally sound but had a validation error (duplicate flow), a semantic error (wrong start event type), and underrepresented the client's perspective — the most important requirement of Task 2. The enhancements (SLA, audit log, annotations) elevate the diagram from a process flow to a compliance-aware artifact suitable for a regulated banking context.
 
+### 19. Генериране на професионален .docx документ за курсов проект
+
+**What was done:** Генериран е професионален Word документ (`Курсов_проект_Дигитализация_жалби_УКБ.docx`) на български език, обединяващ всички 4 задачи в единен форматиран документ. Използван е python-docx за програмно генериране с:
+
+- **Номерация на страници** в долния колонтитул (центрирана)
+- **Justified подравняване** на целия текст, шрифт Times New Roman 12pt (заглавия 13–14pt)
+- **Всяка глава на нова страница** (page break преди всяка Глава)
+- **Титулна страница** (ТУ — София, курсов проект, тема, вариант 3)
+- **Съдържание** (ръчно форматирано)
+- **28 таблици** с форматиране (цветен хедър, алтерниращи редове)
+- **10 изображения** от research-а (скрийншоти на формуляри, потвърждения, отговори)
+- **SVG диаграми** (BPMN + 4 sequence diagrams) — вградени, когато python-docx ги поддържа
+- **Използвана литература** — 27 източника (официални, трети страни, тестване от първо лице, лекции)
+
+Документът съдържа 325 параграфа, 5 глави, 24 подраздела. Размер: ~1.2 MB.
+
+**Why:** Изискване от задачата — за курсов проект/курсова работа, документът трябва да бъде в Word формат, с добро форматиране, justify подравняване, шрифт 12/14 и номерация на страници.
+
 ---
 
 *This log will be updated as the project progresses.*
