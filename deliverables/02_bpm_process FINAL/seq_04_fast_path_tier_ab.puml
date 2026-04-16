@@ -1,0 +1,103 @@
+@startuml seq_04_fast_path_tier_ab
+title Sequence 4 — Бърза обработка (Tier A / Tier B) — без формална жалба
+
+' === Infrastructure actors (from BA exercise) ===
+actor       "BBM_USER\n(Клиент)" as BBM_USER
+participant "BBM" as BBM
+participant "BBO_BE" as BBO_BE
+participant "CORE_BANKING" as CORE_BANKING
+participant "CORE_ACC" as CORE_ACC
+
+' === Complaint-specific services ===
+participant "AI_CHATBOT" as AI_CHATBOT
+participant "NLP_ENGINE" as NLP_ENGINE
+participant "CMS\n(support case)" as CMS
+
+== Иницииране ==
+BBM_USER -> BBM : Отваря „Помощ > Жалби"
+BBM -> BBO_BE : Стартира сесия
+BBO_BE -> AI_CHATBOT : Нов разговор (клиентски ID)
+AI_CHATBOT --> BBM_USER : „Здравейте, как можем да помогнем?"
+
+BBM_USER -> AI_CHATBOT : Описва проблема\n(напр. „Не разбирам защо имам такса 2 лв.")
+
+AI_CHATBOT -> NLP_ENGINE : Анализирай текст
+NLP_ENGINE --> AI_CHATBOT : {категория: Такси, спешност: Ниска,\nнастроение: Неутрално, **tier: A**}
+
+== Ситуация 1 — Tier A (чисто информационно) ==
+
+alt Tier A — запитване за информация
+    note right of AI_CHATBOT
+      Tier A = чисто информационно.
+      Чатботът търси в CORE_BANKING
+      и обяснява — без банково действие.
+    end note
+    AI_CHATBOT -> BBO_BE : Поискай контекст за тази такса
+    BBO_BE -> CORE_BANKING : GET продукт + тарифа
+    CORE_BANKING --> BBO_BE : Месечна такса „Поддръжка"
+    BBO_BE --> AI_CHATBOT : Информация за таксата
+
+    AI_CHATBOT --> BBM_USER : „Това е месечна такса „Поддръжка"\nпо тарифа XYZ. Линк към тарифата: ..."
+
+    BBM_USER -> AI_CHATBOT : „Благодаря, ясно"
+
+    AI_CHATBOT -> CMS : Запис: support case (Tier A, решен)
+    CMS -> CMS : Няма формална жалба,\nзаписано за анализ
+end
+
+== Ситуация 2 — Tier B (безопасно клиентско действие) ==
+
+alt Tier B — блокиране на карта (пример)
+    BBM_USER -> AI_CHATBOT : „Изгубих картата си, блокирайте я"
+
+    AI_CHATBOT -> NLP_ENGINE : Анализирай (повторно)
+    NLP_ENGINE --> AI_CHATBOT : {намерение: Блокиране на карта,\n**tier: B**}
+
+    note right of AI_CHATBOT
+      Tier B = безопасно, обратимо,
+      клиентско действие.
+      Клиентът може да го направи
+      и сам в приложението —
+      чатботът просто го улеснява.
+    end note
+
+    AI_CHATBOT --> BBM_USER : „Ще блокирам картата. Потвърдете."
+    BBM_USER -> AI_CHATBOT : Потвърждава
+
+    AI_CHATBOT -> BBO_BE : Изпълни блокиране (клиентски ID, карта)
+    BBO_BE -> CORE_BANKING : Блокирай картата
+    CORE_BANKING -> CORE_ACC : Постави флаг „Блокирана"
+    CORE_ACC --> CORE_BANKING : Статус обновен
+    CORE_BANKING --> BBO_BE : Блокирано
+    BBO_BE --> AI_CHATBOT : OK
+
+    AI_CHATBOT --> BBM_USER : „Картата е блокирана.\nЖелаете ли заявка за нова?"
+
+    AI_CHATBOT -> CMS : Запис: support case (Tier B, изпълнено)
+end
+
+== Опция за преминаване към формална жалба ==
+alt Клиентът желае формална жалба въпреки бързото решение
+    BBM_USER -> AI_CHATBOT : „Искам да подам официална жалба"
+    AI_CHATBOT -> CMS : Ескалирай към формална регистрация
+    note right of AI_CHATBOT
+      Процесът преминава към
+      Sequence 1 (подаване и
+      регистрация на формална жалба).
+    end note
+else Клиентът е удовлетворен
+    AI_CHATBOT --> BBM_USER : (край — support case затворен)
+    CMS -> CMS : Агрегира данни за тенденционен анализ
+end
+
+note over BBM_USER, CMS
+  **Ключови характеристики на Tier A/B fast path:**
+  • Разрешаване за под 2 минути
+  • Без формална регистрация на жалба
+  • Без намесване на специалист
+  • Без монетарни действия (Tier A) или само клиентски-ниво действия (Tier B)
+  • Записано като support case за анализ на тенденции
+  • Клиентът винаги може да ескалира към формална жалба
+end note
+
+@enduml
