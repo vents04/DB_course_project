@@ -239,6 +239,24 @@ These arguments are objectively correct for a heavily-regulated banking complain
 - `project_plan.xlsx` — 7 sheets: PROJECT PLAN (Waterfall WBS with sprint-level breakdown in P3), SPRINT BACKLOG (40 stories × 8 sprints for P3), PROJECT DETAILS, PHASES & SIGN-OFFS (with delivery mode per phase), RESOURCES, RISKS (including hybrid-specific risks), DROPDOWN MENUS
 - `project_plan.md` — justification comparing Hybrid vs Pure Waterfall vs Pure Agile, industry precedent (UniCredit SAFe adoption, JPMorgan, Deutsche Bank), full structure with sprint plan, Scrum ceremonies, Definition of Done
 
+### 18. Task 2 — BPMN quality review and 6-fix improvement pass
+
+**What was done:** Reviewed the FINAL version of `complaint_process.bpmn` against Task 2 requirements and BPMN 2.0 correctness. Identified and fixed 6 issues:
+
+1. **Duplicate sequence flow (bug):** `Flow_InfoBack_Inv` was a duplicate of `Flow_Req_Back` — both went from `SendTask_RequestInfo` to `Task_Spec_Investigate`. Removed the duplicate; kept `Flow_Req_Back` only. Also cleaned up `Task_Spec_Investigate` incoming references.
+
+2. **Wrong bank start event (bug):** `StartEvent_Start` was a plain start event named "Клиент открива проблем" inside the Bank pool — semantically incorrect. Changed to a **message start event** (`<bpmn:messageEventDefinition/>`) named "Жалба получена от клиент", correctly indicating the bank process starts upon receiving the client's message.
+
+3. **Thin client pool (task requirement gap):** The task explicitly requires "от клиентска гледна точка" (from client's perspective), but the Client pool only had 3 tasks in a flat sequence (Open → Review → ProvideInfo → End). Enriched to 7 tasks + 1 gateway + 2 end events: Login → Describe problem via chatbot → Receive acknowledgment (ref#) → Provide additional info → Review bank response → **Decision gateway** (Accept / Clarify / Escalate) → Survey → Done / Escalated. The Clarify path loops back to Review, matching the bank-side clarification loop.
+
+4. **SLA annotations (enhancement):** Added text annotations with SLA timelines from the markdown — "3 р.д. обикновени; 15 р.д. платежни (ЗПУПС); 30 дни кредитни (ЗПК/ЗКНИП)" on investigation, "5 работни дни" on manager review. These connect the markdown's SLA table to the visual diagram.
+
+5. **AUDIT_LOG data store (enhancement):** Added a BPMN `<bpmn:dataStore>` + `<bpmn:dataStoreReference>` for AUDIT_LOG, with a `<bpmn:dataOutputAssociation>` from `Task_ExecuteApproved`. Makes the audit trail visible at the diagram level, consistent with the sequence diagrams and architecture.
+
+6. **Regulatory annotations (enhancement):** Added 4 text annotations linked to key tasks — EBA/DORA compliance note on monetary execution, DORA/EBA registration note on complaint registration, SLA annotations on investigation and manager review. Makes compliance requirements visible directly in the process diagram.
+
+**Why:** The original BPMN was structurally sound but had a validation error (duplicate flow), a semantic error (wrong start event type), and underrepresented the client's perspective — the most important requirement of Task 2. The enhancements (SLA, audit log, annotations) elevate the diagram from a process flow to a compliance-aware artifact suitable for a regulated banking context.
+
 ---
 
 *This log will be updated as the project progresses.*
