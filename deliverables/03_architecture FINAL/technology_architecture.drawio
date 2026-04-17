@@ -437,3 +437,2198 @@
     </mxGraphModel>
   </diagram>
 </mxfile>
+ще ти пратя това technology_architecture.drawio, ето го целия, върни ми го с оправени и ясни стрелки: <?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-16T00:00:00.000Z" agent="manual" version="24.0.0" type="device">
+  <diagram id="arch" name="Technology Architecture">
+    <mxGraphModel dx="2400" dy="2200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ================= TITLE ================= -->
+        <mxCell id="title" value="Технологична архитектура — Дигитално управление на жалби (УниКредит Булбанк)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1800" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CLIENT ZONE ================= -->
+        <mxCell id="z_client" value="КЛИЕНТ (публичен Интернет)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="900" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_mobile" value="Мобилно устройство&#xa;(iOS / Android)&#xa;— Bulbank Mobile app&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_web" value="Уеб браузър&#xa;(Chrome / Safari / Firefox)&#xa;— Bulbank Online&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="320" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_email" value="Email клиент&#xa;(получава IMAP / POP3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_push" value="Push получаване&#xa;(iOS APNS / Android FCM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet cloud -->
+        <mxCell id="internet" value="Интернет" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= PERIMETER FIREWALL ================= -->
+        <mxCell id="fw_perimeter" value="🛡 Perimeter Firewall (L3/L4) — Palo Alto / Fortinet — allow TCP 443 only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DMZ ZONE ================= -->
+        <mxCell id="z_dmz" value="DMZ (Demilitarized Zone)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="2280" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_waf" value="WAF&#xa;(ModSecurity / Cloudflare)&#xa;OS: RHEL 9&#xa;Port: 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_lb" value="Load Balancer&#xa;(F5 BIG-IP / HAProxy)&#xa;OS: RHEL 9&#xa;Ports: 443 → 8443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_rp" value="Reverse Proxy&#xa;NGINX 1.25&#xa;OS: RHEL 9&#xa;Port: 443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_api" value="API Gateway&#xa;Kong 3.x&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 8443 (mTLS)&#xa;OAuth2 / JWT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="780" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_idp" value="Identity Provider&#xa;(Keycloak / UniCredit SSO)&#xa;OS: RHEL 9, Tomcat 10&#xa;Port: 443, OIDC/SAML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1000" y="470" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= INTERNAL FIREWALL ================= -->
+        <mxCell id="fw_internal" value="🛡 Internal Firewall (L7, deep packet inspection) — allow mTLS API traffic only, segmented rules per zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DIGITAL CHANNELS ZONE ================= -->
+        <mxCell id="z_channels" value="Digital Channels Zone (съществуващи системи — НЕ се променят от този проект)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="670" width="1480" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbo_be" value="BBO_BE (Булбанк Онлайн Backend)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (HTTPS mTLS), gRPC 50051&#xa;Публикува събития в Kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="720" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbm_srv" value="BBM Mobile Backend API&#xa;Spring Boot 3, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="460" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_session" value="Session / Auth Service&#xa;Spring Boot, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443, JWT валидация&#xa;Redis за сесии (6379)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= COMPLAINT SERVICES ZONE (NEW) ================= -->
+        <mxCell id="z_complaint" value="Complaint Services Zone (НОВИ системи — разработка в този проект) — Kubernetes 1.29 (OpenShift 4.14), всяка услуга е в pod с Istio sidecar mTLS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#009900;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="850" width="2280" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_chatbot" value="AI_CHATBOT&#xa;Python 3.12, FastAPI&#xa;Контейнер: RHEL UBI 9&#xa;K8s deployment (3 pods)&#xa;Port: 8443 (REST), WS 8444&#xa;→ NLP_ENGINE (gRPC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_nlp" value="NLP_ENGINE&#xa;Python 3.12, PyTorch / ONNX&#xa;GPU node (NVIDIA A10)&#xa;Контейнер: RHEL UBI 9&#xa;Port: 50051 (gRPC)&#xa;→ LLM API (HTTPS 443)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_cms" value="CMS (Complaint Mgmt System)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;Camunda Zeebe (workflow)&#xa;OS: RHEL 9 (pod)&#xa;Port: 8443 (REST mTLS)&#xa;Kafka producer / consumer (9093)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="580" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_copilot" value="AI_COPILOT&#xa;Python 3.12, FastAPI&#xa;Context aggregation + LLM prompting&#xa;Контейнер: RHEL UBI 9&#xa;Port: 8443 (REST mTLS)&#xa;→ CORE_BANKING, CRM, CARD_SYSTEM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="860" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_notif" value="NOTIF_SERVICE&#xa;Node.js 20, Express&#xa;Контейнер: Ubuntu 22.04&#xa;Port: 8443 (REST mTLS)&#xa;→ SMTP 587, FCM 443, APNS 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_audit" value="AUDIT_LOG Service&#xa;Go 1.22 (append-only)&#xa;Контейнер: Alpine Linux&#xa;Port: 8443 (REST mTLS)&#xa;→ PostgreSQL (5432)&#xa;WORM политика" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1400" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_spec_console" value="Specialist Workbench&#xa;(web app за служители)&#xa;React 18, NGINX pod&#xa;Port: 443 mTLS&#xa;Интегрирана с AI_COPILOT + CMS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1660" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_analytics" value="Analytics / Trend Engine&#xa;Python, Airflow 2.x&#xa;Контейнер: RHEL UBI 9&#xa;Kafka consumer (9093)&#xa;→ Elasticsearch (9200)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MESSAGE BUS ================= -->
+        <mxCell id="z_kafka" value="Event / Message Backbone — Apache Kafka 3.7 cluster (3 брокера, RHEL 9) — TLS порт 9093, SASL/SCRAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="1140" width="2280" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CORE BANKING ZONE ================= -->
+        <mxCell id="z_core" value="Core Banking Zone (съществуващи системи — интеграция, не промяна)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1220" width="1480" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_bank" value="CORE_BANKING&#xa;Java EE 8, JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP/REST)&#xa;JMS queue на AMQ (порт 5671)&#xa;Съдържа: клиенти, продукти, KYC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_acc" value="CORE_ACC (Модул Сметки)&#xa;Java EE, вграден в JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP)&#xa;Баланси, транзакции, преводи" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="380" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="card_sys" value="CARD_SYSTEM (домейн)&#xa;.NET 8, IIS 10&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST)&#xa;Картови транзакции, merchant data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="660" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="crm_sys" value="CRM (домейн)&#xa;Microsoft Dynamics 365&#xa;on-prem, IIS + SQL Server&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST / OData)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="940" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="integration_bus" value="Integration Bus / ESB&#xa;IBM MQ 9.3&#xa;OS: RHEL 9&#xa;Port: 1414 (TLS), JMS&#xa;Legacy адаптери" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DATABASE ZONE ================= -->
+        <mxCell id="z_db" value="Database Zone (изолирана, само JDBC трафик от Application зоните, без директен достъп отвън)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1420" width="2280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_oracle" value="Oracle 19c Enterprise&#xa;(Core Banking DB)&#xa;OS: RHEL 9&#xa;Port: 1521 (JDBC TLS)&#xa;Data Guard DR репликация" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_cms" value="PostgreSQL 15&#xa;(CMS DB)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (JDBC TLS)&#xa;HA с streaming replication" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="360" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_audit" value="PostgreSQL 15&#xa;(AUDIT_LOG DB — WORM)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (mTLS)&#xa;Retention: 7 години&#xa;Tamper-evident hash chain" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="620" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_redis" value="Redis 7.2&#xa;(сесии / кеш)&#xa;OS: RHEL 9&#xa;Port: 6379 (TLS)&#xa;Sentinel HA" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="900" y="1470" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_minio" value="MinIO Object Store&#xa;(прикачени файлове към жалби)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9000 (HTTPS S3 API)&#xa;AES-256 encryption at rest" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_es" value="Elasticsearch 8&#xa;(търсене + analytics)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9200 (HTTPS)&#xa;3-node cluster" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1420" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_mssql" value="SQL Server 2022&#xa;(CRM + CARD_SYSTEM)&#xa;OS: Windows Server 2022&#xa;Port: 1433 (TDS TLS)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1680" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EGRESS FIREWALL + EXTERNAL ================= -->
+        <mxCell id="fw_egress" value="🛡 Egress Firewall — ограничен изходящ TLS трафик към одобрен whitelist от домейни" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1580" y="670" width="760" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="z_external" value="Външни услуги (SaaS / трети страни)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="1580" y="720" width="760" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_smtp" value="SMTP Relay&#xa;(корпоративен Postfix / SendGrid)&#xa;Port: 587 (STARTTLS)&#xa;Изпраща email до клиенти" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="770" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_fcm" value="Firebase Cloud Messaging&#xa;(Android push)&#xa;Port: 443 (HTTPS)&#xa;Google API key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="870" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_apns" value="Apple Push Notification Service&#xa;(iOS push)&#xa;Port: 443 (HTTPS/2)&#xa;JWT token auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="970" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_llm" value="LLM API&#xa;(Anthropic Claude / Azure OpenAI / UniCredit AI Platform)&#xa;Port: 443 (HTTPS)&#xa;Private VPC peering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="770" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_bnb" value="Външни регулатори (за ескалация)&#xa;БНБ, КЗП, ПКПС, FIN-NET&#xa;HTTPS 443 / защитен файлов трансфер" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="870" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_kep" value="КЕП валидация&#xa;(B-Trust / InfoNotary / eValidation)&#xa;Port: 443 — за канали извън приложението" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="970" width="380" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MANAGEMENT / MONITORING ================= -->
+        <mxCell id="z_mgmt" value="Management / Monitoring Zone (изолирана, достъп само от bastion host)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1670" width="2280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_elk" value="ELK Stack&#xa;(Elasticsearch + Logstash + Kibana)&#xa;OS: Ubuntu 22.04 LTS, Port: 5601 / 5044" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1710" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_prom" value="Prometheus + Grafana&#xa;OS: Ubuntu 22.04, Ports: 9090 / 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="400" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_vault" value="HashiCorp Vault&#xa;(secrets / ключове)&#xa;OS: RHEL 9, Port: 8200 (HTTPS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_cicd" value="CI/CD&#xa;GitLab + Argo CD&#xa;OS: RHEL 9, Port: 443 / 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="960" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_bastion" value="Bastion Host&#xa;(SSH jump server)&#xa;OS: RHEL 9, Port: 22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1710" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_siem" value="SIEM&#xa;(Splunk / Wazuh)&#xa;OS: RHEL 9, Port: 8000 / 55000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1460" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= LEGEND ================= -->
+        <mxCell id="legend" value="Легенда на зоните" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacing=5" vertex="1" parent="1">
+          <mxGeometry x="60" y="1820" width="2280" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_cl" value="Клиент (публичен)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_dmz" value="DMZ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="240" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ch" value="Channels / Complaint apps" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="400" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_core" value="Core Banking (legacy)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="590" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_db" value="Database Zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="780" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ext" value="External / Message Bus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="940" y="1850" width="170" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_mgmt" value="Management / Monitoring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1120" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_fw" value="🛡 Firewall" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1310" y="1850" width="120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_note" value="Всички вътрешни API връзки използват mTLS (Istio service mesh) / JWT-OAuth2 за автентикация. Всяка междузонова връзка минава през firewall rule." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1890" width="2240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EDGES / CONNECTIONS ================= -->
+        <!-- Client → Internet -->
+        <mxCell id="e1" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_mobile" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_web" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_cl_lbl" value="HTTPS 443 (TLS 1.3)" style="text;html=1;fontSize=10;labelBackgroundColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="580" y="240" width="140" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet → WAF -->
+        <mxCell id="e3" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="internet" target="dmz_waf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="210" y="400"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- WAF → LB → RP → API Gateway -->
+        <mxCell id="e4" value="443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_waf" target="dmz_lb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_lb" target="dmz_rp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_rp" target="dmz_api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- API Gateway → BBO_BE -->
+        <mxCell id="e7" value="REST 8443 mTLS + JWT" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="870" y="680"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → BBM backend -->
+        <mxCell id="e8" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbm_srv">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → CMS -->
+        <mxCell id="e9" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → AI_CHATBOT -->
+        <mxCell id="e10" value="WebSocket 8444" style="endArrow=classic;html=1;exitX=0;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_chatbot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → NLP_ENGINE -->
+        <mxCell id="e11" value="gRPC 50051" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_nlp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → CMS -->
+        <mxCell id="e12" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=1;entryX=0;entryY=1;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NLP_ENGINE → LLM API -->
+        <mxCell id="e13" value="HTTPS 443 (private VPC)" style="endArrow=classic;html=1;exitX=1;exitY=0;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_nlp" target="ext_llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AI_COPILOT -->
+        <mxCell id="e14" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_copilot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → NOTIF -->
+        <mxCell id="e15" value="Kafka event (9093)" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_notif">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AUDIT -->
+        <mxCell id="e16" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → Kafka -->
+        <mxCell id="e17" value="producer/consumer 9093" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="z_kafka">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CORE_BANKING -->
+        <mxCell id="e18" value="SOAP/REST 8443" style="endArrow=classic;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="core_bank">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="500" y="1200"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- AI_COPILOT → CARD_SYSTEM -->
+        <mxCell id="e19" value="REST 443" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="card_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CRM -->
+        <mxCell id="e20" value="REST/OData 443" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="crm_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → CORE_ACC -->
+        <mxCell id="e21" value="local JEE" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="core_acc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → integration_bus -->
+        <mxCell id="e22" value="JMS 1414" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_acc" target="integration_bus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → SMTP -->
+        <mxCell id="e23" value="SMTP 587 STARTTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_smtp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → FCM -->
+        <mxCell id="e24" value="HTTPS 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_fcm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → APNS -->
+        <mxCell id="e25" value="HTTPS/2 443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_apns">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → BBO_BE for in-app delivery -->
+        <mxCell id="e26" value="in-app push 8443" style="endArrow=classic;html=1;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;entryX=1;entryY=1" edge="1" parent="1" source="cs_notif" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AUDIT → PG Audit -->
+        <mxCell id="e27" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_audit" target="db_pg_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → PG CMS -->
+        <mxCell id="e28" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.4;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_pg_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → MinIO -->
+        <mxCell id="e29" value="S3 HTTPS 9000" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.2;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_minio">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → Oracle -->
+        <mxCell id="e30" value="JDBC 1521 TLS" style="endArrow=classic;html=1;exitX=0.2;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="db_oracle">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CARD_SYSTEM → SQL Server -->
+        <mxCell id="e31" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.8;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="card_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1780" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- CRM → SQL Server -->
+        <mxCell id="e32" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.7;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="crm_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Session → Redis -->
+        <mxCell id="e33" value="Redis 6379 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_session" target="db_redis">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="890" y="1240"/><mxPoint x="1000" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Analytics → Elasticsearch -->
+        <mxCell id="e34" value="HTTPS 9200" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_analytics" target="db_es">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → Session -->
+        <mxCell id="e35" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="ch_session">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="740" y="765"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → Identity Provider -->
+        <mxCell id="e36" value="OIDC 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="dmz_idp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- External regulators (escalation) from BBO_BE -->
+        <mxCell id="e37" value="HTTPS 443 (при ескалация)" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff;dashed=1" edge="1" parent="1" source="ch_bbo_be" target="ext_bnb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+ще ти пратя това technology_architecture.drawio, ето го целия, върни ми го с оправени и ясни стрелки: <?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-16T00:00:00.000Z" agent="manual" version="24.0.0" type="device">
+  <diagram id="arch" name="Technology Architecture">
+    <mxGraphModel dx="2400" dy="2200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ================= TITLE ================= -->
+        <mxCell id="title" value="Технологична архитектура — Дигитално управление на жалби (УниКредит Булбанк)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1800" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CLIENT ZONE ================= -->
+        <mxCell id="z_client" value="КЛИЕНТ (публичен Интернет)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="900" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_mobile" value="Мобилно устройство&#xa;(iOS / Android)&#xa;— Bulbank Mobile app&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_web" value="Уеб браузър&#xa;(Chrome / Safari / Firefox)&#xa;— Bulbank Online&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="320" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_email" value="Email клиент&#xa;(получава IMAP / POP3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_push" value="Push получаване&#xa;(iOS APNS / Android FCM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet cloud -->
+        <mxCell id="internet" value="Интернет" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= PERIMETER FIREWALL ================= -->
+        <mxCell id="fw_perimeter" value="🛡 Perimeter Firewall (L3/L4) — Palo Alto / Fortinet — allow TCP 443 only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DMZ ZONE ================= -->
+        <mxCell id="z_dmz" value="DMZ (Demilitarized Zone)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="2280" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_waf" value="WAF&#xa;(ModSecurity / Cloudflare)&#xa;OS: RHEL 9&#xa;Port: 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_lb" value="Load Balancer&#xa;(F5 BIG-IP / HAProxy)&#xa;OS: RHEL 9&#xa;Ports: 443 → 8443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_rp" value="Reverse Proxy&#xa;NGINX 1.25&#xa;OS: RHEL 9&#xa;Port: 443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_api" value="API Gateway&#xa;Kong 3.x&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 8443 (mTLS)&#xa;OAuth2 / JWT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="780" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_idp" value="Identity Provider&#xa;(Keycloak / UniCredit SSO)&#xa;OS: RHEL 9, Tomcat 10&#xa;Port: 443, OIDC/SAML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1000" y="470" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= INTERNAL FIREWALL ================= -->
+        <mxCell id="fw_internal" value="🛡 Internal Firewall (L7, deep packet inspection) — allow mTLS API traffic only, segmented rules per zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DIGITAL CHANNELS ZONE ================= -->
+        <mxCell id="z_channels" value="Digital Channels Zone (съществуващи системи — НЕ се променят от този проект)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="670" width="1480" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbo_be" value="BBO_BE (Булбанк Онлайн Backend)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (HTTPS mTLS), gRPC 50051&#xa;Публикува събития в Kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="720" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbm_srv" value="BBM Mobile Backend API&#xa;Spring Boot 3, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="460" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_session" value="Session / Auth Service&#xa;Spring Boot, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443, JWT валидация&#xa;Redis за сесии (6379)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= COMPLAINT SERVICES ZONE (NEW) ================= -->
+        <mxCell id="z_complaint" value="Complaint Services Zone (НОВИ системи — разработка в този проект) — Kubernetes 1.29 (OpenShift 4.14), всяка услуга е в pod с Istio sidecar mTLS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#009900;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="850" width="2280" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_chatbot" value="AI_CHATBOT&#xa;Python 3.12, FastAPI&#xa;Контейнер: RHEL UBI 9&#xa;K8s deployment (3 pods)&#xa;Port: 8443 (REST), WS 8444&#xa;→ NLP_ENGINE (gRPC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_nlp" value="NLP_ENGINE&#xa;Python 3.12, PyTorch / ONNX&#xa;GPU node (NVIDIA A10)&#xa;Контейнер: RHEL UBI 9&#xa;Port: 50051 (gRPC)&#xa;→ LLM API (HTTPS 443)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_cms" value="CMS (Complaint Mgmt System)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;Camunda Zeebe (workflow)&#xa;OS: RHEL 9 (pod)&#xa;Port: 8443 (REST mTLS)&#xa;Kafka producer / consumer (9093)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="580" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_copilot" value="AI_COPILOT&#xa;Python 3.12, FastAPI&#xa;Context aggregation + LLM prompting&#xa;Контейнер: RHEL UBI 9&#xa;Port: 8443 (REST mTLS)&#xa;→ CORE_BANKING, CRM, CARD_SYSTEM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="860" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_notif" value="NOTIF_SERVICE&#xa;Node.js 20, Express&#xa;Контейнер: Ubuntu 22.04&#xa;Port: 8443 (REST mTLS)&#xa;→ SMTP 587, FCM 443, APNS 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_audit" value="AUDIT_LOG Service&#xa;Go 1.22 (append-only)&#xa;Контейнер: Alpine Linux&#xa;Port: 8443 (REST mTLS)&#xa;→ PostgreSQL (5432)&#xa;WORM политика" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1400" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_spec_console" value="Specialist Workbench&#xa;(web app за служители)&#xa;React 18, NGINX pod&#xa;Port: 443 mTLS&#xa;Интегрирана с AI_COPILOT + CMS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1660" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_analytics" value="Analytics / Trend Engine&#xa;Python, Airflow 2.x&#xa;Контейнер: RHEL UBI 9&#xa;Kafka consumer (9093)&#xa;→ Elasticsearch (9200)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MESSAGE BUS ================= -->
+        <mxCell id="z_kafka" value="Event / Message Backbone — Apache Kafka 3.7 cluster (3 брокера, RHEL 9) — TLS порт 9093, SASL/SCRAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="1140" width="2280" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CORE BANKING ZONE ================= -->
+        <mxCell id="z_core" value="Core Banking Zone (съществуващи системи — интеграция, не промяна)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1220" width="1480" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_bank" value="CORE_BANKING&#xa;Java EE 8, JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP/REST)&#xa;JMS queue на AMQ (порт 5671)&#xa;Съдържа: клиенти, продукти, KYC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_acc" value="CORE_ACC (Модул Сметки)&#xa;Java EE, вграден в JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP)&#xa;Баланси, транзакции, преводи" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="380" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="card_sys" value="CARD_SYSTEM (домейн)&#xa;.NET 8, IIS 10&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST)&#xa;Картови транзакции, merchant data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="660" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="crm_sys" value="CRM (домейн)&#xa;Microsoft Dynamics 365&#xa;on-prem, IIS + SQL Server&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST / OData)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="940" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="integration_bus" value="Integration Bus / ESB&#xa;IBM MQ 9.3&#xa;OS: RHEL 9&#xa;Port: 1414 (TLS), JMS&#xa;Legacy адаптери" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DATABASE ZONE ================= -->
+        <mxCell id="z_db" value="Database Zone (изолирана, само JDBC трафик от Application зоните, без директен достъп отвън)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1420" width="2280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_oracle" value="Oracle 19c Enterprise&#xa;(Core Banking DB)&#xa;OS: RHEL 9&#xa;Port: 1521 (JDBC TLS)&#xa;Data Guard DR репликация" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_cms" value="PostgreSQL 15&#xa;(CMS DB)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (JDBC TLS)&#xa;HA с streaming replication" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="360" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_audit" value="PostgreSQL 15&#xa;(AUDIT_LOG DB — WORM)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (mTLS)&#xa;Retention: 7 години&#xa;Tamper-evident hash chain" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="620" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_redis" value="Redis 7.2&#xa;(сесии / кеш)&#xa;OS: RHEL 9&#xa;Port: 6379 (TLS)&#xa;Sentinel HA" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="900" y="1470" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_minio" value="MinIO Object Store&#xa;(прикачени файлове към жалби)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9000 (HTTPS S3 API)&#xa;AES-256 encryption at rest" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_es" value="Elasticsearch 8&#xa;(търсене + analytics)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9200 (HTTPS)&#xa;3-node cluster" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1420" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_mssql" value="SQL Server 2022&#xa;(CRM + CARD_SYSTEM)&#xa;OS: Windows Server 2022&#xa;Port: 1433 (TDS TLS)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1680" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EGRESS FIREWALL + EXTERNAL ================= -->
+        <mxCell id="fw_egress" value="🛡 Egress Firewall — ограничен изходящ TLS трафик към одобрен whitelist от домейни" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1580" y="670" width="760" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="z_external" value="Външни услуги (SaaS / трети страни)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="1580" y="720" width="760" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_smtp" value="SMTP Relay&#xa;(корпоративен Postfix / SendGrid)&#xa;Port: 587 (STARTTLS)&#xa;Изпраща email до клиенти" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="770" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_fcm" value="Firebase Cloud Messaging&#xa;(Android push)&#xa;Port: 443 (HTTPS)&#xa;Google API key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="870" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_apns" value="Apple Push Notification Service&#xa;(iOS push)&#xa;Port: 443 (HTTPS/2)&#xa;JWT token auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="970" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_llm" value="LLM API&#xa;(Anthropic Claude / Azure OpenAI / UniCredit AI Platform)&#xa;Port: 443 (HTTPS)&#xa;Private VPC peering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="770" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_bnb" value="Външни регулатори (за ескалация)&#xa;БНБ, КЗП, ПКПС, FIN-NET&#xa;HTTPS 443 / защитен файлов трансфер" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="870" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_kep" value="КЕП валидация&#xa;(B-Trust / InfoNotary / eValidation)&#xa;Port: 443 — за канали извън приложението" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="970" width="380" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MANAGEMENT / MONITORING ================= -->
+        <mxCell id="z_mgmt" value="Management / Monitoring Zone (изолирана, достъп само от bastion host)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1670" width="2280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_elk" value="ELK Stack&#xa;(Elasticsearch + Logstash + Kibana)&#xa;OS: Ubuntu 22.04 LTS, Port: 5601 / 5044" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1710" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_prom" value="Prometheus + Grafana&#xa;OS: Ubuntu 22.04, Ports: 9090 / 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="400" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_vault" value="HashiCorp Vault&#xa;(secrets / ключове)&#xa;OS: RHEL 9, Port: 8200 (HTTPS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_cicd" value="CI/CD&#xa;GitLab + Argo CD&#xa;OS: RHEL 9, Port: 443 / 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="960" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_bastion" value="Bastion Host&#xa;(SSH jump server)&#xa;OS: RHEL 9, Port: 22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1710" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_siem" value="SIEM&#xa;(Splunk / Wazuh)&#xa;OS: RHEL 9, Port: 8000 / 55000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1460" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= LEGEND ================= -->
+        <mxCell id="legend" value="Легенда на зоните" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacing=5" vertex="1" parent="1">
+          <mxGeometry x="60" y="1820" width="2280" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_cl" value="Клиент (публичен)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_dmz" value="DMZ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="240" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ch" value="Channels / Complaint apps" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="400" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_core" value="Core Banking (legacy)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="590" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_db" value="Database Zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="780" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ext" value="External / Message Bus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="940" y="1850" width="170" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_mgmt" value="Management / Monitoring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1120" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_fw" value="🛡 Firewall" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1310" y="1850" width="120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_note" value="Всички вътрешни API връзки използват mTLS (Istio service mesh) / JWT-OAuth2 за автентикация. Всяка междузонова връзка минава през firewall rule." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1890" width="2240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EDGES / CONNECTIONS ================= -->
+        <!-- Client → Internet -->
+        <mxCell id="e1" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_mobile" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_web" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_cl_lbl" value="HTTPS 443 (TLS 1.3)" style="text;html=1;fontSize=10;labelBackgroundColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="580" y="240" width="140" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet → WAF -->
+        <mxCell id="e3" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="internet" target="dmz_waf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="210" y="400"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- WAF → LB → RP → API Gateway -->
+        <mxCell id="e4" value="443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_waf" target="dmz_lb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_lb" target="dmz_rp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_rp" target="dmz_api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- API Gateway → BBO_BE -->
+        <mxCell id="e7" value="REST 8443 mTLS + JWT" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="870" y="680"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → BBM backend -->
+        <mxCell id="e8" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbm_srv">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → CMS -->
+        <mxCell id="e9" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → AI_CHATBOT -->
+        <mxCell id="e10" value="WebSocket 8444" style="endArrow=classic;html=1;exitX=0;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_chatbot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → NLP_ENGINE -->
+        <mxCell id="e11" value="gRPC 50051" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_nlp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → CMS -->
+        <mxCell id="e12" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=1;entryX=0;entryY=1;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NLP_ENGINE → LLM API -->
+        <mxCell id="e13" value="HTTPS 443 (private VPC)" style="endArrow=classic;html=1;exitX=1;exitY=0;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_nlp" target="ext_llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AI_COPILOT -->
+        <mxCell id="e14" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_copilot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → NOTIF -->
+        <mxCell id="e15" value="Kafka event (9093)" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_notif">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AUDIT -->
+        <mxCell id="e16" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → Kafka -->
+        <mxCell id="e17" value="producer/consumer 9093" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="z_kafka">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CORE_BANKING -->
+        <mxCell id="e18" value="SOAP/REST 8443" style="endArrow=classic;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="core_bank">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="500" y="1200"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- AI_COPILOT → CARD_SYSTEM -->
+        <mxCell id="e19" value="REST 443" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="card_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CRM -->
+        <mxCell id="e20" value="REST/OData 443" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="crm_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → CORE_ACC -->
+        <mxCell id="e21" value="local JEE" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="core_acc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → integration_bus -->
+        <mxCell id="e22" value="JMS 1414" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_acc" target="integration_bus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → SMTP -->
+        <mxCell id="e23" value="SMTP 587 STARTTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_smtp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → FCM -->
+        <mxCell id="e24" value="HTTPS 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_fcm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → APNS -->
+        <mxCell id="e25" value="HTTPS/2 443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_apns">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → BBO_BE for in-app delivery -->
+        <mxCell id="e26" value="in-app push 8443" style="endArrow=classic;html=1;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;entryX=1;entryY=1" edge="1" parent="1" source="cs_notif" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AUDIT → PG Audit -->
+        <mxCell id="e27" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_audit" target="db_pg_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → PG CMS -->
+        <mxCell id="e28" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.4;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_pg_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → MinIO -->
+        <mxCell id="e29" value="S3 HTTPS 9000" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.2;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_minio">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → Oracle -->
+        <mxCell id="e30" value="JDBC 1521 TLS" style="endArrow=classic;html=1;exitX=0.2;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="db_oracle">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CARD_SYSTEM → SQL Server -->
+        <mxCell id="e31" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.8;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="card_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1780" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- CRM → SQL Server -->
+        <mxCell id="e32" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.7;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="crm_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Session → Redis -->
+        <mxCell id="e33" value="Redis 6379 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_session" target="db_redis">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="890" y="1240"/><mxPoint x="1000" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Analytics → Elasticsearch -->
+        <mxCell id="e34" value="HTTPS 9200" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_analytics" target="db_es">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → Session -->
+        <mxCell id="e35" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="ch_session">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="740" y="765"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → Identity Provider -->
+        <mxCell id="e36" value="OIDC 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="dmz_idp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- External regulators (escalation) from BBO_BE -->
+        <mxCell id="e37" value="HTTPS 443 (при ескалация)" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff;dashed=1" edge="1" parent="1" source="ch_bbo_be" target="ext_bnb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+ще ти пратя това technology_architecture.drawio, ето го целия, върни ми го с оправени и ясни стрелки: <?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-16T00:00:00.000Z" agent="manual" version="24.0.0" type="device">
+  <diagram id="arch" name="Technology Architecture">
+    <mxGraphModel dx="2400" dy="2200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ================= TITLE ================= -->
+        <mxCell id="title" value="Технологична архитектура — Дигитално управление на жалби (УниКредит Булбанк)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1800" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CLIENT ZONE ================= -->
+        <mxCell id="z_client" value="КЛИЕНТ (публичен Интернет)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="900" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_mobile" value="Мобилно устройство&#xa;(iOS / Android)&#xa;— Bulbank Mobile app&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_web" value="Уеб браузър&#xa;(Chrome / Safari / Firefox)&#xa;— Bulbank Online&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="320" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_email" value="Email клиент&#xa;(получава IMAP / POP3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_push" value="Push получаване&#xa;(iOS APNS / Android FCM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet cloud -->
+        <mxCell id="internet" value="Интернет" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= PERIMETER FIREWALL ================= -->
+        <mxCell id="fw_perimeter" value="🛡 Perimeter Firewall (L3/L4) — Palo Alto / Fortinet — allow TCP 443 only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DMZ ZONE ================= -->
+        <mxCell id="z_dmz" value="DMZ (Demilitarized Zone)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="2280" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_waf" value="WAF&#xa;(ModSecurity / Cloudflare)&#xa;OS: RHEL 9&#xa;Port: 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_lb" value="Load Balancer&#xa;(F5 BIG-IP / HAProxy)&#xa;OS: RHEL 9&#xa;Ports: 443 → 8443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_rp" value="Reverse Proxy&#xa;NGINX 1.25&#xa;OS: RHEL 9&#xa;Port: 443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_api" value="API Gateway&#xa;Kong 3.x&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 8443 (mTLS)&#xa;OAuth2 / JWT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="780" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_idp" value="Identity Provider&#xa;(Keycloak / UniCredit SSO)&#xa;OS: RHEL 9, Tomcat 10&#xa;Port: 443, OIDC/SAML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1000" y="470" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= INTERNAL FIREWALL ================= -->
+        <mxCell id="fw_internal" value="🛡 Internal Firewall (L7, deep packet inspection) — allow mTLS API traffic only, segmented rules per zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DIGITAL CHANNELS ZONE ================= -->
+        <mxCell id="z_channels" value="Digital Channels Zone (съществуващи системи — НЕ се променят от този проект)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="670" width="1480" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbo_be" value="BBO_BE (Булбанк Онлайн Backend)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (HTTPS mTLS), gRPC 50051&#xa;Публикува събития в Kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="720" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbm_srv" value="BBM Mobile Backend API&#xa;Spring Boot 3, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="460" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_session" value="Session / Auth Service&#xa;Spring Boot, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443, JWT валидация&#xa;Redis за сесии (6379)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= COMPLAINT SERVICES ZONE (NEW) ================= -->
+        <mxCell id="z_complaint" value="Complaint Services Zone (НОВИ системи — разработка в този проект) — Kubernetes 1.29 (OpenShift 4.14), всяка услуга е в pod с Istio sidecar mTLS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#009900;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="850" width="2280" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_chatbot" value="AI_CHATBOT&#xa;Python 3.12, FastAPI&#xa;Контейнер: RHEL UBI 9&#xa;K8s deployment (3 pods)&#xa;Port: 8443 (REST), WS 8444&#xa;→ NLP_ENGINE (gRPC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_nlp" value="NLP_ENGINE&#xa;Python 3.12, PyTorch / ONNX&#xa;GPU node (NVIDIA A10)&#xa;Контейнер: RHEL UBI 9&#xa;Port: 50051 (gRPC)&#xa;→ LLM API (HTTPS 443)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_cms" value="CMS (Complaint Mgmt System)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;Camunda Zeebe (workflow)&#xa;OS: RHEL 9 (pod)&#xa;Port: 8443 (REST mTLS)&#xa;Kafka producer / consumer (9093)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="580" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_copilot" value="AI_COPILOT&#xa;Python 3.12, FastAPI&#xa;Context aggregation + LLM prompting&#xa;Контейнер: RHEL UBI 9&#xa;Port: 8443 (REST mTLS)&#xa;→ CORE_BANKING, CRM, CARD_SYSTEM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="860" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_notif" value="NOTIF_SERVICE&#xa;Node.js 20, Express&#xa;Контейнер: Ubuntu 22.04&#xa;Port: 8443 (REST mTLS)&#xa;→ SMTP 587, FCM 443, APNS 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_audit" value="AUDIT_LOG Service&#xa;Go 1.22 (append-only)&#xa;Контейнер: Alpine Linux&#xa;Port: 8443 (REST mTLS)&#xa;→ PostgreSQL (5432)&#xa;WORM политика" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1400" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_spec_console" value="Specialist Workbench&#xa;(web app за служители)&#xa;React 18, NGINX pod&#xa;Port: 443 mTLS&#xa;Интегрирана с AI_COPILOT + CMS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1660" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_analytics" value="Analytics / Trend Engine&#xa;Python, Airflow 2.x&#xa;Контейнер: RHEL UBI 9&#xa;Kafka consumer (9093)&#xa;→ Elasticsearch (9200)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MESSAGE BUS ================= -->
+        <mxCell id="z_kafka" value="Event / Message Backbone — Apache Kafka 3.7 cluster (3 брокера, RHEL 9) — TLS порт 9093, SASL/SCRAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="1140" width="2280" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CORE BANKING ZONE ================= -->
+        <mxCell id="z_core" value="Core Banking Zone (съществуващи системи — интеграция, не промяна)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1220" width="1480" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_bank" value="CORE_BANKING&#xa;Java EE 8, JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP/REST)&#xa;JMS queue на AMQ (порт 5671)&#xa;Съдържа: клиенти, продукти, KYC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_acc" value="CORE_ACC (Модул Сметки)&#xa;Java EE, вграден в JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP)&#xa;Баланси, транзакции, преводи" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="380" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="card_sys" value="CARD_SYSTEM (домейн)&#xa;.NET 8, IIS 10&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST)&#xa;Картови транзакции, merchant data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="660" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="crm_sys" value="CRM (домейн)&#xa;Microsoft Dynamics 365&#xa;on-prem, IIS + SQL Server&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST / OData)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="940" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="integration_bus" value="Integration Bus / ESB&#xa;IBM MQ 9.3&#xa;OS: RHEL 9&#xa;Port: 1414 (TLS), JMS&#xa;Legacy адаптери" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DATABASE ZONE ================= -->
+        <mxCell id="z_db" value="Database Zone (изолирана, само JDBC трафик от Application зоните, без директен достъп отвън)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1420" width="2280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_oracle" value="Oracle 19c Enterprise&#xa;(Core Banking DB)&#xa;OS: RHEL 9&#xa;Port: 1521 (JDBC TLS)&#xa;Data Guard DR репликация" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_cms" value="PostgreSQL 15&#xa;(CMS DB)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (JDBC TLS)&#xa;HA с streaming replication" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="360" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_audit" value="PostgreSQL 15&#xa;(AUDIT_LOG DB — WORM)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (mTLS)&#xa;Retention: 7 години&#xa;Tamper-evident hash chain" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="620" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_redis" value="Redis 7.2&#xa;(сесии / кеш)&#xa;OS: RHEL 9&#xa;Port: 6379 (TLS)&#xa;Sentinel HA" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="900" y="1470" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_minio" value="MinIO Object Store&#xa;(прикачени файлове към жалби)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9000 (HTTPS S3 API)&#xa;AES-256 encryption at rest" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_es" value="Elasticsearch 8&#xa;(търсене + analytics)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9200 (HTTPS)&#xa;3-node cluster" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1420" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_mssql" value="SQL Server 2022&#xa;(CRM + CARD_SYSTEM)&#xa;OS: Windows Server 2022&#xa;Port: 1433 (TDS TLS)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1680" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EGRESS FIREWALL + EXTERNAL ================= -->
+        <mxCell id="fw_egress" value="🛡 Egress Firewall — ограничен изходящ TLS трафик към одобрен whitelist от домейни" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1580" y="670" width="760" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="z_external" value="Външни услуги (SaaS / трети страни)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="1580" y="720" width="760" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_smtp" value="SMTP Relay&#xa;(корпоративен Postfix / SendGrid)&#xa;Port: 587 (STARTTLS)&#xa;Изпраща email до клиенти" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="770" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_fcm" value="Firebase Cloud Messaging&#xa;(Android push)&#xa;Port: 443 (HTTPS)&#xa;Google API key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="870" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_apns" value="Apple Push Notification Service&#xa;(iOS push)&#xa;Port: 443 (HTTPS/2)&#xa;JWT token auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="970" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_llm" value="LLM API&#xa;(Anthropic Claude / Azure OpenAI / UniCredit AI Platform)&#xa;Port: 443 (HTTPS)&#xa;Private VPC peering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="770" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_bnb" value="Външни регулатори (за ескалация)&#xa;БНБ, КЗП, ПКПС, FIN-NET&#xa;HTTPS 443 / защитен файлов трансфер" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="870" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_kep" value="КЕП валидация&#xa;(B-Trust / InfoNotary / eValidation)&#xa;Port: 443 — за канали извън приложението" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="970" width="380" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MANAGEMENT / MONITORING ================= -->
+        <mxCell id="z_mgmt" value="Management / Monitoring Zone (изолирана, достъп само от bastion host)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1670" width="2280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_elk" value="ELK Stack&#xa;(Elasticsearch + Logstash + Kibana)&#xa;OS: Ubuntu 22.04 LTS, Port: 5601 / 5044" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1710" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_prom" value="Prometheus + Grafana&#xa;OS: Ubuntu 22.04, Ports: 9090 / 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="400" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_vault" value="HashiCorp Vault&#xa;(secrets / ключове)&#xa;OS: RHEL 9, Port: 8200 (HTTPS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_cicd" value="CI/CD&#xa;GitLab + Argo CD&#xa;OS: RHEL 9, Port: 443 / 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="960" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_bastion" value="Bastion Host&#xa;(SSH jump server)&#xa;OS: RHEL 9, Port: 22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1710" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_siem" value="SIEM&#xa;(Splunk / Wazuh)&#xa;OS: RHEL 9, Port: 8000 / 55000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1460" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= LEGEND ================= -->
+        <mxCell id="legend" value="Легенда на зоните" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacing=5" vertex="1" parent="1">
+          <mxGeometry x="60" y="1820" width="2280" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_cl" value="Клиент (публичен)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_dmz" value="DMZ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="240" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ch" value="Channels / Complaint apps" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="400" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_core" value="Core Banking (legacy)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="590" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_db" value="Database Zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="780" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ext" value="External / Message Bus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="940" y="1850" width="170" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_mgmt" value="Management / Monitoring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1120" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_fw" value="🛡 Firewall" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1310" y="1850" width="120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_note" value="Всички вътрешни API връзки използват mTLS (Istio service mesh) / JWT-OAuth2 за автентикация. Всяка междузонова връзка минава през firewall rule." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1890" width="2240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EDGES / CONNECTIONS ================= -->
+        <!-- Client → Internet -->
+        <mxCell id="e1" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_mobile" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_web" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_cl_lbl" value="HTTPS 443 (TLS 1.3)" style="text;html=1;fontSize=10;labelBackgroundColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="580" y="240" width="140" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet → WAF -->
+        <mxCell id="e3" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="internet" target="dmz_waf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="210" y="400"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- WAF → LB → RP → API Gateway -->
+        <mxCell id="e4" value="443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_waf" target="dmz_lb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_lb" target="dmz_rp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_rp" target="dmz_api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- API Gateway → BBO_BE -->
+        <mxCell id="e7" value="REST 8443 mTLS + JWT" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="870" y="680"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → BBM backend -->
+        <mxCell id="e8" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbm_srv">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → CMS -->
+        <mxCell id="e9" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → AI_CHATBOT -->
+        <mxCell id="e10" value="WebSocket 8444" style="endArrow=classic;html=1;exitX=0;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_chatbot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → NLP_ENGINE -->
+        <mxCell id="e11" value="gRPC 50051" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_nlp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → CMS -->
+        <mxCell id="e12" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=1;entryX=0;entryY=1;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NLP_ENGINE → LLM API -->
+        <mxCell id="e13" value="HTTPS 443 (private VPC)" style="endArrow=classic;html=1;exitX=1;exitY=0;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_nlp" target="ext_llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AI_COPILOT -->
+        <mxCell id="e14" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_copilot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → NOTIF -->
+        <mxCell id="e15" value="Kafka event (9093)" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_notif">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AUDIT -->
+        <mxCell id="e16" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → Kafka -->
+        <mxCell id="e17" value="producer/consumer 9093" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="z_kafka">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CORE_BANKING -->
+        <mxCell id="e18" value="SOAP/REST 8443" style="endArrow=classic;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="core_bank">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="500" y="1200"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- AI_COPILOT → CARD_SYSTEM -->
+        <mxCell id="e19" value="REST 443" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="card_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CRM -->
+        <mxCell id="e20" value="REST/OData 443" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="crm_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → CORE_ACC -->
+        <mxCell id="e21" value="local JEE" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="core_acc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → integration_bus -->
+        <mxCell id="e22" value="JMS 1414" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_acc" target="integration_bus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → SMTP -->
+        <mxCell id="e23" value="SMTP 587 STARTTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_smtp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → FCM -->
+        <mxCell id="e24" value="HTTPS 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_fcm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → APNS -->
+        <mxCell id="e25" value="HTTPS/2 443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_apns">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → BBO_BE for in-app delivery -->
+        <mxCell id="e26" value="in-app push 8443" style="endArrow=classic;html=1;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;entryX=1;entryY=1" edge="1" parent="1" source="cs_notif" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AUDIT → PG Audit -->
+        <mxCell id="e27" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_audit" target="db_pg_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → PG CMS -->
+        <mxCell id="e28" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.4;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_pg_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → MinIO -->
+        <mxCell id="e29" value="S3 HTTPS 9000" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.2;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_minio">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → Oracle -->
+        <mxCell id="e30" value="JDBC 1521 TLS" style="endArrow=classic;html=1;exitX=0.2;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="db_oracle">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CARD_SYSTEM → SQL Server -->
+        <mxCell id="e31" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.8;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="card_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1780" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- CRM → SQL Server -->
+        <mxCell id="e32" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.7;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="crm_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Session → Redis -->
+        <mxCell id="e33" value="Redis 6379 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_session" target="db_redis">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="890" y="1240"/><mxPoint x="1000" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Analytics → Elasticsearch -->
+        <mxCell id="e34" value="HTTPS 9200" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_analytics" target="db_es">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → Session -->
+        <mxCell id="e35" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="ch_session">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="740" y="765"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → Identity Provider -->
+        <mxCell id="e36" value="OIDC 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="dmz_idp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- External regulators (escalation) from BBO_BE -->
+        <mxCell id="e37" value="HTTPS 443 (при ескалация)" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff;dashed=1" edge="1" parent="1" source="ch_bbo_be" target="ext_bnb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+ще ти пратя това technology_architecture.drawio, ето го целия, върни ми го с оправени и ясни стрелки: <?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-16T00:00:00.000Z" agent="manual" version="24.0.0" type="device">
+  <diagram id="arch" name="Technology Architecture">
+    <mxGraphModel dx="2400" dy="2200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ================= TITLE ================= -->
+        <mxCell id="title" value="Технологична архитектура — Дигитално управление на жалби (УниКредит Булбанк)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1800" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CLIENT ZONE ================= -->
+        <mxCell id="z_client" value="КЛИЕНТ (публичен Интернет)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="900" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_mobile" value="Мобилно устройство&#xa;(iOS / Android)&#xa;— Bulbank Mobile app&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_web" value="Уеб браузър&#xa;(Chrome / Safari / Firefox)&#xa;— Bulbank Online&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="320" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_email" value="Email клиент&#xa;(получава IMAP / POP3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_push" value="Push получаване&#xa;(iOS APNS / Android FCM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet cloud -->
+        <mxCell id="internet" value="Интернет" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= PERIMETER FIREWALL ================= -->
+        <mxCell id="fw_perimeter" value="🛡 Perimeter Firewall (L3/L4) — Palo Alto / Fortinet — allow TCP 443 only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DMZ ZONE ================= -->
+        <mxCell id="z_dmz" value="DMZ (Demilitarized Zone)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="2280" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_waf" value="WAF&#xa;(ModSecurity / Cloudflare)&#xa;OS: RHEL 9&#xa;Port: 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_lb" value="Load Balancer&#xa;(F5 BIG-IP / HAProxy)&#xa;OS: RHEL 9&#xa;Ports: 443 → 8443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_rp" value="Reverse Proxy&#xa;NGINX 1.25&#xa;OS: RHEL 9&#xa;Port: 443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_api" value="API Gateway&#xa;Kong 3.x&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 8443 (mTLS)&#xa;OAuth2 / JWT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="780" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_idp" value="Identity Provider&#xa;(Keycloak / UniCredit SSO)&#xa;OS: RHEL 9, Tomcat 10&#xa;Port: 443, OIDC/SAML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1000" y="470" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= INTERNAL FIREWALL ================= -->
+        <mxCell id="fw_internal" value="🛡 Internal Firewall (L7, deep packet inspection) — allow mTLS API traffic only, segmented rules per zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DIGITAL CHANNELS ZONE ================= -->
+        <mxCell id="z_channels" value="Digital Channels Zone (съществуващи системи — НЕ се променят от този проект)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="670" width="1480" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbo_be" value="BBO_BE (Булбанк Онлайн Backend)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (HTTPS mTLS), gRPC 50051&#xa;Публикува събития в Kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="720" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbm_srv" value="BBM Mobile Backend API&#xa;Spring Boot 3, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="460" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_session" value="Session / Auth Service&#xa;Spring Boot, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443, JWT валидация&#xa;Redis за сесии (6379)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= COMPLAINT SERVICES ZONE (NEW) ================= -->
+        <mxCell id="z_complaint" value="Complaint Services Zone (НОВИ системи — разработка в този проект) — Kubernetes 1.29 (OpenShift 4.14), всяка услуга е в pod с Istio sidecar mTLS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#009900;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="850" width="2280" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_chatbot" value="AI_CHATBOT&#xa;Python 3.12, FastAPI&#xa;Контейнер: RHEL UBI 9&#xa;K8s deployment (3 pods)&#xa;Port: 8443 (REST), WS 8444&#xa;→ NLP_ENGINE (gRPC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_nlp" value="NLP_ENGINE&#xa;Python 3.12, PyTorch / ONNX&#xa;GPU node (NVIDIA A10)&#xa;Контейнер: RHEL UBI 9&#xa;Port: 50051 (gRPC)&#xa;→ LLM API (HTTPS 443)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_cms" value="CMS (Complaint Mgmt System)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;Camunda Zeebe (workflow)&#xa;OS: RHEL 9 (pod)&#xa;Port: 8443 (REST mTLS)&#xa;Kafka producer / consumer (9093)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="580" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_copilot" value="AI_COPILOT&#xa;Python 3.12, FastAPI&#xa;Context aggregation + LLM prompting&#xa;Контейнер: RHEL UBI 9&#xa;Port: 8443 (REST mTLS)&#xa;→ CORE_BANKING, CRM, CARD_SYSTEM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="860" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_notif" value="NOTIF_SERVICE&#xa;Node.js 20, Express&#xa;Контейнер: Ubuntu 22.04&#xa;Port: 8443 (REST mTLS)&#xa;→ SMTP 587, FCM 443, APNS 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_audit" value="AUDIT_LOG Service&#xa;Go 1.22 (append-only)&#xa;Контейнер: Alpine Linux&#xa;Port: 8443 (REST mTLS)&#xa;→ PostgreSQL (5432)&#xa;WORM политика" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1400" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_spec_console" value="Specialist Workbench&#xa;(web app за служители)&#xa;React 18, NGINX pod&#xa;Port: 443 mTLS&#xa;Интегрирана с AI_COPILOT + CMS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1660" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_analytics" value="Analytics / Trend Engine&#xa;Python, Airflow 2.x&#xa;Контейнер: RHEL UBI 9&#xa;Kafka consumer (9093)&#xa;→ Elasticsearch (9200)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MESSAGE BUS ================= -->
+        <mxCell id="z_kafka" value="Event / Message Backbone — Apache Kafka 3.7 cluster (3 брокера, RHEL 9) — TLS порт 9093, SASL/SCRAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="1140" width="2280" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CORE BANKING ZONE ================= -->
+        <mxCell id="z_core" value="Core Banking Zone (съществуващи системи — интеграция, не промяна)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1220" width="1480" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_bank" value="CORE_BANKING&#xa;Java EE 8, JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP/REST)&#xa;JMS queue на AMQ (порт 5671)&#xa;Съдържа: клиенти, продукти, KYC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_acc" value="CORE_ACC (Модул Сметки)&#xa;Java EE, вграден в JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP)&#xa;Баланси, транзакции, преводи" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="380" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="card_sys" value="CARD_SYSTEM (домейн)&#xa;.NET 8, IIS 10&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST)&#xa;Картови транзакции, merchant data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="660" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="crm_sys" value="CRM (домейн)&#xa;Microsoft Dynamics 365&#xa;on-prem, IIS + SQL Server&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST / OData)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="940" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="integration_bus" value="Integration Bus / ESB&#xa;IBM MQ 9.3&#xa;OS: RHEL 9&#xa;Port: 1414 (TLS), JMS&#xa;Legacy адаптери" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DATABASE ZONE ================= -->
+        <mxCell id="z_db" value="Database Zone (изолирана, само JDBC трафик от Application зоните, без директен достъп отвън)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1420" width="2280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_oracle" value="Oracle 19c Enterprise&#xa;(Core Banking DB)&#xa;OS: RHEL 9&#xa;Port: 1521 (JDBC TLS)&#xa;Data Guard DR репликация" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_cms" value="PostgreSQL 15&#xa;(CMS DB)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (JDBC TLS)&#xa;HA с streaming replication" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="360" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_audit" value="PostgreSQL 15&#xa;(AUDIT_LOG DB — WORM)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (mTLS)&#xa;Retention: 7 години&#xa;Tamper-evident hash chain" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="620" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_redis" value="Redis 7.2&#xa;(сесии / кеш)&#xa;OS: RHEL 9&#xa;Port: 6379 (TLS)&#xa;Sentinel HA" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="900" y="1470" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_minio" value="MinIO Object Store&#xa;(прикачени файлове към жалби)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9000 (HTTPS S3 API)&#xa;AES-256 encryption at rest" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_es" value="Elasticsearch 8&#xa;(търсене + analytics)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9200 (HTTPS)&#xa;3-node cluster" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1420" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_mssql" value="SQL Server 2022&#xa;(CRM + CARD_SYSTEM)&#xa;OS: Windows Server 2022&#xa;Port: 1433 (TDS TLS)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1680" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EGRESS FIREWALL + EXTERNAL ================= -->
+        <mxCell id="fw_egress" value="🛡 Egress Firewall — ограничен изходящ TLS трафик към одобрен whitelist от домейни" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1580" y="670" width="760" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="z_external" value="Външни услуги (SaaS / трети страни)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="1580" y="720" width="760" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_smtp" value="SMTP Relay&#xa;(корпоративен Postfix / SendGrid)&#xa;Port: 587 (STARTTLS)&#xa;Изпраща email до клиенти" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="770" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_fcm" value="Firebase Cloud Messaging&#xa;(Android push)&#xa;Port: 443 (HTTPS)&#xa;Google API key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="870" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_apns" value="Apple Push Notification Service&#xa;(iOS push)&#xa;Port: 443 (HTTPS/2)&#xa;JWT token auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="970" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_llm" value="LLM API&#xa;(Anthropic Claude / Azure OpenAI / UniCredit AI Platform)&#xa;Port: 443 (HTTPS)&#xa;Private VPC peering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="770" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_bnb" value="Външни регулатори (за ескалация)&#xa;БНБ, КЗП, ПКПС, FIN-NET&#xa;HTTPS 443 / защитен файлов трансфер" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="870" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_kep" value="КЕП валидация&#xa;(B-Trust / InfoNotary / eValidation)&#xa;Port: 443 — за канали извън приложението" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="970" width="380" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MANAGEMENT / MONITORING ================= -->
+        <mxCell id="z_mgmt" value="Management / Monitoring Zone (изолирана, достъп само от bastion host)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1670" width="2280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_elk" value="ELK Stack&#xa;(Elasticsearch + Logstash + Kibana)&#xa;OS: Ubuntu 22.04 LTS, Port: 5601 / 5044" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1710" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_prom" value="Prometheus + Grafana&#xa;OS: Ubuntu 22.04, Ports: 9090 / 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="400" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_vault" value="HashiCorp Vault&#xa;(secrets / ключове)&#xa;OS: RHEL 9, Port: 8200 (HTTPS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_cicd" value="CI/CD&#xa;GitLab + Argo CD&#xa;OS: RHEL 9, Port: 443 / 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="960" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_bastion" value="Bastion Host&#xa;(SSH jump server)&#xa;OS: RHEL 9, Port: 22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1710" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_siem" value="SIEM&#xa;(Splunk / Wazuh)&#xa;OS: RHEL 9, Port: 8000 / 55000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1460" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= LEGEND ================= -->
+        <mxCell id="legend" value="Легенда на зоните" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacing=5" vertex="1" parent="1">
+          <mxGeometry x="60" y="1820" width="2280" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_cl" value="Клиент (публичен)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_dmz" value="DMZ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="240" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ch" value="Channels / Complaint apps" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="400" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_core" value="Core Banking (legacy)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="590" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_db" value="Database Zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="780" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ext" value="External / Message Bus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="940" y="1850" width="170" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_mgmt" value="Management / Monitoring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1120" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_fw" value="🛡 Firewall" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1310" y="1850" width="120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_note" value="Всички вътрешни API връзки използват mTLS (Istio service mesh) / JWT-OAuth2 за автентикация. Всяка междузонова връзка минава през firewall rule." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1890" width="2240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EDGES / CONNECTIONS ================= -->
+        <!-- Client → Internet -->
+        <mxCell id="e1" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_mobile" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_web" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_cl_lbl" value="HTTPS 443 (TLS 1.3)" style="text;html=1;fontSize=10;labelBackgroundColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="580" y="240" width="140" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet → WAF -->
+        <mxCell id="e3" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="internet" target="dmz_waf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="210" y="400"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- WAF → LB → RP → API Gateway -->
+        <mxCell id="e4" value="443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_waf" target="dmz_lb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_lb" target="dmz_rp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_rp" target="dmz_api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- API Gateway → BBO_BE -->
+        <mxCell id="e7" value="REST 8443 mTLS + JWT" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="870" y="680"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → BBM backend -->
+        <mxCell id="e8" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbm_srv">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → CMS -->
+        <mxCell id="e9" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → AI_CHATBOT -->
+        <mxCell id="e10" value="WebSocket 8444" style="endArrow=classic;html=1;exitX=0;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_chatbot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → NLP_ENGINE -->
+        <mxCell id="e11" value="gRPC 50051" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_nlp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → CMS -->
+        <mxCell id="e12" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=1;entryX=0;entryY=1;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NLP_ENGINE → LLM API -->
+        <mxCell id="e13" value="HTTPS 443 (private VPC)" style="endArrow=classic;html=1;exitX=1;exitY=0;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_nlp" target="ext_llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AI_COPILOT -->
+        <mxCell id="e14" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_copilot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → NOTIF -->
+        <mxCell id="e15" value="Kafka event (9093)" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_notif">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AUDIT -->
+        <mxCell id="e16" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → Kafka -->
+        <mxCell id="e17" value="producer/consumer 9093" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="z_kafka">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CORE_BANKING -->
+        <mxCell id="e18" value="SOAP/REST 8443" style="endArrow=classic;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="core_bank">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="500" y="1200"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- AI_COPILOT → CARD_SYSTEM -->
+        <mxCell id="e19" value="REST 443" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="card_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CRM -->
+        <mxCell id="e20" value="REST/OData 443" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="crm_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → CORE_ACC -->
+        <mxCell id="e21" value="local JEE" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="core_acc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → integration_bus -->
+        <mxCell id="e22" value="JMS 1414" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_acc" target="integration_bus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → SMTP -->
+        <mxCell id="e23" value="SMTP 587 STARTTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_smtp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → FCM -->
+        <mxCell id="e24" value="HTTPS 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_fcm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → APNS -->
+        <mxCell id="e25" value="HTTPS/2 443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_apns">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → BBO_BE for in-app delivery -->
+        <mxCell id="e26" value="in-app push 8443" style="endArrow=classic;html=1;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;entryX=1;entryY=1" edge="1" parent="1" source="cs_notif" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AUDIT → PG Audit -->
+        <mxCell id="e27" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_audit" target="db_pg_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → PG CMS -->
+        <mxCell id="e28" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.4;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_pg_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → MinIO -->
+        <mxCell id="e29" value="S3 HTTPS 9000" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.2;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_minio">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → Oracle -->
+        <mxCell id="e30" value="JDBC 1521 TLS" style="endArrow=classic;html=1;exitX=0.2;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="db_oracle">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CARD_SYSTEM → SQL Server -->
+        <mxCell id="e31" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.8;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="card_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1780" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- CRM → SQL Server -->
+        <mxCell id="e32" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.7;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="crm_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Session → Redis -->
+        <mxCell id="e33" value="Redis 6379 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_session" target="db_redis">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="890" y="1240"/><mxPoint x="1000" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Analytics → Elasticsearch -->
+        <mxCell id="e34" value="HTTPS 9200" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_analytics" target="db_es">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → Session -->
+        <mxCell id="e35" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="ch_session">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="740" y="765"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → Identity Provider -->
+        <mxCell id="e36" value="OIDC 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="dmz_idp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- External regulators (escalation) from BBO_BE -->
+        <mxCell id="e37" value="HTTPS 443 (при ескалация)" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff;dashed=1" edge="1" parent="1" source="ch_bbo_be" target="ext_bnb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+ще ти пратя това technology_architecture.drawio, ето го целия, върни ми го с оправени и ясни стрелки: <?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-16T00:00:00.000Z" agent="manual" version="24.0.0" type="device">
+  <diagram id="arch" name="Technology Architecture">
+    <mxGraphModel dx="2400" dy="2200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ================= TITLE ================= -->
+        <mxCell id="title" value="Технологична архитектура — Дигитално управление на жалби (УниКредит Булбанк)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1800" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CLIENT ZONE ================= -->
+        <mxCell id="z_client" value="КЛИЕНТ (публичен Интернет)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="900" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_mobile" value="Мобилно устройство&#xa;(iOS / Android)&#xa;— Bulbank Mobile app&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_web" value="Уеб браузър&#xa;(Chrome / Safari / Firefox)&#xa;— Bulbank Online&#xa;TLS 1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="320" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_email" value="Email клиент&#xa;(получава IMAP / POP3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_push" value="Push получаване&#xa;(iOS APNS / Android FCM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="180" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet cloud -->
+        <mxCell id="internet" value="Интернет" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= PERIMETER FIREWALL ================= -->
+        <mxCell id="fw_perimeter" value="🛡 Perimeter Firewall (L3/L4) — Palo Alto / Fortinet — allow TCP 443 only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DMZ ZONE ================= -->
+        <mxCell id="z_dmz" value="DMZ (Demilitarized Zone)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="420" width="2280" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_waf" value="WAF&#xa;(ModSecurity / Cloudflare)&#xa;OS: RHEL 9&#xa;Port: 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_lb" value="Load Balancer&#xa;(F5 BIG-IP / HAProxy)&#xa;OS: RHEL 9&#xa;Ports: 443 → 8443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_rp" value="Reverse Proxy&#xa;NGINX 1.25&#xa;OS: RHEL 9&#xa;Port: 443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_api" value="API Gateway&#xa;Kong 3.x&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 8443 (mTLS)&#xa;OAuth2 / JWT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="780" y="470" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dmz_idp" value="Identity Provider&#xa;(Keycloak / UniCredit SSO)&#xa;OS: RHEL 9, Tomcat 10&#xa;Port: 443, OIDC/SAML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1000" y="470" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= INTERNAL FIREWALL ================= -->
+        <mxCell id="fw_internal" value="🛡 Internal Firewall (L7, deep packet inspection) — allow mTLS API traffic only, segmented rules per zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="2280" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DIGITAL CHANNELS ZONE ================= -->
+        <mxCell id="z_channels" value="Digital Channels Zone (съществуващи системи — НЕ се променят от този проект)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="670" width="1480" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbo_be" value="BBO_BE (Булбанк Онлайн Backend)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (HTTPS mTLS), gRPC 50051&#xa;Публикува събития в Kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="120" y="720" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_bbm_srv" value="BBM Mobile Backend API&#xa;Spring Boot 3, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443 (mTLS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="460" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ch_session" value="Session / Auth Service&#xa;Spring Boot, Tomcat 10&#xa;OS: RHEL 9&#xa;Port: 8443, JWT валидация&#xa;Redis за сесии (6379)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="760" y="720" width="260" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= COMPLAINT SERVICES ZONE (NEW) ================= -->
+        <mxCell id="z_complaint" value="Complaint Services Zone (НОВИ системи — разработка в този проект) — Kubernetes 1.29 (OpenShift 4.14), всяка услуга е в pod с Istio sidecar mTLS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#009900;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="850" width="2280" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_chatbot" value="AI_CHATBOT&#xa;Python 3.12, FastAPI&#xa;Контейнер: RHEL UBI 9&#xa;K8s deployment (3 pods)&#xa;Port: 8443 (REST), WS 8444&#xa;→ NLP_ENGINE (gRPC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_nlp" value="NLP_ENGINE&#xa;Python 3.12, PyTorch / ONNX&#xa;GPU node (NVIDIA A10)&#xa;Контейнер: RHEL UBI 9&#xa;Port: 50051 (gRPC)&#xa;→ LLM API (HTTPS 443)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="340" y="910" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_cms" value="CMS (Complaint Mgmt System)&#xa;Spring Boot 3, Java 21, Tomcat 10&#xa;Camunda Zeebe (workflow)&#xa;OS: RHEL 9 (pod)&#xa;Port: 8443 (REST mTLS)&#xa;Kafka producer / consumer (9093)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="580" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_copilot" value="AI_COPILOT&#xa;Python 3.12, FastAPI&#xa;Context aggregation + LLM prompting&#xa;Контейнер: RHEL UBI 9&#xa;Port: 8443 (REST mTLS)&#xa;→ CORE_BANKING, CRM, CARD_SYSTEM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="860" y="910" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_notif" value="NOTIF_SERVICE&#xa;Node.js 20, Express&#xa;Контейнер: Ubuntu 22.04&#xa;Port: 8443 (REST mTLS)&#xa;→ SMTP 587, FCM 443, APNS 443" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_audit" value="AUDIT_LOG Service&#xa;Go 1.22 (append-only)&#xa;Контейнер: Alpine Linux&#xa;Port: 8443 (REST mTLS)&#xa;→ PostgreSQL (5432)&#xa;WORM политика" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1400" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_spec_console" value="Specialist Workbench&#xa;(web app за служители)&#xa;React 18, NGINX pod&#xa;Port: 443 mTLS&#xa;Интегрирана с AI_COPILOT + CMS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1660" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="cs_analytics" value="Analytics / Trend Engine&#xa;Python, Airflow 2.x&#xa;Контейнер: RHEL UBI 9&#xa;Kafka consumer (9093)&#xa;→ Elasticsearch (9200)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="910" width="240" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MESSAGE BUS ================= -->
+        <mxCell id="z_kafka" value="Event / Message Backbone — Apache Kafka 3.7 cluster (3 брокера, RHEL 9) — TLS порт 9093, SASL/SCRAM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="1140" width="2280" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= CORE BANKING ZONE ================= -->
+        <mxCell id="z_core" value="Core Banking Zone (съществуващи системи — интеграция, не промяна)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1220" width="1480" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_bank" value="CORE_BANKING&#xa;Java EE 8, JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP/REST)&#xa;JMS queue на AMQ (порт 5671)&#xa;Съдържа: клиенти, продукти, KYC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="core_acc" value="CORE_ACC (Модул Сметки)&#xa;Java EE, вграден в JBoss EAP 7.4&#xa;OS: RHEL 9&#xa;Port: 8443 (SOAP)&#xa;Баланси, транзакции, преводи" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="380" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="card_sys" value="CARD_SYSTEM (домейн)&#xa;.NET 8, IIS 10&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST)&#xa;Картови транзакции, merchant data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="660" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="crm_sys" value="CRM (домейн)&#xa;Microsoft Dynamics 365&#xa;on-prem, IIS + SQL Server&#xa;OS: Windows Server 2022&#xa;Port: 443 (REST / OData)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="940" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="integration_bus" value="Integration Bus / ESB&#xa;IBM MQ 9.3&#xa;OS: RHEL 9&#xa;Port: 1414 (TLS), JMS&#xa;Legacy адаптери" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1270" width="260" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= DATABASE ZONE ================= -->
+        <mxCell id="z_db" value="Database Zone (изолирана, само JDBC трафик от Application зоните, без директен достъп отвън)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1420" width="2280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_oracle" value="Oracle 19c Enterprise&#xa;(Core Banking DB)&#xa;OS: RHEL 9&#xa;Port: 1521 (JDBC TLS)&#xa;Data Guard DR репликация" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_cms" value="PostgreSQL 15&#xa;(CMS DB)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (JDBC TLS)&#xa;HA с streaming replication" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="360" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_pg_audit" value="PostgreSQL 15&#xa;(AUDIT_LOG DB — WORM)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 5432 (mTLS)&#xa;Retention: 7 години&#xa;Tamper-evident hash chain" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="620" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_redis" value="Redis 7.2&#xa;(сесии / кеш)&#xa;OS: RHEL 9&#xa;Port: 6379 (TLS)&#xa;Sentinel HA" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="900" y="1470" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_minio" value="MinIO Object Store&#xa;(прикачени файлове към жалби)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9000 (HTTPS S3 API)&#xa;AES-256 encryption at rest" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="1470" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_es" value="Elasticsearch 8&#xa;(търсене + analytics)&#xa;OS: Ubuntu 22.04 LTS&#xa;Port: 9200 (HTTPS)&#xa;3-node cluster" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1420" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_mssql" value="SQL Server 2022&#xa;(CRM + CARD_SYSTEM)&#xa;OS: Windows Server 2022&#xa;Port: 1433 (TDS TLS)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1680" y="1470" width="220" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EGRESS FIREWALL + EXTERNAL ================= -->
+        <mxCell id="fw_egress" value="🛡 Egress Firewall — ограничен изходящ TLS трафик към одобрен whitelist от домейни" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1580" y="670" width="760" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="z_external" value="Външни услуги (SaaS / трети страни)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="1580" y="720" width="760" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_smtp" value="SMTP Relay&#xa;(корпоративен Postfix / SendGrid)&#xa;Port: 587 (STARTTLS)&#xa;Изпраща email до клиенти" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="770" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_fcm" value="Firebase Cloud Messaging&#xa;(Android push)&#xa;Port: 443 (HTTPS)&#xa;Google API key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="870" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_apns" value="Apple Push Notification Service&#xa;(iOS push)&#xa;Port: 443 (HTTPS/2)&#xa;JWT token auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1620" y="970" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_llm" value="LLM API&#xa;(Anthropic Claude / Azure OpenAI / UniCredit AI Platform)&#xa;Port: 443 (HTTPS)&#xa;Private VPC peering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="770" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_bnb" value="Външни регулатори (за ескалация)&#xa;БНБ, КЗП, ПКПС, FIN-NET&#xa;HTTPS 443 / защитен файлов трансфер" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="870" width="380" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_kep" value="КЕП валидация&#xa;(B-Trust / InfoNotary / eValidation)&#xa;Port: 443 — за канали извън приложението" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1920" y="970" width="380" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= MANAGEMENT / MONITORING ================= -->
+        <mxCell id="z_mgmt" value="Management / Monitoring Zone (изолирана, достъп само от bastion host)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=8" vertex="1" parent="1">
+          <mxGeometry x="60" y="1670" width="2280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_elk" value="ELK Stack&#xa;(Elasticsearch + Logstash + Kibana)&#xa;OS: Ubuntu 22.04 LTS, Port: 5601 / 5044" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="1710" width="280" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_prom" value="Prometheus + Grafana&#xa;OS: Ubuntu 22.04, Ports: 9090 / 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="400" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_vault" value="HashiCorp Vault&#xa;(secrets / ключове)&#xa;OS: RHEL 9, Port: 8200 (HTTPS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="680" y="1710" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_cicd" value="CI/CD&#xa;GitLab + Argo CD&#xa;OS: RHEL 9, Port: 443 / 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="960" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_bastion" value="Bastion Host&#xa;(SSH jump server)&#xa;OS: RHEL 9, Port: 22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1710" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_siem" value="SIEM&#xa;(Splunk / Wazuh)&#xa;OS: RHEL 9, Port: 8000 / 55000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1460" y="1710" width="240" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= LEGEND ================= -->
+        <mxCell id="legend" value="Легенда на зоните" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacing=5" vertex="1" parent="1">
+          <mxGeometry x="60" y="1820" width="2280" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_cl" value="Клиент (публичен)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_dmz" value="DMZ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="240" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ch" value="Channels / Complaint apps" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="400" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_core" value="Core Banking (legacy)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="590" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_db" value="Database Zone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="780" y="1850" width="150" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_ext" value="External / Message Bus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="940" y="1850" width="170" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_mgmt" value="Management / Monitoring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1120" y="1850" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_fw" value="🛡 Firewall" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="1310" y="1850" width="120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg_note" value="Всички вътрешни API връзки използват mTLS (Istio service mesh) / JWT-OAuth2 за автентикация. Всяка междузонова връзка минава през firewall rule." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="80" y="1890" width="2240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ================= EDGES / CONNECTIONS ================= -->
+        <!-- Client → Internet -->
+        <mxCell id="e1" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_mobile" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="c_web" target="internet">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_cl_lbl" value="HTTPS 443 (TLS 1.3)" style="text;html=1;fontSize=10;labelBackgroundColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="580" y="240" width="140" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Internet → WAF -->
+        <mxCell id="e3" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="internet" target="dmz_waf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="210" y="400"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- WAF → LB → RP → API Gateway -->
+        <mxCell id="e4" value="443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_waf" target="dmz_lb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_lb" target="dmz_rp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_rp" target="dmz_api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- API Gateway → BBO_BE -->
+        <mxCell id="e7" value="REST 8443 mTLS + JWT" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="870" y="680"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → BBM backend -->
+        <mxCell id="e8" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="ch_bbm_srv">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → CMS -->
+        <mxCell id="e9" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → AI_CHATBOT -->
+        <mxCell id="e10" value="WebSocket 8444" style="endArrow=classic;html=1;exitX=0;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="cs_chatbot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → NLP_ENGINE -->
+        <mxCell id="e11" value="gRPC 50051" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_nlp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_CHATBOT → CMS -->
+        <mxCell id="e12" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=1;entryX=0;entryY=1;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_chatbot" target="cs_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NLP_ENGINE → LLM API -->
+        <mxCell id="e13" value="HTTPS 443 (private VPC)" style="endArrow=classic;html=1;exitX=1;exitY=0;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_nlp" target="ext_llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AI_COPILOT -->
+        <mxCell id="e14" value="REST 8443 mTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_copilot">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → NOTIF -->
+        <mxCell id="e15" value="Kafka event (9093)" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_notif">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → AUDIT -->
+        <mxCell id="e16" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="cs_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → Kafka -->
+        <mxCell id="e17" value="producer/consumer 9093" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="z_kafka">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CORE_BANKING -->
+        <mxCell id="e18" value="SOAP/REST 8443" style="endArrow=classic;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="core_bank">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="500" y="1200"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- AI_COPILOT → CARD_SYSTEM -->
+        <mxCell id="e19" value="REST 443" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="card_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AI_COPILOT → CRM -->
+        <mxCell id="e20" value="REST/OData 443" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_copilot" target="crm_sys">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → CORE_ACC -->
+        <mxCell id="e21" value="local JEE" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="core_acc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → integration_bus -->
+        <mxCell id="e22" value="JMS 1414" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_acc" target="integration_bus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → SMTP -->
+        <mxCell id="e23" value="SMTP 587 STARTTLS" style="endArrow=classic;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_smtp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → FCM -->
+        <mxCell id="e24" value="HTTPS 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_fcm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → APNS -->
+        <mxCell id="e25" value="HTTPS/2 443" style="endArrow=classic;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_notif" target="ext_apns">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTIF → BBO_BE for in-app delivery -->
+        <mxCell id="e26" value="in-app push 8443" style="endArrow=classic;html=1;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;entryX=1;entryY=1" edge="1" parent="1" source="cs_notif" target="ch_bbo_be">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- AUDIT → PG Audit -->
+        <mxCell id="e27" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_audit" target="db_pg_audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → PG CMS -->
+        <mxCell id="e28" value="JDBC 5432 TLS" style="endArrow=classic;html=1;exitX=0.4;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_pg_cms">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CMS → MinIO -->
+        <mxCell id="e29" value="S3 HTTPS 9000" style="endArrow=classic;html=1;exitX=0.7;exitY=1;entryX=0.2;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_cms" target="db_minio">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CORE_BANKING → Oracle -->
+        <mxCell id="e30" value="JDBC 1521 TLS" style="endArrow=classic;html=1;exitX=0.2;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="core_bank" target="db_oracle">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CARD_SYSTEM → SQL Server -->
+        <mxCell id="e31" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.8;exitY=1;entryX=0.3;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="card_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1780" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- CRM → SQL Server -->
+        <mxCell id="e32" value="TDS 1433 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.7;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="crm_sys" target="db_mssql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Session → Redis -->
+        <mxCell id="e33" value="Redis 6379 TLS" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_session" target="db_redis">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="890" y="1240"/><mxPoint x="1000" y="1440"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Analytics → Elasticsearch -->
+        <mxCell id="e34" value="HTTPS 9200" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="cs_analytics" target="db_es">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- BBO_BE → Session -->
+        <mxCell id="e35" value="REST 8443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="ch_bbo_be" target="ch_session">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="740" y="765"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- API Gateway → Identity Provider -->
+        <mxCell id="e36" value="OIDC 443" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff" edge="1" parent="1" source="dmz_api" target="dmz_idp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- External regulators (escalation) from BBO_BE -->
+        <mxCell id="e37" value="HTTPS 443 (при ескалация)" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;labelBackgroundColor=#ffffff;dashed=1" edge="1" parent="1" source="ch_bbo_be" target="ext_bnb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
