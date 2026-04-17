@@ -22,16 +22,16 @@
 
 | Критерий | Pure Waterfall | Pure Agile | **Hybrid** |
 |---|---|---|---|
-| Регулаторно съответствие (binary) | ✅ | ❌ | ✅ (governance gates запазени) |
-| Стейкхолдер sign-off gates | ✅ | ❌ | ✅ (Compliance, Legal, Risk, Security) |
-| Integration с регулирани legacy системи | ✅ | ❌ | ✅ (формални interface contracts в P2) |
-| Client expectations за пълна система при launch | ✅ | ❌ | ✅ (Release 1 = пълен production-ready MVP) |
-| Регулаторен одит (frozen artifacts) | ✅ | ❌ | ✅ (artifacts frozen per gate) |
-| Гъвкавост при integration surprises | ❌ | ✅ | ✅ (sprint retrospectives + rebalancing) |
-| Continuous stakeholder visibility | ❌ | ✅ | ✅ (sprint demos to PO/Compliance) |
-| Team morale / retention | ⚠️ Marathon feel | ✅ | ✅ (incremental wins всяка 2 седмици) |
-| Early bug detection | ❌ (в края на P3) | ✅ | ✅ (вътре в sprint-ите) |
-| UX feedback от реални специалисти | ❌ (само на UAT) | ✅ | ✅ (continuous demos) |
+| Регулаторно съответствие (binary) | Да | Не | Да (governance gates запазени) |
+| Стейкхолдер sign-off gates | Да | Не | Да (Compliance, Legal, Risk, Security) |
+| Integration с регулирани legacy системи | Да | Не | Да (формални interface contracts в P2) |
+| Client expectations за пълна система при launch | Да | Не | Да (Release 1 = пълен production-ready MVP) |
+| Регулаторен одит (frozen artifacts) | Да | Не | Да (artifacts frozen per gate) |
+| Гъвкавост при integration surprises | Не | Да | Да (sprint retrospectives + rebalancing) |
+| Continuous stakeholder visibility | Не | Да | Да (sprint demos to PO/Compliance) |
+| Team morale / retention | Marathon feel | Да | Да (incremental wins всяка 2 седмици) |
+| Early bug detection | Не (в края на P3) | Да | Да (вътре в sprint-ите) |
+| UX feedback от реални специалисти | Не (само на UAT) | Да | Да (continuous demos) |
 
 ### 1.2 Реален прецедент — банки ползват hybrid
 
@@ -42,19 +42,19 @@
 ### 1.3 Структура на hybrid-а
 
 ```
-┌─── P0 ──┐ ┌─── P1 ──┐ ┌─── P2 ──┐
-│Initiate │ │ Reqmts  │ │ Design  │         <- Waterfall (linear, gates)
-│         │ │ GATE 1✋│ │ GATE 2✋│
-└─────────┘ └─────────┘ └─────────┘
+┌─── P0 ───┐ ┌─── P1 ───┐ ┌─── P2 ───┐
+│ Initiate │ │  Reqmts  │ │  Design  │         <- Waterfall (linear, gates)
+│          │ │  GATE 1  │ │  GATE 2  │
+└──────────┘ └──────────┘ └──────────┘
 
-┌─────────── P3 Implementation ────────────┐
-│ Sprint 1→2→3→4→5→6→7→8 (2 седмици всеки)│  <- 🌀 AGILE (Scrum)
-│ [backlog, standups, reviews, retros]     │
-└──────────────────────────────────────────┘
+┌──────────── P3 Implementation ──────────────┐
+│ Sprint 1→2→3→4→5→6→7→8 (2 седмици всеки)    │  <- AGILE (Scrum)
+│ [backlog, standups, reviews, retros]        │
+└─────────────────────────────────────────────┘
 
 ┌── P4 Testing ──┐ ┌── P5 ──┐ ┌── P6 ──┐
-│ 4 test sprints │ │Deploy  │ │ Hyper- │    <- Agile testing + Waterfall deploy + Kanban
-│ GATE 3✋      │ │GO LIVE🎉│ │  care  │
+│ 4 test sprints │ │ Deploy │ │ Hyper- │       <- Agile testing + Waterfall deploy + Kanban
+│ GATE 3         │ │GO LIVE │ │  care  │
 └────────────────┘ └────────┘ └────────┘
 ```
 
@@ -86,12 +86,12 @@
 | Фаза | Delivery mode | Времетраене | Ключови deliverables | Gate |
 |---|---|---|---|---|
 | **P0** Initiation | Waterfall | 1 месец | Charter, Team | Kickoff |
-| **P1** Requirements Analysis | Waterfall | 2 месеца | Business + Regulatory + NFR + Personas + **initial Product Backlog** | ✋ **GATE 1** |
-| **P2** Design | Waterfall | 2 месеца | Architecture, Data model, UI/UX, APIs, Security + **sprint-level estimation** | ✋ **GATE 2** |
-| **P3** Implementation | 🌀 **AGILE (Scrum)** | 4 месеца = **8 спринта × 2w** | User stories delivered sprint-by-sprint; демо на PO | — (continuous) |
-| **P4** Testing | 🌀 **AGILE (test cycles)** | 2 месеца = **4 test sprints × 2w** | SIT, Compliance, Security, Perf, UAT, Regulator review | ✋ **GATE 3** — Go/no-go |
-| **P5** Deployment | Waterfall + Kanban | 1 месец | Prod deploy, Pilot 5%, GA | 🎉 **GO LIVE** |
-| **P6** Hypercare | 🌀 Kanban | 2 месеца | Incident resolution, Tuning, Retro + Release 2 backlog prep | ✋ **GATE 4** |
+| **P1** Requirements Analysis | Waterfall | 2 месеца | Business + Regulatory + NFR + Personas + **initial Product Backlog** | **GATE 1** |
+| **P2** Design | Waterfall | 2 месеца | Architecture, Data model, UI/UX, APIs, Security + **sprint-level estimation** | **GATE 2** |
+| **P3** Implementation | **AGILE (Scrum)** | 4 месеца = **8 спринта × 2w** | User stories delivered sprint-by-sprint; демо на PO | — (continuous) |
+| **P4** Testing | **AGILE (test cycles)** | 2 месеца = **4 test sprints × 2w** | SIT, Compliance, Security, Perf, UAT, Regulator review | **GATE 3** — Go/no-go |
+| **P5** Deployment | Waterfall + Kanban | 1 месец | Prod deploy, Pilot 5%, GA | **GO LIVE** |
+| **P6** Hypercare | Kanban | 2 месеца | Incident resolution, Tuning, Retro + Release 2 backlog prep | **GATE 4** |
 
 ---
 
@@ -101,7 +101,7 @@ Phase 3 е single most important delivery period. Управлява се кат
 
 ### 4.1 Sprint план
 
-| Sprint | Dates | Sprint Goal | Key Epics |
+| Sprint | Период | Цел на спринта | Ключови епици |
 |---|---|---|---|
 | **Sprint 1** | 2026-10-01 → 2026-10-14 | Infrastructure Foundation готов | E1 (K8s, DBs, Kafka, Vault, MinIO, CI/CD) |
 | **Sprint 2** | 2026-10-15 → 2026-10-28 | CMS Core може да регистрира жалба | E2 (ref#, workflow, Camunda Zeebe) |
@@ -133,7 +133,7 @@ Phase 3 е single most important delivery period. Управлява се кат
 
 ### 4.3 Scrum ceremonies
 
-| Ceremony | Честота | Участници | Цел |
+| Церемония | Честота | Участници | Цел |
 |---|---|---|---|
 | Sprint Planning | Start на sprint | Целият екип + PO | Избор на stories от backlog за sprint |
 | Daily Standup | Всеки ден, 15 мин | Dev team + SM | Progress, blockers |
@@ -147,7 +147,7 @@ Phase 3 е single most important delivery period. Управлява се кат
 
 Phase 4 също се изпълнява като Agile test sprints:
 
-| Test Cycle | Dates | Focus |
+| Test Cycle | Период | Фокус |
 |---|---|---|
 | T1 | 2027-02-01 → 2027-02-12 | SIT end-to-end testing |
 | T2 | 2027-02-15 → 2027-02-26 | Compliance + Security (SAST/DAST/pen test) |
@@ -200,15 +200,15 @@ Phase 4 също се изпълнява като Agile test sprints:
 
 ## 7. Sign-off gates
 
-| Gate | Kога | Какво се валидира | Sign-off |
+| Gate | Кога | Какво се валидира | Sign-off |
 |---|---|---|---|
 | Kickoff | Край на P0 | Charter, scope, budget | Sponsor |
-| **✋ GATE 1** | Край на P1 | Requirements + initial Product Backlog | Compliance, Legal, Risk, Business |
-| **✋ GATE 2** | Край на P2 | Architecture, Design, sprint-level estimates | Architecture Board, Security |
+| ** GATE 1** | Край на P1 | Requirements + initial Product Backlog | Compliance, Legal, Risk, Business |
+| ** GATE 2** | Край на P2 | Architecture, Design, sprint-level estimates | Architecture Board, Security |
 | Sprint Reviews | Край на всеки sprint (P3) | Stories demo-ed и приети | PO + Stakeholders |
-| **✋ GATE 3** | Край на P4 | Go/no-go за production | Steering Committee |
-| **🎉 GO LIVE** | Край на P5 | GA решение | Project Sponsor |
-| **✋ GATE 4** | Край на P6 | Release 1 приет | Steering Committee |
+| ** GATE 3** | Край на P4 | Go/no-go за production | Steering Committee |
+| ** GO LIVE** | Край на P5 | GA решение | Project Sponsor |
+| ** GATE 4** | Край на P6 | Release 1 приет | Steering Committee |
 | (Release 2 gates по-леки — 2 gates: Req & Design) | | | |
 
 ---
@@ -230,33 +230,33 @@ Phase 4 също се изпълнява като Agile test sprints:
 ## 9. Definition of Done (Sprint-level)
 
 Story е DONE, когато:
-1. ✅ Код ревюиран и merge-нат
-2. ✅ Unit tests покритие ≥ 80%
-3. ✅ Integration tests минават в CI
-4. ✅ Deployed в QA среда и тестван от QA
-5. ✅ Документация обновена
-6. ✅ Security scan (SAST + dependency check) без P1/P2
-7. ✅ Приет от PO в Sprint Review
-8. ✅ Audit events записани в AUDIT_LOG (където е приложимо)
-9. ✅ UI text в БГ + EN
-10. ✅ Без технически дълг записан в tracker
+1. Код ревюиран и merge-нат
+2. Unit tests покритие ≥ 80%
+3. Integration tests минават в CI
+4. Deployed в QA среда и тестван от QA
+5. Документация обновена
+6. Security scan (SAST + dependency check) без P1/P2
+7. Приет от PO в Sprint Review
+8. Audit events записани в AUDIT_LOG (където е приложимо)
+9. UI text в БГ + EN
+10. Без технически дълг записан в tracker
 
 ---
 
 ## 10. Key milestones
 
-| Milestone | Date | Description |
+| Етап | Дата | Описание |
 |---|---|---|
-| Project start | 2026-05-04 | Kickoff |
-| Requirements sign-off | 2026-07-31 | ✋ GATE 1 |
-| Design sign-off | 2026-09-30 | ✋ GATE 2 |
-| Sprint 1 start | 2026-10-01 | 🌀 Agile delivery begins |
-| Sprint 8 complete | 2027-01-29 | P3 done |
-| Go/no-go | 2027-03-31 | ✋ GATE 3 |
-| **Release 1 GA** | **2027-04-30** | 🎉 Production launch |
-| Release 1 closed | 2027-06-30 | ✋ GATE 4 |
-| Release 2 start | 2027-07-01 | AI enhancement project |
-| Release 2 GA | 2028-02-29 | AI components live |
+| Начало на проекта | 2026-05-04 | Kickoff |
+| Sign-off на изискванията | 2026-07-31 | GATE 1 |
+| Sign-off на дизайна | 2026-09-30 | GATE 2 |
+| Старт на Sprint 1 | 2026-10-01 | Agile delivery започва |
+| Sprint 8 приключен | 2027-01-29 | P3 готов |
+| Go/no-go | 2027-03-31 | GATE 3 |
+| **Release 1 GA** | **2027-04-30** | Пускане в production |
+| Release 1 закрит | 2027-06-30 | GATE 4 |
+| Старт на Release 2 | 2027-07-01 | AI enhancement проект |
+| Release 2 GA | 2028-02-29 | AI компоненти на живо |
 
 ---
 

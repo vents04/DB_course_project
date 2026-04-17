@@ -1,400 +1,400 @@
-# Task 1: Research — Digital Complaint Handling in Banking
+# Задача 1: Проучване — Дигитална обработка на жалби в банкирането
 
-## 1. Introduction
+## 1. Въведение
 
-This research examines best practices for digitalizing complaint handling in banking, drawing from international leaders (neobanks and traditional banks) to propose an innovative solution for UniCredit Bulbank's Bulgarian market. The goal is to design a fully remote digital complaint workflow.
+Настоящото проучване разглежда най-добрите практики за дигитализиране на процеса по обработка на жалби в банкирането, като се основава на международни лидери (необанки и традиционни банки), за да предложи иновативно решение, приложимо за българския пазар на УниКредит Булбанк. Целта е да се проектира напълно отдалечен дигитален процес за жалби, без посещение в клон.
 
 ---
 
-## 2. Current State: UniCredit Bulbank
+## 2. Текущо състояние: УниКредит Булбанк
 
-UniCredit Bulbank offers multiple complaint channels, detailed on their Bulgarian-language Complaints and Compliments page:
+УниКредит Булбанк предлага няколко канала за подаване на жалби, описани на българоезичната им страница „Оплаквания и похвали":
 
-**Available channels:**
-- **Branch:** In person or via authorized representative, after identification. Complaint must be submitted in writing using a "Customer Form" (downloadable in advance or available on-site).
-- **Online:** Web form for feedback, or email to `ccm@unicreditgroup.bg`.
-- **Phone:** 02/923 20 23
-- **Letter:** Sofia, pl. "Sveta Nedelya" 7
+**Налични канали:**
+- **Клон:** Лично или чрез упълномощен представител, след идентификация. Жалбата трябва да се подаде писмено чрез „Формуляр за клиенти" (може да се изтегли предварително или да се вземе на място).
+- **Онлайн:** Уеб формуляр за обратна връзка или имейл до `ccm@unicreditgroup.bg`.
+- **Телефон:** 02/923 20 23
+- **Писмо:** София, пл. „Света Неделя" 7
 
-**Critical limitation on online/email complaints:** The bank explicitly states it **does not review complaints that involve personal data (under GDPR/ЗЗЛД) or banking secrecy (under the Credit Institutions Act)** when submitted via the online form or email — **unless the email is signed with a Qualified Electronic Signature (KEP/КЕП)**. This effectively means most real complaints (involving transaction details, account information, etc.) **require either a branch visit or a KEP**, making the online form usable only for generic feedback that doesn't touch personal or account data.
+**Ключово ограничение при онлайн/имейл жалбите:** Банката изрично заявява, че **не разглежда жалби, които съдържат лични данни (по GDPR/ЗЗЛД) или банкова тайна (по Закона за кредитните институции)**, когато са подадени през онлайн формуляра или с имейл — **освен ако имейлът не е подписан с Квалифициран електронен подпис (КЕП)**. Това на практика означава, че повечето реални жалби (засягащи детайли по транзакции, информация за сметки и т.н.) **изискват или посещение в клон, или КЕП**, което прави онлайн формуляра използваем само за обща обратна връзка, която не засяга лични или сметкови данни.
 
-**Complaint processing:**
-- Every complaint is reviewed by a specialized team — "Централизирано управление на оплакванията" (Centralized Complaints Management) — which conducts a detailed investigation with responsible bank structures and provides an official bank position via the client's chosen channel
-- Each case is reviewed individually
+**Обработка на жалбите:**
+- Всяка жалба се разглежда от специализиран екип — „Централизирано управление на оплакванията" — който провежда детайлно разследване с отговорните банкови структури и предоставя официална позиция на банката по избрания от клиента канал
+- Всеки случай се разглежда индивидуално
 
-**Response timelines:**
-- **85% of cases** resolved within **3 working days**
-- Payment services complaints (under ЗПУПС): **15 working days**, extendable to **35 working days** for reasons beyond the bank's control
-- Consumer credit / mortgage complaints: **30 days**
+**Срокове за отговор:**
+- **85% от случаите** се решават в рамките на **3 работни дни**
+- Жалби по платежни услуги (по ЗПУПС): **15 работни дни**, с възможност за удължаване до **35 работни дни** по причини, независещи от банката
+- Жалби по потребителски кредити / ипотеки: **30 дни**
 
-**Escalation paths:**
-- Payment Disputes Conciliation Commission (Помирителна комисия за платежни спорове) — for payment service disputes, consumer credit, and mortgage-related complaints
-- Consumer Protection Commission (КЗП) — Sofia, pl. "Slaveykov" 4, tel. 02/9330565
-- FIN-NET — for cross-border financial disputes with clients residing in other EU member states
+**Пътища за ескалация:**
+- Помирителна комисия за платежни спорове (ПКПС) — за спорове по платежни услуги, потребителски кредити и ипотеки
+- Комисия за защита на потребителите (КЗП) — София, пл. „Славейков" 4, тел. 02/9330565
+- FIN-NET — за презгранични финансови спорове с клиенти в други държави-членки на ЕС
 
-**Customer satisfaction program:**
-- 30,000+ personal interviews annually with individual and business clients
-- Mystery shopper program for service quality monitoring
-- Employee surveys
+**Програма за удовлетвореност на клиентите:**
+- Над 30 000 персонални интервюта годишно с физически и бизнес клиенти
+- Mystery shopper програма за мониторинг на качеството на обслужване
+- Служителски анкети
 
-**Firsthand testing (2026-04-09):**
+**Тестване от първо лице (2026-04-09):**
 
-The online form collects: Full name, Telephone, Email, type (Praise/Complaint radio buttons), Description, Expected action. GDPR consent checkbox and reCAPTCHA required.
+Онлайн формулярът събира: Име и фамилия, Телефон, Email, тип (радио бутони Похвала/Жалба), Описание, Очаквано действие. Изисква се отметка за GDPR съгласие и reCAPTCHA.
 
-![UniCredit Bulbank — Complaint form (top)](images/ucb_form_top.png)
-![UniCredit Bulbank — Complaint form (bottom)](images/ucb_form_bottom.png)
+![УниКредит Булбанк — Формуляр за жалба (горна част)](images/ucb_form_top.png)
+![УниКредит Булбанк — Формуляр за жалба (долна част)](images/ucb_form_bottom.png)
 
-After submission, a minimal on-screen confirmation is displayed: "Thank you for your feedback! It was received by UniCredit Bulbank." with a "BACK" button. No reference number, no timeline, no next steps communicated. No acknowledgment email was received.
+След подаване се показва минимално екранно потвърждение: „Благодарим Ви за обратната връзка! Беше получена от УниКредит Булбанк." с бутон „НАЗАД". Няма референтен номер, няма срок, няма комуникация за следващи стъпки. Не беше получен имейл за потвърждение.
 
-![UniCredit Bulbank — Post-submission confirmation](images/ucb_confirmation.jpeg)
+![УниКредит Булбанк — Екранно потвърждение след подаване](images/ucb_confirmation.jpeg)
 
-**Observable gaps relative to international benchmarks (see Section 3):**
-- The KEP requirement for personal-data complaints makes the online channel effectively unusable for most real complaints
-- No complaint submission from within Bulbank Mobile or Bulbank Online apps (app requires client activation — not tested due to no team member being a UCB client; no complaint functionality advertised in public feature listings)
-- No visible real-time tracking or status updates for submitted complaints
-- No chatbot or AI-assisted triage at the point of complaint entry
-- No self-service resolution for common complaint categories
+**Наблюдавани пропуски спрямо международните бенчмаркове (виж Раздел 3):**
+- Изискването за КЕП при жалби с лични данни прави онлайн канала практически неизползваем за повечето реални жалби
+- Няма подаване на жалба от самото Булбанк Мобайл или Булбанк Онлайн приложение (приложението изисква активация на клиент — не беше тествано, тъй като нито един член на екипа не е клиент на УКБ; функционалност за жалби не се рекламира в публичните списъци с функции)
+- Няма видимо проследяване в реално време или статусни обновления за подадени жалби
+- Няма чатбот или AI-подпомогната триажна оценка на точката на подаване
+- Няма самообслужване за често срещани категории жалби
 
-This stands in contrast to UniCredit Group's broader digital ambitions — the group has shifted **75%+ of retail transactions to digital channels**, invested **~EUR 5.5 billion** in Digital and Data initiatives (2022-2027), and partnered with Google Cloud across 13 markets.
+Това контрастира с по-широките дигитални амбиции на УниКредит Груп — групата е преместила **над 75% от банковите трансакции за физически лица към дигитални канали**, инвестирала е **~5,5 млрд. евро** в Digital and Data инициативи (2022–2027) и е партнирала с Google Cloud в 13 пазара.
 
-#### Diagram: Current UCB Complaint Journey
+#### Диаграма: Текущ процес по жалби в УКБ
 
 ```mermaid
 flowchart TD
-    Client([Client has a complaint])
-    Client --> Channel{Choose channel}
+    Client([Клиент с жалба])
+    Client --> Channel{Избор на канал}
 
-    Channel -->|Branch| Branch[Visit branch in person]
-    Branch --> ID[Identify with personal document]
-    ID --> Form[Fill Customer Form on paper]
-    Form --> Submit1[Submit to bank staff]
+    Channel -->|Клон| Branch[Лично посещение в клон]
+    Branch --> ID[Идентификация с личен документ]
+    ID --> Form[Попълване на хартиен\nклиентски формуляр]
+    Form --> Submit1[Предаване на служител]
 
-    Channel -->|Online form| WebForm[Fill web feedback form]
-    WebForm --> PersonalData{Involves personal data\nor banking secrecy?}
-    PersonalData -->|No| Submit2[Submit generic feedback]
-    PersonalData -->|Yes| KEP{Have Qualified\nElectronic Signature?}
-    KEP -->|Yes| EmailKEP[Send signed email\nto ccm@unicreditgroup.bg]
-    KEP -->|No| Blocked[❌ Cannot submit online\nMust visit branch]
+    Channel -->|Онлайн формуляр| WebForm[Попълване на уеб формуляр]
+    WebForm --> PersonalData{Засяга ли лични данни\nили банкова тайна?}
+    PersonalData -->|Не| Submit2[Обща обратна връзка]
+    PersonalData -->|Да| KEP{Има ли Квалифициран\nелектронен подпис?}
+    KEP -->|Да| EmailKEP[Подписан имейл\nдо ccm@unicreditgroup.bg]
+    KEP -->|Не| Blocked[Не може онлайн\nЗадължителен клон]
 
-    Channel -->|Phone| Phone[Call 02/923 20 23]
-    Phone --> PhoneNote[Limited to cases not\ninvolving personal data]
+    Channel -->|Телефон| Phone[Обаждане на 02/923 20 23]
+    Phone --> PhoneNote[Само случаи без\nлични данни]
 
-    Submit1 --> Team[Centralized Complaints\nManagement team]
+    Submit1 --> Team[Екип Централизирано\nуправление на оплакванията]
     Submit2 --> Team
     EmailKEP --> Team
 
-    Team --> Investigate[Investigation with\nresponsible bank structures]
-    Investigate --> Response[Official response via\nclient's chosen channel]
+    Team --> Investigate[Разследване с\nотговорните банкови структури]
+    Investigate --> Response[Официален отговор по\nизбрания от клиента канал]
 
     style Blocked fill:#ffcccc,stroke:#cc0000
     style KEP fill:#fff3cd,stroke:#ffc107
     style PersonalData fill:#fff3cd,stroke:#ffc107
 ```
 
-UBB (KBC Group) and DSK Bank (OTP Group) were selected for local benchmarking because they are the only two direct competitors to UniCredit Bulbank in the Bulgarian market — together, these three banks constitute the top tier of the Bulgarian banking sector.
+ОББ (KBC Group) и Банка ДСК (OTP Group) бяха избрани за локален бенчмарк, тъй като са единствените два директни конкурента на УниКредит Булбанк на българския пазар — заедно, тези три банки формират топ-тира на българския банков сектор.
 
-### 2.2 Local Competitor: United Bulgarian Bank (UBB)
+### 2.2 Локален конкурент: Обединена Българска Банка (ОББ)
 
-UBB (part of KBC Group) is the third of the top-tier Bulgarian banks tested alongside UCB and DSK. **Tested 2026-04-09:**
+ОББ (част от KBC Group) е третата от топ-тира български банки, тествана заедно с УКБ и ДСК. **Тествано на 2026-04-09:**
 
-- Structured web form (categories, file attachments up to 6MB, dual GDPR consent)
-- On-screen confirmation with empathetic language and **legal 45-day response timeline**; no reference number provided
-- No email acknowledgment observed (burner email caveat)
-- Mobile app virtual assistant **redirects complaint queries to the web form** — same in-app gap as UCB and DSK
+- Структуриран уеб формуляр (категории, прикачени файлове до 6MB, двойно GDPR съгласие)
+- Екранно потвърждение с емпатичен език и **законов срок за отговор от 45 дни**; не се предоставя референтен номер
+- Не беше получен имейл за потвърждение (предупреждение: тестов burner имейл)
+- Виртуалният асистент в мобилното приложение **пренасочва запитванията за жалби към уеб формуляра** — същият in-app пропуск, както при УКБ и ДСК
 
-![UBB — Post-submission confirmation](images/ubb_confirmation.png)
+![ОББ — Екранно потвърждение след подаване](images/ubb_confirmation.png)
 
-### 2.3 Local Competitor: DSK Bank (OTP Group)
+### 2.3 Локален конкурент: Банка ДСК (OTP Group)
 
-DSK Bank offers the most complete digital complaint experience among the tested Bulgarian banks.
+Банка ДСК предлага най-пълното дигитално преживяване по жалби сред тестваните български банки.
 
-**Form CX analysis:**
+**Анализ на формуляра (CX):**
 
-![DSK Bank — Complaint form](images/dsk_form.png)
+![Банка ДСК — Формуляр за жалба](images/dsk_form.png)
 
-- Simple, minimal form: last name, category dropdown ("Жалба/Оплакване"), message body, email
-- Separate dedicated link for card transaction disputes (directed to a different form)
-- Pre-submission confirmation modal warns users: if it's not a complaint or recommendation, use other channels (website chat, DSK Direct, DSK Smart) instead
-- Mentions website chat available in the bottom-right corner for non-complaint queries
+- Опростен, минимален формуляр: фамилия, падащо меню за категория („Жалба/Оплакване"), съдържание, имейл
+- Отделна, специализирана връзка за спорове по картови транзакции (води до друг формуляр)
+- Преди подаване се показва потвърдителен прозорец, който предупреждава потребителя: ако не е жалба или препоръка, да използва други канали (чат на сайта, ДСК Директ, ДСК Смарт)
+- Споменава чата на сайта в долния десен ъгъл за запитвания, които не са жалби
 
-![DSK Bank — Pre-submission confirmation modal](images/dsk_confirmation_modal.png)
+![Банка ДСК — Потвърдителен прозорец преди подаване](images/dsk_confirmation_modal.png)
 
-**Post-submission experience — two-email flow (tested 2026-04-09):**
+**Преживяване след подаване — двуимейлов поток (тествано на 2026-04-09):**
 
-**Email 1 (immediate):** Acknowledgment and triage information
+**Имейл 1 (незабавен):** Потвърждение и триажна информация
 
-![DSK Bank — Acknowledgment email with priority triage](images/dsk_email_acknowledgment.png)
+![Банка ДСК — Имейл за потвърждение с приоритетна триажна информация](images/dsk_email_acknowledgment.png)
 
-- Confirms receipt, says Contact Centre team will reply "in the shortest timeframes"
-- Priority-based triage clearly explained with visual icons:
-  - Card, banking service, or e-banking issues → **highest priority**, bank will proactively contact the customer
-  - Complaints → reviewed by "Грижа за клиента" (Customer Care) department, **official response within 30 days**
-  - Recommendations → forwarded to relevant teams for service improvement
-- Security reminder: DSK will never ask for passwords, PINs, CVC/CVV codes by email
-- Link to security recommendations page
+- Потвърждава получаването, казва че екипът на Контактния център ще отговори „в най-кратки срокове"
+- Приоритетна триажна оценка ясно обяснена с визуални икони:
+ - Проблеми с карта, банкова услуга или е-банкиране → **най-висок приоритет**, банката ще потърси клиента проактивно
+ - Жалби → разглеждат се от отдел „Грижа за клиента", **официален отговор в рамките на 30 дни**
+ - Препоръки → препращат се към съответните екипи за подобряване на услугата
+- Напомняне за сигурност: ДСК никога няма да искат пароли, ПИН, CVC/CVV кодове по имейл
+- Линк към страница с препоръки за сигурност
 
-**Email 2 (shortly after):** Reference number assignment
+**Имейл 2 (скоро след първия):** Присвояване на референтен номер
 
-![DSK Bank — Reference number email](images/dsk_email_reference_number.png)
+![Банка ДСК — Имейл с референтен номер](images/dsk_email_reference_number.png)
 
-- Case registered under **reference number #1317654**
-- Response timeline: **within 3 working days** of receiving the inquiry
-- Points to chat via DSK Direct or the bank's website for faster assistance
-- From "Банка ДСК - Дирекция Контактен център"
-- Footer includes D.bot chatbot branding, phone (+359 700.10.375), short number (*2375), email (call_center@dskbank.bg)
+- Случаят е регистриран под **референтен номер #1317654**
+- Срок за отговор: **до 3 работни дни** от получаване на запитването
+- Насочва към чат през ДСК Директ или уебсайта на банката за по-бърза помощ
+- От „Банка ДСК — Дирекция Контактен център"
+- Футърът включва брандирането на D.bot чатбота, телефон (+359 700.10.375), кратък номер (*2375), имейл (call_center@dskbank.bg)
 
-**Key differentiators vs. other Bulgarian banks:**
-- **Only Bulgarian bank tested that provides a reference number**
-- **Only one with a two-email flow** — immediate acknowledgment + separate case registration
-- **Priority triage communicated upfront** — client knows how their case will be handled before a human even reviews it
-- **Shortest stated response time** among Bulgarian banks (3 working days vs. UBB's 45 days)
-- **Mentions D.bot** — indicating chatbot capability exists in their ecosystem
+**Ключови разграничители спрямо останалите български банки:**
+- **Единствената тествана българска банка, която предоставя референтен номер**
+- **Единствената с двуимейлов поток** — незабавно потвърждение + отделна регистрация на случая
+- **Приоритетната триажна оценка е комуникирана предварително** — клиентът знае как ще се обработи случаят още преди човек да го прегледа
+- **Най-краткият обявен срок за отговор** сред българските банки (3 работни дни срещу 45 дни при ОББ)
+- **Споменава D.bot** — индикация, че в екосистемата им съществува чатбот
 
-**Actual resolution (received ~13 hours after submission):**
+**Действително разрешаване (получено ~13 часа след подаването):**
 
-DSK Bank delivered a personalized email response approximately 13 hours after the complaint was submitted — the complaint was sent at 01:18 (Bulgarian time) and the response arrived at 14:01 the same day. This is significantly faster than their stated 3 working days SLA.
+Банка ДСК достави персонализиран имейл-отговор приблизително 13 часа след подаването на жалбата — жалбата беше подадена в 01:18 (българско време) и отговорът пристигна в 14:01 същия ден. Това е значително по-бързо от обявения SLA от 3 работни дни.
 
-![DSK Bank — Actual response email (received ~13 hours after submission)](images/dsk_actual_response.png)
+![Банка ДСК — Действителен отговор по имейл (получен ~13 часа след подаването)](images/dsk_actual_response.png)
 
-Key observations about the response:
-- **Personalized salutation:** Addresses the client by surname ("Здравейте, г-н Ванчев") — not a generic template
-- **Empathetic opening:** "Благодарим Ви, че се свързахте с нас. Съжаляваме за възникналата ситуация."
-- **Actionable recommendation:** Asks to confirm the DSK Mobile app is on the latest version, with specific instructions (Google Play / App Store)
-- **Proactive status update:** Informs that there is no current service interruption
-- **Open follow-up channel:** Offers the chat platform for further questions
-- **Signed off as:** "Поздрави, Екипът на Банка ДСК"
+Ключови наблюдения за отговора:
+- **Персонализирано обръщение:** Обръща се към клиента по фамилно име („Здравейте, г-н Ванчев") — не е генеричен шаблон
+- **Емпатично начало:** „Благодарим Ви, че се свързахте с нас. Съжаляваме за възникналата ситуация."
+- **Практична препоръка:** Пита за потвърждение, че DSK Mobile приложението е на последна версия, със специфични инструкции (Google Play / App Store)
+- **Проактивно статусно обновление:** Информира, че в момента няма прекъсване на услугата
+- **Отворен канал за проследяване:** Предлага чат платформата за допълнителни въпроси
+- **Подпис:** „Поздрави, Екипът на Банка ДСК"
 
-This represents the real-world performance of DSK's complaint handling — not just stated SLAs, but an actual human, personalized, under-SLA response.
+Това представлява реалната производителност на обработката на жалби в ДСК — не просто обявени SLA-та, а реален човешки, персонализиран отговор, под SLA.
 
-**Mobile app / chatbot experience:**
-- DSK has a virtual AI assistant (D.bot), but when asked "I want to file a complaint" it **directs the user to submit via the website** — the chatbot does not handle complaint intake itself. The assistant was also observed to be buggy during testing.
+**Мобилно приложение / чатбот преживяване:**
+- ДСК има виртуален AI асистент (D.bot), но когато бъде попитан „Искам да подам жалба", той **насочва потребителя да подаде през уебсайта** — чатботът не обработва самото подаване на жалба. По време на тестването асистентът беше наблюдаван като нестабилен.
 
-This means that despite DSK having the best post-submission experience among Bulgarian banks — including a faster-than-stated resolution time — the actual complaint *entry point* still requires leaving the app/chatbot and going to a separate web form. This is the fundamental gap shared by all three Bulgarian banks.
+Това означава, че въпреки че ДСК има най-добрата опитност след подаване сред българските банки — включително по-бързо от обявеното разрешаване — *самата входна точка* за жалби все още изисква напускане на приложението/чатбота и отиване на отделен уеб формуляр. Това е фундаменталният пропуск, общ за трите български банки.
 
-### 2.4 Bulgarian Banks — Local Comparison
+### 2.4 Български банки — Локално сравнение
 
-| Aspect | UniCredit Bulbank | UBB | DSK Bank |
+| Аспект | УниКредит Булбанк | ОББ | Банка ДСК |
 |---|---|---|---|
-| Web complaint form | Yes (limited — see KEP note) | Yes | Yes |
-| KEP required for personal data | **Yes** | No | No |
-| Complaint categories | Not observed on form | Structured (cards, loans, etc.) | Dropdown (Жалба/Оплакване) |
-| Card disputes separated | Unknown | Within categories | Yes — dedicated form |
-| On-screen confirmation | Yes — minimal, no details | Yes, with timeline | Yes (via modal pre-submit) |
-| Email acknowledgment | Not observed | Not received (burner email caveat) | Yes — immediate |
-| Reference number | Not observed | Not provided | Yes — #1317654 |
-| Response timeline stated | Yes — 85% within 3 days; 15/35 days legal (on website, not post-submit) | 45 days (on-screen) | 3 working days (email) / 30 days for complaints (email) |
-| Actual response time (tested) | Not received | Not received (burner email caveat) | **~13 hours** — personalized, actionable |
-| Priority triage communicated | No | No | Yes — visual icons in email |
-| Escalation paths documented | Yes — ПКПС, КЗП, FIN-NET | Not on form | Not on form |
-| Dedicated complaints team | Yes — "Централизирано управление на оплакванията" | Unknown | "Грижа за клиента" |
-| File attachments | Unknown | Yes (6MB) | Not observed on form |
-| GDPR consent | Unknown | Explicit dual consent | Not observed on form |
-| Chatbot handles complaints | No | Redirects to web form | Redirects to web form (D.bot buggy) |
-| Customer satisfaction program | Yes — 30k+ interviews/year, mystery shoppers | Unknown | Unknown |
+| Уеб формуляр за жалба | Да (ограничен — виж КЕП бележката) | Да | Да |
+| КЕП изискван за лични данни | **Да** | Не | Не |
+| Категории на жалби | Не наблюдавани на формуляра | Структурирани (карти, кредити и др.) | Падащо меню (Жалба/Оплакване) |
+| Отделени картови спорове | Неизвестно | В рамките на категориите | Да — отделен формуляр |
+| Екранно потвърждение | Да — минимално, без детайли | Да, със срок | Да (чрез модал преди подаване) |
+| Имейл потвърждение | Не наблюдавано | Не получено (burner имейл caveat) | Да — незабавно |
+| Референтен номер | Не наблюдавано | Не се предоставя | Да — #1317654 |
+| Обявен срок за отговор | Да — 85% в 3 дни; 15/35 дни законови (на сайта, не след подаване) | 45 дни (на екрана) | 3 работни дни (имейл) / 30 дни за жалби (имейл) |
+| Действително време на отговор (тествано) | Не получено | Не получено (burner имейл caveat) | **~13 часа** — персонализиран, практичен |
+| Приоритетна триажна оценка | Не | Не | Да — визуални икони в имейла |
+| Документирани пътища за ескалация | Да — ПКПС, КЗП, FIN-NET | Не на формуляра | Не на формуляра |
+| Специализиран екип по жалби | Да — „Централизирано управление на оплакванията" | Неизвестно | „Грижа за клиента" |
+| Прикачени файлове | Неизвестно | Да (6MB) | Не наблюдавано на формуляра |
+| GDPR съгласие | Неизвестно | Явно двойно съгласие | Не наблюдавано на формуляра |
+| Чатбот обработва жалби | Не | Пренасочва към уеб формуляра | Пренасочва към уеб формуляра (D.bot е нестабилен) |
+| Програма за удовлетвореност | Да — 30к+ интервюта/год., mystery shoppers | Неизвестно | Неизвестно |
 
-DSK Bank's experience is notably closer to international standards — particularly the reference number, priority triage communication, and two-stage email flow. UBB provides a better form structure but weaker post-submission experience. UniCredit Bulbank has the most detailed publicly documented complaint process (response timelines, escalation paths, dedicated team), but the actual digital submission experience trails both competitors — and the KEP requirement for complaints involving personal data effectively forces most clients to visit a branch, making the online form a channel for generic feedback only.
+Опитността при Банка ДСК е забележимо по-близо до международните стандарти — особено по отношение на референтния номер, комуникацията за приоритетна триажна оценка и двуетапния имейл поток. ОББ предлага по-добра структура на формуляра, но по-слаба опитност след подаване. УниКредит Булбанк има най-детайлно публично документиран процес по жалби (срокове за отговор, пътища за ескалация, специализиран екип), но действителното дигитално подаване изостава спрямо двата конкурента — а изискването за КЕП при жалби с лични данни практически принуждава повечето клиенти да посетят клон, превръщайки онлайн формуляра в канал само за обща обратна връзка.
 
-All three Bulgarian banks still lack in-app complaint submission, real-time status tracking, and AI-assisted triage — the baseline set by international players (see Section 3).
+И трите български банки все още нямат in-app подаване на жалба, проследяване в реално време и AI-подпомогната триажна оценка — базата, зададена от международните играчи (виж Раздел 3).
 
 ---
 
-## 3. International Benchmarks
+## 3. Международни бенчмаркове
 
-### 3.1 Neobanks — Digital-First Complaint Handling
+### 3.1 Необанки — Дигитално обработване на жалби
 
 #### Revolut
 
-- **Primary channel:** In-app chat (Profile > Help). The help menu surfaces common issue categories (Dispute transactions, Transfer status, Help with a card, etc.) with a search bar and a "Support — Tap to get help" entry point for live chat.
-- **AI triage:** AI Chat assistant handles initial queries. When told "I want to submit a complaint", the chatbot immediately responds: *"You have the right to raise a formal complaint. Would you like me to connect you with a customer support agent to review your case?"* — recognizing complaint intent and offering human escalation in one step.
-- **Alternative channels:** Online complaint form, email (`formalcomplaint@revolut.com`)
-- **Timelines:** Written acknowledgment with estimated response time sent shortly after submission; resolution target of 15 business days (35 in exceptional circumstances)
-- **Key innovation:** Complaint entry point is embedded in the same interface used for daily banking — zero friction to initiate. The client is already authenticated, so no identity verification is needed (contrast with UCB's KEP requirement).
+- **Основен канал:** Чат в приложението (Profile > Help). Менюто за помощ показва често срещани категории проблеми (Dispute transactions, Transfer status, Help with a card и др.) с поле за търсене и „Support — Tap to get help" входна точка за чат на живо.
+- **AI триажна оценка:** AI Chat асистентът обработва първоначалните запитвания. При съобщение „I want to submit a complaint", чатботът отговаря веднага: *„You have the right to raise a formal complaint. Would you like me to connect you with a customer support agent to review your case?"* — разпознава намерение за жалба и предлага ескалация до човек на една стъпка.
+- **Алтернативни канали:** Онлайн формуляр за жалба, имейл (`formalcomplaint@revolut.com`)
+- **Срокове:** Писмено потвърждение с очакван срок за отговор се изпраща скоро след подаване; целеви срок за разрешаване — 15 работни дни (35 в изключителни случаи)
+- **Ключова иновация:** Входната точка за жалби е вградена в същия интерфейс, използван за ежедневно банкиране — нулево триене при инициация. Клиентът е вече автентикиран, така че не се изисква верификация на самоличност (в контраст с изискването за КЕП при УКБ).
 
-![Revolut — In-app help menu with support categories](images/revolut_help_menu.png)
-![Revolut — Support chat entry point (24/7)](images/revolut_support_chat.png)
-![Revolut — Chat assistant recognizes complaint intent and offers human escalation](images/revolut_complaint_response.png)
+![Revolut — Меню за помощ в приложението с категории за поддръжка](images/revolut_help_menu.png)
+![Revolut — Входна точка за чат за поддръжка (24/7)](images/revolut_support_chat.png)
+![Revolut — Чат асистентът разпознава намерение за жалба и предлага ескалация до човек](images/revolut_complaint_response.png)
 
 #### Monzo
 
-- **Philosophy:** "When a customer isn't happy...we have an opportunity to impress the customer" — complaints as growth opportunities, not liabilities
-- **Primary channel:** In-app chat, plus email, phone, and written correspondence
-- **Timelines:** Acknowledgment within 3 business days; internal resolution target of 7 days (regulatory limit: 8 weeks)
-- **Key innovations:**
-  - **Specialist routing:** Complaints routed to domain experts (not a centralized complaints team), ensuring technical expertise matches the issue
-  - **Personalization:** Financial redress for monetary impact; meaningful gestures (handwritten notes) for personal impact
-  - **Feedback loop:** Complaint data drives product improvements (e.g., redesigned ATM limit screens after repeated confusion complaints)
-  - **Radical transparency:** Defaults to public status updates even for issues affecting a minority of customers
+- **Философия:** „Когато клиентът не е доволен...имаме възможност да го впечатлим" — жалбите като възможности за растеж, не като пасиви
+- **Основен канал:** Чат в приложението, плюс имейл, телефон и писмена кореспонденция
+- **Срокове:** Потвърждение в рамките на 3 работни дни; вътрешна цел за разрешаване от 7 дни (регулаторен лимит: 8 седмици)
+- **Ключови иновации:**
+ - **Специалистна маршрутизация:** Жалбите се маршрутизират към домейн-експерти (не към централен екип по жалби), гарантирайки, че техническата експертиза съответства на проблема
+ - **Персонализация:** Финансова компенсация при парично въздействие; смислени жестове (ръкописни бележки) при лично въздействие
+ - **Обратна връзка:** Данните от жалби подобряват продукта (напр. преработени екрани за лимити на банкомат след повтарящи се оплаквания от объркване)
+ - **Радикална прозрачност:** Публични статусни обновления по подразбиране, дори за проблеми, засягащи малцинство от клиенти
 
-### 3.2 DBS Bank (Singapore) — Best-in-Class AI Integration
+### 3.2 DBS Bank (Сингапур) — Най-добрата в класа AI интеграция
 
-- **DBS Joy (Corporate):** Gen AI-powered chatbot; managed 120,000+ unique chats since early trials began in February; cut waiting times, CSAT scores rose 23%
-- **DBS Digibot (Consumer):** Virtual assistant on digibank app and web — answers questions, starts transactions, guides processes
-- **CSO Assistant:** Gen AI co-pilot for customer service officers — real-time transcription, live knowledge base search, query-specific information retrieval
-- **Escalation:** Complex cases auto-escalated from chatbot to specialist with full conversation context preserved
-- **Key innovations:**
-  - AI co-pilot for staff (not just customers), reducing Average Handle Time
-  - Data protection, audit trails, and escalation processes built into the architecture for regulatory compliance
-  - Progressive rollout across markets (Singapore > Hong Kong > India)
+- **DBS Joy (Корпоративен):** Gen AI-захранван чатбот; обслужил над 120 000 уникални чата от началото на ранните тестове през февруари; намалил времето на изчакване, CSAT резултатите се повишили с 23%
+- **DBS Digibot (Клиентски):** Виртуален асистент в digibank приложението и уеб сайта — отговаря на въпроси, стартира транзакции, води през процеси
+- **CSO Assistant:** Gen AI ко-пилот за customer service officers — транскрипция в реално време, търсене в knowledge base на живо, извличане на информация според конкретното запитване
+- **Ескалация:** Сложни случаи се ескалират автоматично от чатбота към специалист, с пълен контекст от разговора
+- **Ключови иновации:**
+ - AI ко-пилот за служителите (не само за клиентите), намаляващ Average Handle Time
+ - Защита на данните, одитни пътеки и процеси за ескалация вградени в архитектурата за регулаторно съответствие
+ - Прогресивно внедряване в пазари (Сингапур > Хонг Конг > Индия)
 
-### 3.3 Comparison Matrix
+### 3.3 Сравнителна матрица
 
-| Capability | Revolut | Monzo | DBS | UCB | UBB | DSK Bank |
+| Способност | Revolut | Monzo | DBS | УКБ | ОББ | Банка ДСК |
 |---|---|---|---|---|---|---|
-| In-app complaint | Yes | Yes | Yes | Web only | Web only | Web only |
-| AI chatbot triage | Yes | No | Yes (Gen AI) | No | Redirects to web | Redirects to web |
-| Status tracking | Yes | Yes | Yes | Not observed | No | No |
-| Reference number | Yes | Yes | Yes | Not observed | No | **Yes** |
-| Email acknowledgment | Yes | Yes | Yes | Not observed | Not received* | **Yes — 2 emails** |
-| Resolution target | 15 days | 7 days** | Varies | Unknown | 45 days | 3 days / 30 days |
-| AI co-pilot for staff | No | No | Yes (CSO) | No evidence | No evidence | No evidence |
-| Omnichannel | High | High | High | Low | Low | Low-Medium |
+| In-app жалба | Да | Да | Да | Само уеб | Само уеб | Само уеб |
+| AI чатбот триажна оценка | Да | Не | Да (Gen AI) | Не | Пренасочва към уеб | Пренасочва към уеб |
+| Проследяване на статус | Да | Да | Да | Не наблюдавано | Не | Не |
+| Референтен номер | Да | Да | Да | Не наблюдавано | Не | **Да** |
+| Имейл потвърждение | Да | Да | Да | Не наблюдавано | Не получено* | **Да — 2 имейла** |
+| Целеви срок за разрешаване | 15 дни | 7 дни** | Вариабилен | Неизвестно | 45 дни | 3 дни / 30 дни |
+| AI ко-пилот за служители | Не | Не | Да (CSO) | Няма данни | Няма данни | Няма данни |
+| Omnichannel | Висок | Висок | Висок | Нисък | Нисък | Нисък-Среден |
 
-*\* UBB: burner email used — email confirmation may have been sent but not received.*
-*\*\* Monzo timelines sourced from 2017 blog post — may have changed.*
+*\* ОББ: използван е burner имейл — имейл потвърждението може да е било изпратено, но не получено.*
+*\*\* Сроковете на Monzo са от блог пост от 2017 г. — възможно е да са променени.*
 
-**Source confidence per column:**
-- **Revolut:** Official help centre
-- **Monzo:** Official blog (2017, 2020) — some details may be outdated
-- **DBS (Singapore):** Mix of official newsroom and third-party conference article
-- **UCB:** Firsthand testing + publicly available website information
-- **UBB:** Fetched form page + firsthand testing (2026-04-09)
-- **DSK Bank:** Firsthand testing (2026-04-09) — form screenshots + two confirmation emails received
-
----
-
-## 4. Regulatory Framework
-
-### 4.1 EU/EBA Requirements
-
-The **EBA/ESMA Joint Committee Guidelines on Complaints Handling (JC 2018 35)** establish harmonized requirements across all EU financial institutions:
-
-- **Complaints management policy** — must be documented and approved by senior management
-- **Complaints management function** — dedicated organizational unit responsible for complaints
-- **Registration** — all complaints must be registered, categorized, and tracked
-- **Reporting** — regular reporting to competent authorities and/or ombudsman
-- **Timelines** — acknowledgment and response within defined periods
-- **Information to complainant** — clear communication about process, expected timeline, and escalation rights
-- **Internal follow-up** — root cause analysis and systemic improvement
-
-These guidelines apply to banks, investment firms, payment institutions (PSD2), and mortgage credit providers (MCD).
-
-### 4.2 Bulgarian Regulatory Context
-
-- **BNB (Bulgarian National Bank)** — primary banking supervisor; can impose supervisory measures or financial sanctions for breaches of the Payment Services and Payment Systems Act
-- **Consumer Protection Commission (CPC)** — monitors lending practices, conducts market surveillance, issues fines; received ~1,600 complaints in January 2026 alone (mostly euro conversion related)
-- **Payment Disputes Conciliation Commission** — free out-of-court dispute resolution, typically resolved within ~2 months
-- **DORA (Digital Operational Resilience Act)** — requires robust ICT risk management frameworks, regular digital resilience tests, enhanced cybersecurity standards, and incident reporting protocols
-
-### 4.3 Compliance Implications for Digital Complaints
-
-A compliant digital system must register and categorize every complaint (EBA), acknowledge within a defined timeline, maintain audit trails for regulatory reporting, support escalation to BNB / CPC / Ombudsman, comply with GDPR, and meet DORA ICT resilience and incident-reporting requirements. Technology patterns and component choices that implement these obligations are detailed in **Task 3 — Technology Architecture**.
+**Надеждност на източниците по колона:**
+- **Revolut:** Официален help center
+- **Monzo:** Официален блог (2017, 2020) — някои детайли може да са остарели
+- **DBS (Сингапур):** Смесица от официален newsroom и конференционна статия на трета страна
+- **УКБ:** Тестване от първо лице + публично достъпна информация от уебсайта
+- **ОББ:** Изтеглена страница с формуляр + тестване от първо лице (2026-04-09)
+- **Банка ДСК:** Тестване от първо лице (2026-04-09) — скрийншоти на формуляра + две получени потвърдителни имейла
 
 ---
 
-## 5. Proposal: Digital Complaint System for UniCredit Bulbank
+## 4. Регулаторна рамка
 
-Based on the international benchmarks and regulatory requirements, the following approach is proposed, combining the best elements from each reference.
+### 4.1 Изисквания на ЕС/EBA
 
-**A key architectural insight from the current state analysis:** UniCredit Bulbank's online complaint form currently requires a Qualified Electronic Signature (KEP) for any complaint involving personal data or banking secrecy — which covers the vast majority of real complaints. This requirement exists because the web form cannot verify the client's identity. However, within Bulbank Mobile or Bulbank Online, the client is **already authenticated** through the app's login (biometrics, PIN, credentials). This means in-app complaint submission inherently solves the KEP problem — the client's identity is already established, removing the legal barrier that makes the current online channel unusable for substantive complaints. This alone is the single strongest argument for moving complaint handling into the banking app.
+**EBA/ESMA Joint Committee Guidelines on Complaints Handling (JC 2018 35)** установяват хармонизирани изисквания към всички финансови институции в ЕС:
 
-### 5.1 Core Principles
-1. **Complaints as opportunities** — every complaint feeds back into product improvement *(inspired by Monzo's philosophy)*
-2. **AI-first, human-always** — AI handles triage and routing, but human escalation is always one tap away *(inspired by Revolut + DBS)*
-3. **Full transparency** — real-time status tracking, clear timelines, proactive updates *(inspired by Monzo's transparency commitment)*
-4. **Omnichannel** — consistent experience across Bulbank Mobile, Bulbank Online, and branch (for those who still prefer it)
+- **Политика за управление на жалбите** — трябва да бъде документирана и одобрена от висшия мениджмънт
+- **Функция за управление на жалбите** — обособена организационна единица, отговорна за жалбите
+- **Регистрация** — всички жалби трябва да се регистрират, категоризират и проследяват
+- **Отчитане** — редовно отчитане към компетентни органи и/или омбудсман
+- **Срокове** — потвърждение и отговор в определени периоди
+- **Информация към жалбоподателя** — ясна комуникация за процеса, очаквания срок и правата за ескалация
+- **Вътрешно проследяване** — анализ на коренните причини и системни подобрения
 
-### 5.2 Tiered Handling Model
+Тези насоки се прилагат към банки, инвестиционни посредници, платежни институции (PSD2) и кредитни посредници за ипотеки (MCD).
 
-To comply with EBA guidelines (every complaint reviewed by the complaints management function) and UCB's own stated policy (specialized team handles each complaint), AI automation must not autonomously execute monetary or regulated actions. Instead, a **four-tier handling model** is proposed:
+### 4.2 Български регулаторен контекст
 
-| Tier | Description | Example actions | Decision authority |
+- **БНБ (Българска народна банка)** — основен банков надзорник; може да налага надзорни мерки или финансови санкции при нарушения на Закона за платежните услуги и платежните системи
+- **Комисия за защита на потребителите (КЗП)** — мониторира кредитните практики, извършва пазарно наблюдение, налага глоби; получила ~1 600 жалби само през януари 2026 г. (предимно свързани с превалутирането в евро)
+- **Помирителна комисия за платежни спорове** — безплатно извънсъдебно решаване на спорове, обикновено в рамките на ~2 месеца
+- **DORA (Digital Operational Resilience Act)** — изисква стабилни ICT risk management рамки, редовни тестове за дигитална устойчивост, засилени стандарти за киберсигурност и протоколи за докладване на инциденти
+
+### 4.3 Последствия за дигиталния процес по жалби
+
+Съответстваща дигитална система трябва да регистрира и категоризира всяка жалба (EBA), да потвърждава в дефиниран срок, да поддържа одитни пътеки за регулаторно отчитане, да поддържа ескалация до БНБ / КЗП / Омбудсман, да е съвместима с GDPR и да изпълнява DORA изискванията за ICT устойчивост и докладване на инциденти. Технологичните шаблони и избор на компоненти, които реализират тези задължения, са детайлизирани в **Задача 3 — Технологична архитектура**.
+
+---
+
+## 5. Предложение: Дигитална система за жалби на УниКредит Булбанк
+
+На база международните бенчмаркове и регулаторните изисквания, се предлага следният подход, комбиниращ най-добрите елементи от всяка референция.
+
+**Ключово архитектурно наблюдение от анализа на текущото състояние:** Онлайн формулярът за жалби на УниКредит Булбанк в момента изисква Квалифициран електронен подпис (КЕП) за всяка жалба, засягаща лични данни или банкова тайна — което покрива огромното мнозинство от реални жалби. Това изискване съществува, защото уеб формулярът не може да верифицира самоличността на клиента. Но в рамките на Булбанк Мобайл или Булбанк Онлайн клиентът е **вече автентикиран** чрез логина на приложението (биометрия, ПИН, идентификационни данни). Това означава, че in-app подаването на жалба по същество решава проблема с КЕП — самоличността на клиента е вече установена, премахвайки правната бариера, която прави текущия онлайн канал неизползваем за съществени жалби. Само това е най-силният аргумент за преместване на обработката на жалбите в банковото приложение.
+
+### 5.1 Основни принципи
+1. **Жалбите като възможности** — всяка жалба се връща като вход за подобряване на продукта *(вдъхновено от философията на Monzo)*
+2. **AI-first, human-always** — AI обработва триажната оценка и маршрутизирането, но ескалация до човек е винаги на един тап разстояние *(вдъхновено от Revolut + DBS)*
+3. **Пълна прозрачност** — проследяване на статус в реално време, ясни срокове, проактивни обновления *(вдъхновено от ангажимента на Monzo за прозрачност)*
+4. **Omnichannel** — последователно преживяване в Булбанк Мобайл, Булбанк Онлайн и клон (за тези, които все още го предпочитат)
+
+### 5.2 Четиристепенен модел на обработка (Tier model)
+
+За да се спазят EBA насоките (всяка жалба да се разглежда от функцията за управление на жалбите) и собствената декларирана политика на УКБ (специализиран екип обработва всяка жалба), AI автоматизацията не може автономно да изпълнява монетарни или регулирани действия. Вместо това се предлага **четиристепенен модел на обработка**:
+
+| Tier | Описание | Примерни действия | Решаваща инстанция |
 |---|---|---|---|
-| **Tier A — Pure self-service (informational)** | Guidance or information retrieval; no change in bank state | Explaining a transaction, showing account details, answering procedural questions, guiding the user to a settings page | Chatbot (no bank action executed) |
-| **Tier B — Safe reversible automation (client-initiated)** | Non-monetary, defensive, reversible actions that the client can already perform in the app; the chatbot just routes the intent | Temporary card block, notification preference change, statement download | Client (chatbot executes existing client-accessible operations) |
-| **Tier C — AI-suggested, human-approved** | AI prepares a recommendation with full context; a specialist reviews and approves before any monetary or regulated action executes | Fee refund, goodwill compensation, dispute resolution, transaction reversal | Specialist (with AI Co-pilot assistance) |
-| **Tier D — Full manual investigation** | High-stakes or regulated categories; no AI shortcut path | Fraud claims, credit disputes (ЗПК/ЗКНИП), payment service disputes (ЗПУПС), GDPR data subject requests, transaction disputes above a threshold | Specialist + possibly compliance / legal review |
+| **Tier A — Чисто самообслужване (информационно)** | Насоки или извличане на информация; без промяна в банково състояние | Обяснение на транзакция, показване на данни по сметка, отговор на процедурни въпроси, насочване към настройка | Чатбот (без банково действие) |
+| **Tier B — Безопасна обратима автоматизация (клиентски-инициирана)** | Немонетарни, отбранителни, обратими действия, които клиентът и без това може да изпълни в приложението; чатботът просто маршрутизира намерението | Временно блокиране на карта, промяна на нотификационни предпочитания, сваляне на извлечение | Клиент (чатботът изпълнява операции, които клиентът вече има достъп до) |
+| **Tier C — AI-предложено, одобрено от човек** | AI подготвя препоръка с пълен контекст; специалист я преглежда и одобрява преди да се изпълни монетарно или регулирано действие | Връщане на такса, goodwill компенсация, решаване на спор, обратна транзакция | Специалист (с подкрепа от AI Ко-пилот) |
+| **Tier D — Пълно ръчно разследване** | Високорискови или регулирани категории; без AI shortcut | Измами, кредитни жалби (ЗПК/ЗКНИП), платежни спорове (ЗПУПС), GDPR искания от субекти на данни, спорни транзакции над определен праг | Специалист + евентуално compliance / юридически преглед |
 
-**Why this tiered model is required:**
-- EBA/ESMA Joint Committee Guidelines (JC 2018 35): *"Complaints management function — dedicated organizational unit responsible for complaints"* and *"all complaints must be registered, categorized, and tracked"*
-- UCB's own stated policy: every complaint is reviewed by the specialized team "Централизирано управление на оплакванията"
-- DORA audit-trail and risk-management obligations
-- Anti-fraud: autonomous money movement by a chatbot is a fraud vector (prompt injection, social engineering)
+**Защо този tier модел е необходим:**
+- EBA/ESMA Joint Committee Guidelines (JC 2018 35): *„Функция за управление на жалбите — обособена организационна единица, отговорна за жалбите"* и *„всички жалби трябва да бъдат регистрирани, категоризирани и проследявани"*
+- Декларираната политика на самата УКБ: всяка жалба се разглежда от специализирания екип „Централизирано управление на оплакванията"
+- Задължения за одитна пътека и управление на риска по DORA
+- Анти-измама: автономно движение на пари от чатбот е вектор за измама (prompt injection, социално инженерство)
 
-### 5.3 Proposed Complaint Flow
+### 5.3 Предложен процес по жалби
 
-1. **Initiation** — Client opens complaint from Bulbank Mobile/Online (Help > Complaints). AI chatbot collects initial details: category, description, and optional attachments
-2. **Smart Categorization** — NLP engine auto-categorizes the complaint, assesses sentiment and urgency, and determines the applicable tier (A / B / C / D) *(inspired by Revolut's chatbot + DBS Digibot)*
-3. **Tier A/B handling** — If the intent can be resolved by information or safe client-initiated action, the chatbot provides the answer / executes the client-level action. The interaction is **logged as a support case** (not as a formal complaint) but still captured for analytics
-4. **Formal complaint registration** — For Tier C and Tier D intents (and any Tier A/B case where the client opts for a formal complaint), the complaint is formally registered with a reference number, category, priority, and timestamps
-5. **Acknowledgment** — Client receives an instant acknowledgment via **both in-app message + email** — reference number, estimated resolution timeline, assigned handler info *(addresses the gap observed in UniCredit Bulbank's current web form, and matches DSK Bank's two-channel approach)*
-6. **Routing** — Complaint routed to domain specialist (not a generic complaints team) *(inspired by Monzo's specialist routing)*. AI co-pilot assembles full customer context, similar past cases, and suggested resolution paths for the specialist *(inspired by DBS CSO Assistant)*
-7. **Investigation** — Specialist investigates with the AI Co-pilot's context assembly. Client receives proactive status updates via **push notification + email**. If additional information is needed, the specialist requests it through the app (push + email)
-8. **Specialist decision** — Specialist approves or rejects the AI Co-pilot's suggested resolution (Tier C), or formulates their own resolution from scratch (Tier D). All decisions, approvals, and rationale are recorded for audit
-9. **Resolution delivery** — Official response delivered via **in-app message + email** with explanation, actions taken, and compensation details (if applicable). If monetary compensation applies, the system executes the transaction only after the specialist's explicit approval
-10. **Client response** — Client can accept, request clarification, or escalate
-11. **Escalation** — If unresolved: internal review by manager → BNB / CPC / Payment Disputes Conciliation Commission / FIN-NET. All escalation paths accessible from within the app *(required by EBA guidelines + Bulgarian regulatory framework)*
-12. **Feedback Loop** — Post-resolution survey. Complaint data aggregated for trend analysis, feeding into product and process improvements *(inspired by Monzo's continuous improvement model)*
+1. **Иницииране** — Клиентът отваря жалба от Булбанк Мобайл/Онлайн (Помощ > Жалби). AI чатботът събира първоначални детайли: категория, описание и незадължителни прикачени файлове
+2. **Интелигентна категоризация** — NLP engine автоматично категоризира жалбата, оценява настроението и спешността и определя приложимия Tier (A / B / C / D) *(вдъхновено от чатбота на Revolut + DBS Digibot)*
+3. **Обработка на Tier A/B** — Ако намерението може да бъде разрешено с информация или безопасно клиентско-инициирано действие, чатботът дава отговора / изпълнява действието на клиентско ниво. Взаимодействието се **логва като support case** (не като формална жалба), но се улавя за аналитика
+4. **Регистрация на формална жалба** — За Tier C и Tier D намерения (и за всяка Tier A/B ситуация, в която клиентът избере формална жалба), жалбата се регистрира формално с референтен номер, категория, приоритет и времеви маркери
+5. **Потвърждение** — Клиентът получава незабавно потвърждение по **in-app съобщение + имейл** — референтен номер, очакван срок за разрешаване, информация за назначения специалист *(адресира пропуска, наблюдаван при текущия уеб формуляр на УниКредит Булбанк, и съответства на двуканалния подход на Банка ДСК)*
+6. **Маршрутизиране** — Жалбата се маршрутизира към специалист по домейн (не към общ екип по жалби) *(вдъхновено от специалистното маршрутизиране на Monzo)*. AI ко-пилотът сглобява пълен клиентски контекст, подобни минали случаи и предложени пътища за разрешаване, които да подпомогнат специалиста *(вдъхновено от DBS CSO Assistant)*
+7. **Разследване** — Специалистът разследва, използвайки сглобения от AI Ко-пилота контекст. Клиентът получава проактивни статусни обновления по **push нотификация + имейл**. Ако е необходима допълнителна информация, специалистът я заявява през приложението (push + имейл)
+8. **Решение на специалиста** — Специалистът одобрява или отхвърля предложеното от AI Ко-пилота разрешение (Tier C), или формулира собствено разрешение от нулата (Tier D). Всички решения, одобрения и обосновки се записват за одит
+9. **Доставяне на разрешението** — Официален отговор, доставен по **in-app съобщение + имейл**, с обяснение, предприети действия и детайли за компенсация (ако е приложимо). Ако се прилага монетарна компенсация, системата изпълнява транзакцията само след изрично одобрение от специалиста
+10. **Отговор на клиента** — Клиентът може да приеме, да поиска уточнение или да ескалира
+11. **Ескалация** — Ако не е разрешено: вътрешен преглед от ръководител → БНБ / КЗП / Помирителна комисия за платежни спорове / FIN-NET. Всички пътища за ескалация са достъпни директно от приложението *(изисквано от EBA насоките + българската регулаторна рамка)*
+12. **Обратна връзка** — Проучване след разрешаване. Данните от жалби се агрегират за тенденционен анализ, захранващ подобрения в продукта и процеса *(вдъхновено от модела за непрекъснато подобрение на Monzo)*
 
-**Client-facing confirmation channels (on every touchpoint):**
-- **In-app message** — primary, authenticated, visible in complaint history
-- **Email** — delivery confirmation, external record, works even if the app is uninstalled (matches DSK Bank's email-based acknowledgment model)
-- **Push notification** — real-time awareness, triggers client attention
+**Клиентски канали за потвърждение (при всяка точка на взаимодействие):**
+- **In-app съобщение** — основен, автентикиран, видим в историята на жалбите
+- **Имейл** — потвърждение за доставка, външен запис, работи дори ако приложението е деинсталирано (съответства на имейл-базирания модел на Банка ДСК)
+- **Push нотификация** — осъзнаване в реално време, предизвиква внимание от клиента
 
-#### Diagram: Proposed Complaint Flow
+#### Диаграма: Предложен процес по жалби
 
 ```mermaid
 flowchart TD
-    Client([Client in Bulbank Mobile/Online<br/>— already authenticated])
+    Client([Клиент в Булбанк Мобайл/Онлайн<br/>— вече автентикиран])
 
-    Client --> Initiate[Opens Help > Complaints]
-    Initiate --> Chatbot[AI Chatbot collects:<br/>Category, description, attachments]
+    Client --> Initiate[Отваря Помощ > Жалби]
+    Initiate --> Chatbot[AI Чатбот събира:<br/>Категория, описание, файлове]
 
-    Chatbot --> NLP[NLP: categorization, sentiment,<br/>urgency, tier determination]
+    Chatbot --> NLP[NLP: категория, настроение,<br/>спешност, Tier]
     NLP --> Tier{Tier?}
 
-    Tier -->|Tier A<br/>informational| TierA[Chatbot provides info<br/>or guidance<br/>No bank action]
-    Tier -->|Tier B<br/>safe client-initiated| TierB[Chatbot executes<br/>client-level action<br/>e.g. card block]
-    Tier -->|Tier C<br/>AI-suggested| Register
-    Tier -->|Tier D<br/>full manual| Register
+    Tier -->|Tier A<br/>информационно| TierA[Чатбот дава информация<br/>или насока<br/>Без банково действие]
+    Tier -->|Tier B<br/>безопасно клиентско| TierB[Чатбот изпълнява<br/>клиентско действие<br/>напр. блок. карта]
+    Tier -->|Tier C<br/>AI-предложено| Register
+    Tier -->|Tier D<br/>ръчно| Register
 
-    TierA --> LogCase[Log as support case<br/>for analytics]
+    TierA --> LogCase[Запис като support case<br/>за аналитика]
     TierB --> LogCase
-    LogCase --> OfferFormal{Client wants<br/>formal complaint?}
-    OfferFormal -->|No| Feedback
-    OfferFormal -->|Yes| Register
+    LogCase --> OfferFormal{Иска формална<br/>жалба?}
+    OfferFormal -->|Не| Feedback
+    OfferFormal -->|Да| Register
 
-    Register[Formal complaint registered<br/>ref#, category, priority, timestamps]
-    Register --> Ack[📧📱 Acknowledgment<br/>in-app + email + push<br/>ref#, timeline, handler]
+    Register[Формална жалба:<br/>ref#, категория, приоритет, timestamps]
+    Register --> Ack[Потвърждение<br/>in-app + имейл + push<br/>ref#, срок, специалист]
 
-    Ack --> Route[Route to domain specialist]
-    Route --> CoPilot[AI Co-pilot assembles context<br/>profile, transactions, past cases,<br/>suggested resolution]
+    Ack --> Route[Маршрут към специалист]
+    Route --> CoPilot[AI Ко-пилот сглобява контекст<br/>профил, транзакции, минали случаи,<br/>предложено решение]
 
-    CoPilot --> Investigate[Specialist investigates]
-    Investigate --> NeedInfo{Need more<br/>info from client?}
-    NeedInfo -->|Yes| RequestInfo[📧📱 Request via<br/>in-app + email + push]
-    RequestInfo --> ClientProvides[Client provides info]
+    CoPilot --> Investigate[Специалистът разследва]
+    Investigate --> NeedInfo{Нужна ли е<br/>доп. информация?}
+    NeedInfo -->|Да| RequestInfo[Запитване<br/>in-app + имейл + push]
+    RequestInfo --> ClientProvides[Клиент дава информация]
     ClientProvides --> Investigate
 
-    NeedInfo -->|No| SpecDecision[Specialist decides:<br/>approve AI suggestion Tier C<br/>or formulate own Tier D]
+    NeedInfo -->|Не| SpecDecision[Специалистът решава:<br/>одобрява AI Tier C<br/>или формира свое Tier D]
 
-    SpecDecision --> ExecAction{Monetary /<br/>regulated action?}
-    ExecAction -->|Yes| ExecWithApproval[Specialist explicitly approves;<br/>system executes + logs to audit]
-    ExecAction -->|No| Response
+    SpecDecision --> ExecAction{Монетарно /<br/>регулирано действие?}
+    ExecAction -->|Да| ExecWithApproval[Специалистът изрично одобрява;<br/>системата изпълнява + одит]
+    ExecAction -->|Не| Response
     ExecWithApproval --> Response
 
-    Response[📧📱 Response via in-app + email + push]
+    Response[Отговор<br/>in-app + имейл + push]
 
-    Response --> ClientResp{Client response}
-    ClientResp -->|Accepts| Feedback
-    ClientResp -->|Wants clarification| Investigate
-    ClientResp -->|Escalates| Internal[Internal review<br/>by manager]
+    Response --> ClientResp{Отговор на клиента}
+    ClientResp -->|Приема| Feedback
+    ClientResp -->|Иска уточнение| Investigate
+    ClientResp -->|Ескалира| Internal[Вътрешен преглед<br/>от ръководител]
 
-    Internal --> MgrDecision{Manager new decision}
-    MgrDecision -->|Client accepts| Feedback
-    MgrDecision -->|Client still unhappy| External[External escalation:<br/>BNB / CPC / ПКПС / FIN-NET]
+    Internal --> MgrDecision{Ново решение<br/>на ръководителя}
+    MgrDecision -->|Клиентът приема| Feedback
+    MgrDecision -->|Клиентът не приема| External[Външна ескалация:<br/>БНБ / КЗП / ПКПС / FIN-NET]
 
     External --> Feedback
-    Feedback([Post-resolution survey<br/>→ trend analysis<br/>→ product improvements])
+    Feedback([Проучване за удовлетвореност<br/>→ тенденционен анализ<br/>→ подобрения на продукта])
 
     style Client fill:#d4edda,stroke:#28a745
     style Feedback fill:#cce5ff,stroke:#007bff
@@ -407,34 +407,34 @@ flowchart TD
 
 ---
 
-## 6. Sources
+## 6. Източници
 
-### Official / Institutional Sources
+### Официални / Институционални източници
 - [Revolut — How can I file a complaint?](https://help.revolut.com/help/more/legal-topics/how-do-i-complain/)
 - [Revolut's AI Assistant (Rita)](https://www.revolut.com/legal/rita-disclaimer/)
-- [Monzo — Complaints at Monzo (Aug 2017)](https://monzo.com/blog/2017/08/09/complaints-at-monzo) — directly fetched
+- [Monzo — Complaints at Monzo (Aug 2017)](https://monzo.com/blog/2017/08/09/complaints-at-monzo) — изтеглено директно
 - [Monzo — Customer Support Design (Nov 2020)](https://monzo.com/blog/2020/11/11/customer-support-design)
 - [DBS Newsroom — Gen AI chatbot rollout](https://www.dbs.com/newsroom/DBS_rolls_out_Gen_AI_powered_chatbot_to_all_corporate_clients)
 - [DBS Newsroom — CSO Assistant](https://www.dbs.com/newsroom/DBS_empowers_its_Customer_Service_Officers_with_Gen_AI_powered_virtual_assistant_to_reduce_toil_and_enhance_customer_experience)
 - [DBS Digibot page](https://www.dbs.com.sg/personal/deposits/bank-with-ease/digibot)
 - [EBA — Joint Committee Guidelines on Complaints Handling](https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/consumer-protection-and-financial-innovation-10)
 - [EBA — Updates to Joint Committee Guidelines](https://www.eba.europa.eu/publications-and-media/press-releases/eba-updates-joint-committee-guidelines-complaints-handling)
-- [UniCredit Bulbank — Complaints and Compliments](https://www.unicreditbulbank.bg/en/contacts/feedback/complaints-and-compliments/) — 403 on direct fetch; info from search snippet
+- [УниКредит Булбанк — Оплаквания и похвали](https://www.unicreditbulbank.bg/en/contacts/feedback/complaints-and-compliments/) — 403 при директно изтегляне; информацията е от search snippet
 - [UniCredit — Digital & Data Strategy](https://www.unicreditgroup.eu/en/business/digital-and-data.html)
 - [UniCredit — Unlocked Strategic Plan](https://www.unicreditgroup.eu/en/press-media/press-releases-price-sensitive/2021/unicredit-unlocked--2022-2024-strategic-plan--empowering-communi.html)
 - [UniCredit Partners with Google Cloud (May 2025)](https://www.googlecloudpresscorner.com/2025-05-12-UniCredit-Partners-with-Google-Cloud-to-Accelerate-Digital-Transformation-Across-13-Markets)
 
-### Third-party / News Sources
+### Трети страни / Новинарски източници
 - [DBS rolls out Gen AI chatbot (Fortune, Nov 2025)](https://fortune.com/2025/11/10/dbs-joy-rolls-out-gen-ai-chatbot/)
 - [DBS AI Chatbots (Conversational Tech Summit Asia)](https://conversationaltechsummitasia.com/how-dbs-bank-transformed-customer-experience-with-ai-chatbots/)
-- [Banking Regulation 2026 — Bulgaria (Chambers and Partners)](https://practiceguides.chambers.com/practice-guides/banking-regulation-2026/bulgaria) — directly fetched
+- [Banking Regulation 2026 — Bulgaria (Chambers and Partners)](https://practiceguides.chambers.com/practice-guides/banking-regulation-2026/bulgaria) — изтеглено директно
 - [Bulgaria Consumer Protection — 1600 complaints (Sofia Globe, Jan 2026)](https://sofiaglobe.com/2026/01/14/bulgarias-consumer-protection-body-1600-complaints-in-a-week-mainly-about-breaches-of-euro-law/)
 - [BitBang — How UniCredit Drives Continuous Improvement](https://bitbang.com/stories/customer-experience-2/how-unicredit-drives-continuous-improvement-in-digital-experience/)
 - [BPM in Banking (ProcessMaker whitepaper)](https://www.processmaker.com/wp-content/uploads/2016/03/White-Paper-BPM-in-Banking.pdf)
 - [Microservices Architecture in Banking (Surf)](https://surf.dev/microservices-architecture-in-banking/)
 - [BPM in Banking with Low-Code (Kissflow)](https://kissflow.com/solutions/banking/bpm-in-banking-with-low-code-solutions)
 
-### Firsthand Testing
-- UniCredit Bulbank online complaint form — tested 2026-04-09; submission completed, no immediate on-screen confirmation or acknowledgment email observed at time of writing
-- UBB online feedback/complaint form — tested 2026-04-09; on-screen confirmation displayed immediately with empathetic messaging and 45-day response timeline; no reference number provided; no email confirmation received (caveat: burner email used). Mobile app virtual assistant redirects complaint queries to the web form.
-- DSK Bank online feedback form — tested 2026-04-09; two acknowledgment emails received: (1) immediate acknowledgment with priority triage explanation and 30-day complaint timeline, (2) reference number #1317654 assigned with 3-working-day response commitment. **Actual personalized response received ~13 hours after submission** (complaint sent 01:18, response received 14:01 same day) — well under the stated SLA. D.bot chatbot does not handle complaints — directs users to website; chatbot observed to be buggy.
+### Тестване от първо лице
+- Онлайн формуляр за жалби на УниКредит Булбанк — тестван на 2026-04-09; подаването е извършено, не са наблюдавани незабавно екранно потвърждение или имейл за потвърждение към момента на писане.
+- Онлайн формуляр за обратна връзка/жалби на ОББ — тестван на 2026-04-09; екранното потвърждение се показва незабавно с емпатично съобщение и 45-дневен срок за отговор; не се предоставя референтен номер; не е получен имейл за потвърждение (caveat: използван е burner имейл). Виртуалният асистент в мобилното приложение пренасочва запитванията за жалби към уеб формуляра.
+- Онлайн формуляр за обратна връзка на Банка ДСК — тестван на 2026-04-09; получени са два потвърдителни имейла: (1) незабавно потвърждение с обяснение на приоритетната триажна оценка и 30-дневен срок за жалби, (2) присвоен референтен номер #1317654 с ангажимент за отговор в 3 работни дни. **Реален персонализиран отговор, получен ~13 часа след подаването** (жалбата е изпратена в 01:18, отговорът е получен в 14:01 същия ден) — значително под обявения SLA. D.bot чатботът не обработва жалби — насочва потребителите към уебсайта; асистентът е наблюдаван като нестабилен.

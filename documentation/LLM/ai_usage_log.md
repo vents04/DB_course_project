@@ -304,6 +304,58 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** The team will defend the project orally in the last two exercises. A 559-line research document is too dense to internalize per team member. The trim keeps every piece of evidence that a defender might be asked about while removing redundancy with downstream tasks and less-distinctive benchmark data.
 
+### 21. Full translation pass — research.md to Bulgarian + project_plan polish (md + xlsx)
+
+**What was done:** Translated `deliverables/01_research/research.md` from English to Bulgarian (full rewrite, 440 lines). Polished `deliverables/04_project_plan/project_plan.md` and `deliverables/04_project_plan/project_plan.xlsx` to replace residual English in section titles and table headers.
+
+**research.md translation:**
+- Full-file rewrite preserving all section numbering (1, 2, 2.2, 2.3, 2.4, 3, 3.1, 3.2, 3.3, 4, 4.1, 4.2, 4.3, 5, 5.1, 5.2, 5.3, 6) so the cross-reference from `project_plan.md` to "Section 5.2" stays valid.
+- All 12 image alt-texts translated.
+- Both Mermaid diagrams (UCB current journey + Proposed complaint flow) translated — node labels, edge labels, and decision-gateway labels all Bulgarian.
+- Comparison matrix headers translated (§3.3).
+- URL list in §6 preserved verbatim; link titles kept as the original blog/article titles (industry norm).
+- Tech terms that are conventionally kept in English (AI, NLP, API, REST, OAuth2, SaaS, etc.) preserved as-is.
+- Product names (Bulbank Mobile, Bulbank Online, D.bot, DSK Direct) preserved as-is.
+- Bank names: kept UniCredit Bulbank; used Обединена Българска Банка (ОББ) for UBB; used Банка ДСК for DSK.
+
+**project_plan.md polish:**
+- §4.1 Sprint plan table: `Sprint | Dates | Sprint Goal | Key Epics` → `Sprint | Период | Цел на спринта | Ключови епици`
+- §4.3 Ceremonies table: `Ceremony | ...` → `Церемония | ...`
+- §5 Test cycles table: `Test Cycle | Dates | Focus` → `Test Cycle | Период | Фокус`
+- §7 Gate table: fixed typo `Kога` (Latin K) → `Кога` (Cyrillic К)
+- §10 Milestones table: header and row descriptions translated.
+
+**project_plan.xlsx polish:**
+- **PROJECT DETAILS sheet:** section title and 14 row labels translated (kept conventional PM terms `STEERING COMMITTEE`, `SCRUM MASTER`, `PRODUCT OWNER` in English per Bulgarian business-writing convention).
+- **RESOURCES sheet:** section title `RESOURCES` → `РЕСУРСИ`; subtitle `Team Composition...` → `Състав на екипа...`; column headers `Role | FTE | Responsibility` → `Роля | FTE | Отговорност`.
+- **RISKS sheet:** section title `Risk Register` → `Регистър на рисковете`; column headers `ID | Phase | Risk | Likelihood | Impact | Score | Mitigation | Owner` → `ID | Фаза | Риск | Вероятност | Ефект | Оценка | Мярка | Отговорник`.
+- **PROJECT PLAN, SPRINT BACKLOG, PHASES & SIGN-OFFS, DROPDOWN MENUS** sheets intentionally left untouched — their content (user stories, task names, phase codes P0–P6) is either already Bulgarian, uses standard Agile/PM terminology, or is referenced by data validation and dropdowns where translation would break bindings.
+
+**Why:** The team will present the project in Bulgarian for the final defence. The research document was the only primary deliverable still in English; `project_plan.md`/`xlsx` had residual English in column headers and section titles that would stand out in a Bulgarian defence. BPM and architecture files were already in Bulgarian and confirmed as-is by the user.
+
+### 22. Deeper xlsx translation + emoji removal across deliverables
+
+**What was done:**
+
+1. **Extended xlsx translation** (beyond the Bucket 1 headers done in step #21):
+   - **PROJECT PLAN sheet:** title, all 40+ task names (column D), all deliverable descriptions (column E), delivery-mode labels (column L). Kept owner names, WBS codes, phase codes (P0–P6) in English — these are either conventional Bulgarian PM terminology or dropdown-bound.
+   - **PHASES & SIGN-OFFS sheet:** title, phase names (Initiation → Иницииране, etc.), key deliverables column, sign-off entries.
+   - **SPRINT BACKLOG sheet:** column headers (Estimate/Priority/Task Owner/Effort), sprint-summary title, sprint focus rows.
+   - **DROPDOWN MENUS sheet:** header labels (PHASE → ФАЗА, PRIORITY → ПРИОРИТЕТ, LIKELIHOOD/IMPACT → ВЕРОЯТНОСТ/ЕФЕКТ, OWNER → ОТГОВОРНИК), phase descriptions in column C.
+
+2. **Emoji removal across all deliverable files:**
+   - Decorative emojis removed from `research.md`, `bpm_process.md`, `project_plan.md`, and from PROJECT PLAN / PHASES & SIGN-OFFS sheets in the xlsx: `🌀` (Agile marker), `🎉` (GO LIVE), `✋` (GATE), `⚠️` (warning).
+   - Semantic `✅` / `❌` in the §1.1 Hybrid-vs-Waterfall-vs-Agile comparison table were converted to `Да` / `Не` (preserving the Yes/No semantics in Bulgarian prose).
+   - `✅` used as bullet prefix in the §9 Definition-of-Done list was stripped (numbered list cleaner without it).
+   - `📧📱` and `❌` inside research.md Mermaid diagrams were stripped — the surrounding text labels (`in-app + email + push`, red fill on the Blocked node) already carry the meaning.
+   - `architecture.md` had no emojis — unchanged.
+
+3. **Collateral cleanups after emoji removal:**
+   - Restored 4-space indentation inside Mermaid code blocks in `research.md` (whitespace-collapse step had flattened them; Mermaid renders fine either way, but raw md looked messy).
+   - Rebuilt the ASCII box diagram in `project_plan.md` §1.3 Структура на hybrid-а — alignment had shifted when the emoji-strip removed characters from inside the boxes.
+
+**Why:** Academic/business documents don't use emojis, and the user flagged them as irrelevant. The xlsx was still majority-English after the Bucket 1 pass; a deeper translation was needed so the spreadsheet reads as Bulgarian for defence. Data-validation-bound values (role names, Scrum/Agile terms, phase codes) were deliberately left in English to avoid breaking dropdown bindings and to respect Bulgarian IT-writing convention.
+
 ---
 
 *This log will be updated as the project progresses.*
