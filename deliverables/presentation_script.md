@@ -443,7 +443,7 @@ Sequence диаграми 2 и 3: Разследване → Решение → 
 ```
 Задача 3: Технологична архитектура
 
-[СКРИЙНШОТ: technology_architecture.drawio — общ изглед от app.diagrams.net]
+[ИЗОБРАЖЕНИЕ: 03_architecture FINAL/Final diagram.drawio.png — или скрийншот от compact_final.drawio]
 
 • 7 мрежови зони
 • 69 компонента + 37 връзки с протоколи и портове
@@ -633,8 +633,8 @@ AI Co-pilot context assembly:
 | 10 | BPMN диаграма | Отворете `complaint_process.bpmn` в bpmn.io → скрийншот |
 | 13 | Seq. диаграма 1 | `02_bpm_process FINAL/seq_01_..._puml.svg` |
 | 14 | Seq. диаграми 2 + 3 | `02_bpm_process FINAL/seq_02_..._puml.svg`, `seq_03_..._puml.svg` |
-| 16 | Архитектура общ изглед | Отворете `technology_architecture.drawio` в app.diagrams.net → скрийншот |
-| 17–20 | Зуумнати зони | Зуумнете на съответната зона в draw.io → скрийншот |
+| 16 | Архитектура общ изглед | Готов PNG: `03_architecture FINAL/Final diagram.drawio.png` (или отворете `technology_architecture_compact_final.drawio` в app.diagrams.net) |
+| 17–20 | Зуумнати зони | Зуумнете на съответната зона в `03_architecture FINAL/technology_architecture_compact_final.drawio` → скрийншот |
 
 ## Времеви ориентири при репетиция
 
