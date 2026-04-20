@@ -275,7 +275,22 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** Изискване от задачата — за курсов проект/курсова работа, документът трябва да бъде в Word формат, с добро форматиране, justify подравняване, шрифт 12/14 и номерация на страници.
 
-### 20. Task 1 — Research trim for defence-readiness
+## 2026-04-20 — Presentation Script
+
+### 20. Presentation Script for Defense
+
+**What was done:** Created `deliverables/presentation_script.md` — a comprehensive 15-minute presentation script in Bulgarian for the course project defense. The document includes:
+
+- **22 slides** organized across 3 speakers (Венцислав, Максим, Петър), each covering ~5 minutes
+- **Slide text** (what goes on the PowerPoint) and **speaking text** (verbatim speech) for every slide
+- Speaker 1 (Венцислав): Task 1 Research + Task 4 Project Plan — current state, competitors, international benchmarks, Tier model, hybrid methodology, two-release strategy
+- Speaker 2 (Максим): Task 2 BPM Process — actors, BPMN diagram, 7 phases, forward/backward rules, sequence diagrams
+- Speaker 3 (Петър): Task 3 Architecture — 7 network zones, complaint microservices, core banking integration, protocols/ports, security/compliance
+- **Appendix:** visual materials checklist (which images/screenshots to embed), timing guide, and Q&A preparation with 7 likely examiner questions and suggested answers
+
+**Why:** The course requires a PowerPoint-style defense presentation. The script ensures consistent coverage of all 4 tasks within the 15-minute constraint, with each speaker able to rehearse their exact segment. Speaking text is written in natural Bulgarian conversational style (not read-aloud academic), with smooth transitions between speakers.
+
+### 21. Task 1 — Research trim for defence-readiness
 
 **What was done:** Cut ~119 lines (21%) from `research.md`, 559 → 440 lines, to make the document easier to remember and defend orally.
 
@@ -304,7 +319,7 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** The team will defend the project orally in the last two exercises. A 559-line research document is too dense to internalize per team member. The trim keeps every piece of evidence that a defender might be asked about while removing redundancy with downstream tasks and less-distinctive benchmark data.
 
-### 21. Full translation pass — research.md to Bulgarian + project_plan polish (md + xlsx)
+### 22. Full translation pass — research.md to Bulgarian + project_plan polish (md + xlsx)
 
 **What was done:** Translated `deliverables/01_research/research.md` from English to Bulgarian (full rewrite, 440 lines). Polished `deliverables/04_project_plan/project_plan.md` and `deliverables/04_project_plan/project_plan.xlsx` to replace residual English in section titles and table headers.
 
@@ -333,7 +348,7 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** The team will present the project in Bulgarian for the final defence. The research document was the only primary deliverable still in English; `project_plan.md`/`xlsx` had residual English in column headers and section titles that would stand out in a Bulgarian defence. BPM and architecture files were already in Bulgarian and confirmed as-is by the user.
 
-### 22. Deeper xlsx translation + emoji removal across deliverables
+### 23. Deeper xlsx translation + emoji removal across deliverables
 
 **What was done:**
 
@@ -355,7 +370,5 @@ These arguments are objectively correct for a heavily-regulated banking complain
    - Rebuilt the ASCII box diagram in `project_plan.md` §1.3 Структура на hybrid-а — alignment had shifted when the emoji-strip removed characters from inside the boxes.
 
 **Why:** Academic/business documents don't use emojis, and the user flagged them as irrelevant. The xlsx was still majority-English after the Bucket 1 pass; a deeper translation was needed so the spreadsheet reads as Bulgarian for defence. Data-validation-bound values (role names, Scrum/Agile terms, phase codes) were deliberately left in English to avoid breaking dropdown bindings and to respect Bulgarian IT-writing convention.
-
----
 
 *This log will be updated as the project progresses.*
