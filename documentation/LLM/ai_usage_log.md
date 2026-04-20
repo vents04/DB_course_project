@@ -371,4 +371,18 @@ These arguments are objectively correct for a heavily-regulated banking complain
 
 **Why:** Academic/business documents don't use emojis, and the user flagged them as irrelevant. The xlsx was still majority-English after the Bucket 1 pass; a deeper translation was needed so the spreadsheet reads as Bulgarian for defence. Data-validation-bound values (role names, Scrum/Agile terms, phase codes) were deliberately left in English to avoid breaking dropdown bindings and to respect Bulgarian IT-writing convention.
 
+### 23. PDF Presentation Generation
+
+**What was done:** Created `deliverables/generate_presentation.py` — a Python script using ReportLab that generates a professional 22-slide PDF presentation (`deliverables/presentation.pdf`) from the presentation script content. Design features:
+
+- **Business color scheme:** dark navy (#1a2744) headers, warm gold (#c8963e) accents, speaker-coded sidebars (blue=Венцислав, teal=Максим, coral=Петър)
+- **Landscape A4** format with consistent header/footer on every slide
+- **Cyrillic support** via Arial TTF fonts (macOS system fonts)
+- Styled tables, rounded content boxes, metric highlight cards, bullet lists
+- Transition slides with full-page navy backgrounds
+- Image placeholders for BPMN, sequence diagrams, and architecture diagram
+- Slide counter (N/22) in footer
+
+**Why:** The course defense requires a visual presentation. The PDF serves as a ready-to-present deck or as a high-fidelity template for PowerPoint recreation. All content matches the presentation_script.md and the FINAL architecture folder.
+
 *This log will be updated as the project progresses.*
