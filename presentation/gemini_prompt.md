@@ -1,11 +1,3 @@
-# Gemini Presentation Maker — Paste-Ready Prompt
-
-> **Как се използва:** Отворете Google Gemini (gemini.google.com) в режим за генериране на презентация (или Canvas / Slides generator). Копирайте **всичко** под разделителя `---BEGIN PROMPT---` и го пейстнете. Gemini ще изгради 19-слайдов Google Slides deck в стилистиката на UniCredit Bulbank. След генерацията ръчно вмъкнете актуалните скрийншоти от `deliverables/01_research/images/` и експортите на `sequence_complaint.puml` + `architecture.drawio` на съответните слайдове (Gemini не може да чете локални файлове).
-
-> **Защо подробен prompt:** Gemini е добър генератор, но без строга спецификация пропуска ключови акценти (брандинг, правилен ред на слайдовете, точно съдържание). Този prompt елиминира „drift" и дава на Gemini строг шаблон за всеки от 19-те слайда.
-
----BEGIN PROMPT---
-
 # Build a 19-slide Google Slides deck: „Дигитализация на процеса по жалби в UniCredit Bulbank"
 
 You are building a **university course-work presentation** in Bulgarian for the discipline „Дигитализация в банкирането" (Technical University — Sofia). The deck will be defended in **7 minutes by 3 presenters** (≈2:20 each). Generate a **Google Slides-compatible deck with 19 slides**, following the brand guide, layout library, and per-slide specifications below **literally**. Do not invent content outside this spec. Do not expand the slide count.
@@ -319,16 +311,3 @@ Base the speaker notes on the content of each slide. On transition slides (3, 11
 - [ ] Team names and faculty numbers left as `[Име 1/2/3]` and `[номер]` placeholders
 - [ ] No Times New Roman anywhere (sans-serif throughout)
 - [ ] No emojis, no clip art, no decorative elements
-
----END PROMPT---
-
-## What to do after Gemini generates the deck
-
-1. **Export the drawio diagram as PNG** — open `deliverables/03_architecture/architecture.drawio` in diagrams.net, File → Export as → PNG (2× scale for crisp render). Insert on slide 16.
-2. **Render the PlantUML sequence diagram** — paste contents of `deliverables/02_process/sequence_complaint.puml` into [plantuml.com](https://www.plantuml.com/plantuml/uml/) and download the PNG. Insert on slide 14.
-3. **Render the Mermaid BPM flowchart** — copy the `mermaid` block from `deliverables/02_process/process_and_sequence.md` §5 into [mermaid.live](https://mermaid.live/), export as PNG. Insert on slide 13.
-4. **Insert the 4 research screenshots** on slide 5 from `deliverables/01_research/images/`:
-   - `ucb_form_top.png`, `dsk_email_reference_number.png`, `ubb_confirmation.png`, `revolut_complaint_response.png`.
-5. **Insert the Revolut detail screenshot** on slide 7 from `deliverables/01_research/images/revolut_complaint_response.png`.
-6. **Fill in team names** on slide 1.
-7. **Rehearse timing** — aim for 20–25 sec per content slide, 10 sec per divider. Total budget: 7 minutes.
