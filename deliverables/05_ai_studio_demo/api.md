@@ -1,0 +1,13 @@
+# Firestore "API" Структура
+- `getUser(uid)`: Връща профила и ролята.
+- `createComplaint(data)`: `addDoc` в `complaints` + триггер за reference/SLA/routing.
+- `getMyComplaints(uid)`: `where creatorUid == uid`.
+- `getSpecialistQueue(uid)`: `where assignedTo == uid AND status in ['registered', 'investigating']`.
+- `getSupervisorQueue()`: `where status in ['pending_supervisor', 'escalated']`.
+- `openComplaint(id)`: update `status` → `investigating` + извиква `generateDraft(id)`.
+- `generateDraft(id)`: Cloud Function → Gemini → пише `draftResponse`.
+- `submitResponse(id, finalResponse, monetary, amount?)`: update `finalResponse`, `status` → `responded` (или `pending_supervisor` при monetary).
+- `approveMonetary(id, approverUid)`: supervisor-only; пише `supervisorApprovedBy`.
+- `resolveComplaint(id, resolution, reason?)`: клиент-only; `status` → `accepted` или `disputed`.
+- `escalate(id)`: при `disputed` → `escalated`.
+- `closeComplaint(id, finalDecision)`: supervisor-only.
