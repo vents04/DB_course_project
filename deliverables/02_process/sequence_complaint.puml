@@ -1,0 +1,68 @@
+@startuml
+skinparam style strictuml
+skinparam MaxMessageSize 150
+skinparam sequence {
+    ParticipantBackgroundColor GhostWhite
+    ActorBackgroundColor LightBlue
+    LifeLineBorderColor Black
+    ArrowColor Black
+}
+
+title Дигитален процес по жалби — UniCredit Bulbank (Финализиран процес)
+
+actor "Клиент" as Client
+participant "Мобилно приложение\n(Bulbank Mobile)" as App
+participant "Банков сървър\n(Complaints Orchestrator)" as Server
+database "CBS / CRM" as CBS
+participant "AI Копилот" as AI
+actor "Специалист" as Agent
+actor "Ръководител" as Supervisor
+
+' --- ЕТАП 1: Иницииране и подаване ---
+Client -> App: Логин (биометрия / ПИН)
+App --> Client: Отваряне на секция „Жалби"
+Client -> App: Създаване на нова жалба\n(категория, описание, прикачени файлове)
+App -> Server: Заявка за регистрация на жалба
+
+' --- ЕТАП 2: Регистрация ---
+Server -> Server: Регистрация в CMS\n(референтен номер, SLA, одитен лог)
+Server --> App: Потвърждение (референтен номер + обявен SLA)
+App --> Client: Push нотификация + in-app confirmation
+
+' --- ЕТАП 3: Разследване ---
+Server --> Agent: Маршрутизиране към специалист\n(по категория и експертиза)
+Agent -> Server: Отваряне на случая
+Server -> CBS: Заявка за контекст на клиента\n(сметки, транзакции, продукти)
+CBS --> Server: Клиентски контекст
+Server -> AI: Асемблиране на контекст\n(транзакции, история, подобни случаи)
+AI --> Server: Обобщен контекст + предложено решение
+Server --> Agent: Контекст + предложение от AI Копилот
+
+' --- ЕТАП 4: Решение ---
+Agent -> Agent: Преглед и оценка
+Agent -> Server: Одобрено или коригирано решение
+
+opt #Gold Монетарно действие
+    Server -> Supervisor: Заявка за одобрение
+    Supervisor --> Server: Одобрение (или отказ)
+    Server -> CBS: Изпълнение на компенсация\n(връщане на такса, корекция)
+    CBS --> Server: Потвърждение
+end
+
+' --- ЕТАП 5: Обратна връзка ---
+Server --> App: Доставка на отговора
+App --> Client: Push нотификация + отговор в приложението
+
+Client -> App: Преглед на отговора
+alt #LightGreen Клиентът приема
+    Client -> App: Потвърждение на удовлетвореност
+    App -> Server: Затваряне на случая
+else #Pink Клиентът оспорва
+    Client -> App: Искане за преглед от ръководител
+    App -> Server: Ескалация
+    Server -> Supervisor: Преглед на случая с пълен одитен лог
+    Supervisor --> Server: Финален отговор
+    Server --> App: Финален отговор от ръководител
+    App --> Client: Визуализация на финалния отговор
+end
+@enduml

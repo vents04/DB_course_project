@@ -1,34 +1,62 @@
-# Course Project: Digitalization in Banking — Variant 3
+# Course Project — Дигитализация на процеса по жалби
 
 ## Project Overview
-Digitalize the complaints process for a bank branch (UniCredit Bulbank). The entire flow — submitting a complaint, review by the Complaints department, feedback, and client response — must be fully remote, with no branch visit required. The bank's existing digital channels (mobile/online banking) are assumed to already exist and are not part of this project's scope.
+Variant 3 of the course „Дигитализация в банкирането“: digitalizing the complaint submission and handling process for UniCredit Bulbank. Full remote, no branch visit, no КЕП required (identity is proven by in-app authentication).
 
-## Deliverables (4 tasks)
-1. **Research** — best practices for digitalizing complaint handling in banking. Use text, diagrams, images, and multimedia.
-2. **BPM Process Diagram** — business process diagram describing the complaint flow from the client's perspective. Define steps, forward/backward rules, and actor roles. Use BPM or equivalent notation.
-3. **Technology Architecture** — built with https://app.diagrams.net (generate .drawio XML). Must show: servers with OS, app servers (Tomcat/JBoss/IIS), network segmentation with firewalls/reverse proxies, technologies/protocols/ports, and inter-application communication.
-4. **Project Plan** — justify Waterfall vs Agile methodology choice. For Waterfall: project plan. For Agile: product roadmap/backlog.
+**Target: 7-minute team presentation** (3 presenters × ~2:20), with the markdown deliverables extensible into a single bound Word/PDF document for print submission.
 
-## Templates & References
-- `other-relevant-materials/` contains instructor-provided templates that MUST be followed as a baseline:
-  - `Product-backlog-template.xls` — use this structure for the product backlog (Task 4)
-  - `Project Plan.pdf` — use as reference for project plan format (Task 4)
-  - `БА- Упражнение_v3_20260316.docx` — BA exercise with sequence diagram examples (relevant to Task 2)
-  - `Създаване на дигитален workflow за одобрение на кредитни сделки.docx` — example credit approval workflow (relevant to Task 2 as process reference)
-- See `other-relevant-materials/README.md` for detailed descriptions of each file
-- Extensions and improvements on top of templates are encouraged
+## Language
+**Bulgarian throughout.** Deliverables, comments, and the final document are all in Bulgarian.
 
-## Lecture Materials
-All lecture materials are in `lectures/` as markdown + images. Reference these for domain knowledge:
-- `01_digitalization_in_banking` — IT org structure, enterprise architecture, banking system types
-- `02_it_operations_cloud_containers` — cloud, virtualization, containers, Kubernetes
-- `03_introduction_to_business_analysis` — BA techniques, UML use case/sequence diagrams, product vision
-- `04_microservices_devops_vibecoding` — web apps, Spring Boot, monolith vs microservices, DevOps
-- `05_digital_banking_echannels` — online/mobile banking, remote onboarding, digital wallets, AI in banking
-- `06_project_management_it_processes` — Waterfall vs Agile, ITSM, SDLC, portfolio management
+## Deliverables
+
+| Task | Folder | File(s) | Purpose |
+|---|---|---|---|
+| 1 | `deliverables/01_research/` | `research.md` | Сравнение на UCB/DSK/ОББ + Revolut benchmark; извежда пазарен gap + регулаторна рамка |
+| 2 | `deliverables/02_process/` | `process_and_sequence.md`, `sequence_complaint.puml` | Роли, As-Is/To-Be, правила за придвижване, BPM flowchart, sequence диаграма |
+| 3 | `deliverables/03_architecture/` | `architecture.drawio`, `architecture.md` | 7 зони, 2 защитни стени, технологичен стек |
+| 4 | `deliverables/04_project_plan/` | `project_plan.md`, `product_backlog.csv` | Agile обосновка, 4 фази, 20 User Stories |
+| — | `presentation/` | `presentation_outline.md` | 15-слайдов outline + speaker split |
+| — | `documentation/LLM/` | `ai_usage_log.md` | Лог на AI взаимодействията |
+
+## Design constraints (be strict about these)
+
+- **Keep each `.md` short.** If a section grows beyond ~3 pages, it's drifting away from the 7-minute presentation target.
+- **One diagram per task.** One sequence + one drawio. Don't multiply artifacts.
+- **Single linear flow, no tier model.** Every complaint goes through the same path: submit → register → specialist + AI Copilot → decide → deliver → accept/dispute. No Tier A/B/C/D branching.
+- **AI Copilot is a specialist tool, not a decision-maker.** It assembles context and drafts responses; the specialist always accepts or corrects the draft. Monetary actions require supervisor approval. This is the EBA/GL/2015/18 line.
+
+## When expanding into the print document
+
+The four `.md` files + diagrams map directly to a Word document with this TOC:
+
+1. Заглавна страница
+2. Увод
+3. Проучване (from `research.md`)
+4. Сравнение на аналогичен процес (extracted from research + process docs)
+5. Sequence диаграма (from `process_and_sequence.md` + rendered `.puml`)
+6. Архитектура (from `architecture.md` + rendered `.drawio`)
+7. Проектен план (from `project_plan.md`)
+8. Заключение
+9. Източници
+
+When asked to "generate the printed document", assemble these in order into a single `.docx` / `.md` and render the diagrams as embedded images.
+
+## What NOT to do
+
+- Don't reintroduce the Tier A/B/C/D model. Linear flow only.
+- Don't add a Waterfall/hybrid track. Go Agile-only.
+- Don't add HSM/QES infrastructure. Complaints do not require QES.
+- Don't add multiple sequence diagrams. One PlantUML file covering the 5-stage flow with monetary and dispute branches is enough.
+- Don't extend the backlog beyond ~20 stories.
+- Don't expand the regulatory section beyond the three citations (ЗПУПС чл. 174 ал. 1 и 4, EBA/GL/2015/18, GDPR чл. 5).
+
+## Presentation
+
+- **7 min total, ~2:20/person**
+- **15 slides**: Title, Agenda, 4 divider slides, content slides for each task section, and conclusion (see `presentation/presentation_outline.md`)
+- Speaker split: P1 = slides 1–8 (research + regulatory), P2 = slides 9–12 (process + architecture), P3 = slides 13–15 (plan + conclusion)
 
 ## AI Usage Log
-**ALWAYS** update `documentation/LLM/ai_usage_log.md` after completing any significant work. Log each broad step with reasoning. This is required by course mentors.
 
-## Final Output
-All deliverables will be compressed into a single archive for submission.
+**ALWAYS** update `documentation/LLM/ai_usage_log.md` after completing any significant work. Log each broad step with reasoning. This is required by course mentors.

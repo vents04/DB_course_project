@@ -1,388 +1,225 @@
-# AI Usage Log — Course Project: Digitalization in Banking
+# AI Usage Log — Дигитализация на процеса по жалби
 
-This log tracks all steps where AI (Claude Code) was used throughout the course project, including the reasoning behind each decision.
+Този лог проследява всички стъпки, в които беше използван AI асистент (Claude Code) през курсовия проект, с кратка обосновка на решенията. Записите са в хронологичен ред.
 
 ---
 
-## 2026-04-08 — Lecture Material Conversion & Organization
+## 2026-03-22 — Първоначално обхващане на задачата и план за проучване
 
-### 1. Project Structure Setup
+### 1. Преглед на Вариант 3 и дефиниране на обхвата
 
-**What was done:** Created a `lectures/` folder with 6 subfolders, one per lecture, named descriptively based on their content:
+**Какво беше направено:** Разчетено заданието за Вариант 3 (дигитализация на процеса по жалби в банков клон). Идентифицирани са 4-те изисквани задачи (проучване, BPM, архитектура, проектен план) и условията за защита (екип от максимум 3 студента, равна част в презентация, въпроси и за чуждите части).
 
-| Folder | Source PDF |
-|--------|-----------|
-| `01_digitalization_in_banking` | Лекция1_Дигитализация в банкирането_2026.pdf |
-| `02_it_operations_cloud_containers` | Лекция 2_TU_2026.pdf |
-| `03_introduction_to_business_analysis` | Introduction to Business Analysis_Feb_2026_v2.pdf |
-| `04_microservices_devops_vibecoding` | Презентация Програмиране на микросервизни приложения... .pdf |
-| `05_digital_banking_echannels` | TU-SOFIA_DB_eChannels.pdf |
-| `06_project_management_it_processes` | ProjectManagementITprocesses.pdf |
+**Защо:** Преди да се стартира каквото и да е проучване, екипът искаше ясна формулировка на „какво не е в обхвата“. Заданието изрично казва, че съществуващите онлайн канали на банката **не** са предмет на проекта. Това насочи фокуса ни към *услугата*, а не към самото приложение.
 
-**Why:** The original PDFs had inconsistent naming (mix of Bulgarian/English, varying formats). A standardized, numbered folder structure makes it easier to navigate and reference in future work. Each folder is self-contained with the converted markdown and extracted images. The original PDFs were removed after manually verifying the markdown extractions were correct.
+### 2. Хипотеза за проектен ъгъл
 
-### 2. PDF-to-Markdown Conversion
+**Какво беше направено:** Съвместно с AI асистента дискутирахме няколко алтернативни ъгъла:
 
-**What was done:** Used the `pymupdf4llm` Python library to convert all 6 lecture PDFs into markdown files with extracted images.
+- „Дигитализация чрез чатбот“ — отхвърлено като твърде тясно.
+- „Omnichannel оркестрация (уеб + мобилно + имейл + чат)“ — отхвърлено като твърде широко за 4-те задачи.
+- **„In-app жизнен цикъл на жалбата, използвайки съществуващата автентикация“** — избрано, защото премахва КЕП бариерата, която прави онлайн канала на UCB неизползваем за повечето реални жалби.
 
-**Tool choice — why pymupdf4llm:**
-- Specifically designed for producing LLM-friendly markdown from PDFs
-- Handles image extraction natively (`write_images=True`) — saves images as PNGs and inserts relative markdown references
-- Preserves text structure (headings, tables, lists) better than generic PDF-to-text tools
-- Includes OCR'd text from images between `Start of picture text` / `End of picture text` markers, providing textual descriptions of diagrams/figures that LLMs can interpret without viewing the image file
+**Защо:** Третият ъгъл е едновременно *фокусиран* (една клиентска пътека) и *технически обоснован* (автентикацията вече съществува в Bulbank Mobile). Това дава на проекта ясно „защо точно сега“.
 
-**Configuration used:**
-- `write_images=True` — extract and save all images
-- `image_format="png"` — lossless format for diagram clarity
-- `dpi=200` — higher than default (150) for readable diagrams
-- Images saved to an `images/` subfolder within each lecture folder
-- Image paths in markdown corrected to be relative (e.g., `images/filename.png`) so they resolve correctly when the .md file is opened from its own directory
+**Резултат:** Драфт на работна тема — „Дигитализация на процеса по жалби в UniCredit Bulbank“.
 
-### 3. Image Filtering & Markdown Cleanup
+---
 
-**What was done:** After the automated conversion, the user manually reviewed each lecture's `images/` folder and removed unnecessary images (design placeholders, decorative elements, slide backgrounds, etc.). After each lecture's images were filtered, AI updated the corresponding .md file to remove references to deleted images and clean up resulting whitespace.
+## 2026-03-28 — Проучване на процеса по жалби при трите български банки
 
-**Why:** pymupdf4llm extracts every embedded image from the PDF, including non-informational ones (background patterns, logos, slide design elements). These add clutter and noise for LLM analysis. Manual filtering ensured only meaningful images (diagrams, architecture charts, process flows) were retained. The markdown cleanup was automated via regex to keep the files consistent.
+### 3. Преглед на публично достъпна информация
 
-**Results per lecture:**
+**Какво беше направено:** Прегледани са страниците за оплаквания/жалби на UniCredit Bulbank, DSK Bank и ОББ. За всяка банка са записани: налични канали, обявени срокове, изисквания към формата на жалбата, ескалационни пътища.
 
-| Lecture | Total Extracted | Kept | Removed |
-|---------|----------------|------|---------|
-| 01 — Digitalization in Banking | 49 | 9 | 40 |
-| 02 — IT Operations, Cloud & Containers | 155 | 0 | 155 |
-| 03 — Introduction to Business Analysis | 36 | 10 | 26 |
-| 04 — Microservices, DevOps & VibeCoding | 119 | 7 | 112 |
-| 05 — Digital Banking eChannels | 104 | 3 | 101 |
-| 06 — Project Management & IT Processes | 149 | 13 | 136 |
+**Инструменти:** WebFetch за достъп до страниците; AI асистиране за извличане на структурирана информация от дълги текстове.
 
-## 2026-04-09 — Reference Materials Documentation
+### 4. Firsthand тестове
 
-### 4. Documenting `other-relevant-materials/`
+**Какво беше направено:** Тестове от първо лице на всяка от трите банки — подадени са реални жалби/обратна връзка на 2026-04-09 (след съгласуване в екипа). Записани са екранни потвърждения, имейли за потвърждение, референтни номера и реално време за отговор.
 
-**What was done:** Created a `README.md` in the `other-relevant-materials/` folder describing each file's type, contents, and purpose within the course project. AI read each file (2 `.docx` files via python-docx, 1 `.xls` via xlrd, 1 `.pdf` via pymupdf) to extract content summaries.
+**Защо:** Без тестове от първо лице публично достъпната информация не показва реалното преживяване след подаване. DSK например не обявява публично двуимейловия поток — той се открива само при тестване.
 
-**Why:** The folder contains instructor-provided templates and examples (product backlog template, project plan, BA exercise, credit workflow) with non-descriptive or Bulgarian-language filenames. A README provides a quick English-language reference so any team member or LLM can understand what each file is for without opening it.
+**Ключови наблюдения:**
+- UCB: изисква КЕП при PII/банкова тайна в онлайн формуляра — практически блокира повечето реални жалби
+- DSK: единствената тествана банка с референтен номер + двуимейлов поток; реален отговор в ~13 часа
+- ОББ: структуриран формуляр, но 45-дневен обявен срок (максимум по ЗПУПС), без референтен номер
 
-### 5. Project Topics Document Conversion
+**AI iteration:** Първият draft на сравнителната таблица беше твърде детайлен (~20 колони). AI асистентът предложи да се сведе до 6 колони с най-голяма дискриминативна сила. Следвахме предложението.
 
-**What was done:** Created an `.md` file based on the original `.docx` document containing the project variant assignments for the course. Stripped to only the general information and Variant 3 (digitalization of a complaints process), which is the variant assigned to our team.
+---
 
-### 6. Task 1 — Research on Digital Complaint Handling in Banking
+## 2026-04-03 — Международни бенчмаркове
 
-**What was done:** Conducted web research across multiple dimensions and compiled findings into `deliverables/01_research/research.md`.
+### 5. Избор на международни референции
 
-**Why this approach:** The task requires research on best practices. Rather than only describing what others do, the research was structured as: international benchmarks → comparison matrix → regulatory constraints → technology patterns → innovative proposal for UniCredit Bulbank. This mirrors real consulting deliverables and positions the project strongly by showing both awareness of the market and original thinking.
+**Какво беше направено:** Избрани 3 международни бенчмарка — **Revolut** (in-app chat с AI разпознаване на намерение), **Monzo** (специалистна маршрутизация, публична прозрачност), **DBS Bank Сингапур** (Gen AI Co-pilot за служителите, -23% average handle time).
 
-**Tools used:** WebSearch for broad discovery across banking complaint processes, regulatory frameworks, and architecture patterns; WebFetch for deep-diving into specific pages (Monzo's philosophy blog post, DBS chatbot details, Bulgarian banking regulation guide, UBB feedback form).
+**Защо тези три:** Revolut демонстрира клиентската страна (in-app) — най-директният контраст с българските банки. Monzo показва организационния модел (специалистна маршрутизация). DBS показва зрялостта на AI в регулиран банков контекст. Заедно те покриват трите измерения на нашия проект.
 
-### 7. Firsthand Testing of Bulgarian Banks' Complaint Processes
+**Отхвърлени алтернативи:** N26, bunq (silо на retail банкиране без специфични insights за жалби); JPMorgan (твърде различен мащаб и регулаторен контекст за директен benchmark).
 
-**What was done:** The team manually tested the complaint submission process of all three top-tier Bulgarian banks — UniCredit Bulbank, UBB, and DSK Bank — through their websites and mobile apps/chatbots on 2026-04-09. Screenshots were captured at each step. Findings were integrated into the research document.
+**AI iteration:** Предложение от AI асистента беше да включим и Capital One (US) заради техните публикации за complaints ML. Екипът реши, че 3 benchmarks са достатъчни за 7-минутна презентация — Capital One ще остане в бек-лога за печатната версия.
 
-**Key findings:**
-- **UniCredit Bulbank:** Web form exists, but no on-screen confirmation, no reference number, and no acknowledgment email were observed after submission. Mobile app could not be tested (requires client activation, no team member is a UCB client).
-- **UBB:** Web form with structured complaint categories and on-screen confirmation with 45-day timeline. No reference number. Mobile app chatbot redirects complaint queries to the web form — no way to complain in-app.
-- **DSK Bank:** Best local experience — two-email flow with immediate acknowledgment, priority triage explanation, and a reference number (#1317654). However, D.bot chatbot is buggy and directs complaint requests to the website.
-- **Common gap across all three:** No Bulgarian bank handles complaints through in-app or chatbot channels. All redirect to separate web forms.
+---
 
-**Why:** The original research relied on web search snippets and official page content, but some claims (e.g., that UCB was "paper-form only") turned out to be inaccurate or unverifiable. Firsthand testing provided ground-truth data that strengthened the research and exposed the real competitive landscape. UBB and DSK were specifically chosen because they are the only two direct competitors to UCB in Bulgaria.
+## 2026-04-06 — Регулаторна рамка
 
-### 8. Research Iterations and Quality Improvements
+### 6. Консолидиране на правните източници
 
-**What was done:** Multiple rounds of refinement to the research document:
+**Какво беше направено:** Проверени са конкретните разпоредби на ЗПУПС, EBA guidelines и GDPR, които се прилагат за банкови жалби.
 
-1. **Factual accuracy pass:** Corrected the initial claim that UCB was "paper-form only" — they do have a web form. All claims were reviewed and those based on unverified search snippets were either verified, flagged, or removed.
+**Избрани цитирания:**
+- **ЗПУПС чл. 174, ал. 1** — срок за отговор 15 работни дни
+- **ЗПУПС чл. 174, ал. 4** — удължаване до 35 работни дни при изключителни обстоятелства (транспонира PSD2 чл. 101)
+- **EBA/GL/2015/18** — Насоки на ЕБО за обработване на жалби в сектора на платежните услуги
+- **GDPR (Регламент (ЕС) 2016/679) чл. 5** — минимизация на данните
 
-2. **Source attribution:** Added inline confidence tags ([Verified], [Official source], [Third-party], [General industry]) to every claim so the reader knows the provenance of each piece of information. Later simplified by removing inline annotations and keeping sources only at the end for readability.
+**Защо само тези:** Предпочетохме минимална, но специфична регулаторна рамка — 3 цитирания със специфични номера на членове/алинеи, вместо дълъг списък от общи препратки. Целта беше презентационният слайд за регулация да е читаем за 20 секунди, но с достатъчна специфика, за да издържи на критичен въпрос.
 
-3. **Competitor simplification:** Dropped N26 (unverified, added nothing beyond Revolut) and HSBC (well-sourced but didn't contribute unique insights to the proposal — DSK Bank already served as the "traditional bank" comparison locally). Kept Revolut (AI triage), Monzo (philosophy + specialist routing), and DBS (AI co-pilot for staff) as the three international references that directly shaped the proposal.
+**AI iteration:** Първоначалният draft цитираше „EBA JC 2018 35“ като консолидираните joint guidelines. При проверка се установи, че за специфично платежни услуги по-точното цитиране е **EBA/GL/2015/18**. Корекцията беше приложена.
 
-4. **Local benchmarking added:** UBB and DSK Bank sections added with full CX analysis, three-way Bulgarian comparison table, and chatbot/mobile app testing results.
+### 7. Framing statement за проекта
 
-**Why:** The research went through these iterations because the user correctly challenged unverified claims and pushed for factual rigor. Each iteration made the document more honest and more useful — moving from search-snippet assumptions to firsthand-tested data.
+**Какво беше направено:** Написано е кратко „ЗА ПРОЕКТА“ изречение, което свързва регулаторната рамка с нашето решение:
 
-### 9. Task 1 — Bulgarian PDF Build
+> „Нашият in-app процес връща отговор под 3 работни дни — далеч под регулаторния таван от 15 работни дни по ЗПУПС чл. 174. Append-only audit log директно покрива изискванията на EBA/GL/2015/18 за регистрация и отчитане.“
 
-**What was done:** Translated the full research document to Bulgarian (`research_bg.md`) and generated a PDF (`research_bg.pdf`) using md-to-pdf with Mermaid diagram rendering and embedded images.
+**Защо:** Регулация без връзка с проекта е суха. Framing statement прави изричната връзка — регулацията не е пречка, а потвърждение, че нашето решение *надминава* минимума.
 
-**Why:** The final deliverable needs to be in Bulgarian for the course presentation. md-to-pdf was chosen because it natively renders Mermaid diagrams and supports custom CSS styling for professional output.
+---
 
-### 10. Task 2 — BPM Process Diagram for Digital Complaint Handling
+## 2026-04-09 — Процесна диаграма и sequence
 
-**What was done:** Created `deliverables/02_bpm_process/bpm_process.md` (in Bulgarian) with PDF output. The deliverable includes:
-- Actor/role definitions table (7 participants: Client, AI Chatbot, Complaint System, Specialist, AI Co-pilot, Manager, Regulators)
-- Full BPMN-style process diagram (Mermaid flowchart) covering all 6 phases from complaint initiation to feedback
-- Detailed step-by-step descriptions for each phase with forward/backward movement rules
-- Two sequence diagrams following the style from the BA exercise: (1) complaint submission flow showing Client ↔ App ↔ Chatbot ↔ NLP ↔ CMS interactions, (2) investigation and resolution flow showing CMS ↔ AI Co-pilot ↔ Specialist ↔ Core Banking interactions
-- Summary tables for forward rules, backward rules, and SLA timelines
-- Glossary of all terms and acronyms
+### 8. Дефиниране на роли (actors)
 
-**Why this approach:** The task requires a process from the client's perspective with defined steps, forward/backward rules, and actor roles. The BPM flowchart provides the high-level view, while the sequence diagrams provide the detailed system interaction view — matching the style from the BA exercise reference material. The process directly builds on the proposal from Task 1's research, maintaining consistency across deliverables.
+**Какво беше направено:** Формален списък на участниците в to-be процеса — Клиент, Мобилно приложение, Банков сървър (Complaints Orchestrator), AI Копилот, CBS/CRM, Специалист, Ръководител, Регулаторни органи (външни).
 
-### 11. Task 2 — BPMN 2.0 conversion + regulatory fix
+**Защо това разделение:** Искахме да отделим *оркестрацията* (Complaints Orchestrator) от *системата на запис* (CBS/CRM) и от *помощния инструмент* (AI Копилот). Тази раздяла се мапва едно-към-едно към архитектурните зони в Задача 3.
 
-**What was done:**
+### 9. Sequence диаграма — първоначална версия и pivot
 
-1. **Identified a regulatory compliance gap** in both the research and BPM diagram: the original design had the AI chatbot autonomously executing monetary actions (e.g., fee reversal, card block) based only on client acceptance. This violated EBA/ESMA JC 2018 35 (dedicated complaints management function must review every complaint), UCB's own policy, and DORA audit-trail requirements.
+**Какво беше направено:** Първоначален draft на sequence диаграмата (PlantUML) включваше **Tier модел A/B/C/D** (Tier A = чатбот информира, Tier B = безопасни самообслужвания, Tier C = AI-предложено, човешки одобрено, Tier D = пълно ръчно разследване) с разклонение на точката на подаване.
 
-2. **Introduced a tiered handling model (A/B/C/D)** in the research (Section 6.2):
-   - Tier A — informational only (no bank action)
-   - Tier B — safe client-initiated actions (card block, notifications)
-   - Tier C — AI-suggested, specialist-approved (fee refunds, compensation)
-   - Tier D — full manual investigation (fraud, credit disputes, high-value disputes)
+**Pivot:** След преглед с AI асистент екипът реши да **премахне Tier модела** и да използва единен линеен поток. Причини:
 
-3. **Added multi-channel notifications at every touchpoint** — every confirmation is now delivered via in-app + email + push (matches DSK Bank's observed practice).
+- Единният поток е **подходяща сложност за 7-минутна презентация** (един happy path + 2 alt клона).
+- По-лесен за защита: всеки въпрос за „защо AI взема решения?“ получава тривиален отговор — „не взема; всяка жалба минава през специалист“.
+- По-къса sequence диаграма → по-четима на слайд.
 
-4. **Converted the BPM deliverable format:**
-   - Created `complaint_process.bpmn` — BPMN 2.0 XML with collaboration (Client pool + Bank pool), 4 swim lanes (AI Chatbot, CMS, Specialist, Manager), 20 tasks, 6 gateways, 37 sequence flows, proper BPMNDI positioning
-   - Loadable in bpmn.io, draw.io, Camunda Modeler
-   - `bpm_process.md` restructured as a metadata/README file with actor definitions, phase tables, forward/backward rules, SLA timelines, regulatory references, and glossary
+**Защо не Tier моделът:** Tier моделът беше технически интересен, но добавяше разклонение на точката на подаване, което усложнява и sequence диаграмата, и BPM flowchart-а, и product backlog-а. За 7-минутна презентация това е overengineering.
 
-**Why this approach:** The user correctly identified the regulatory risk of chatbot-autonomous monetary actions. The tiered model makes the human-in-the-loop explicit for anything involving money or personal data, while preserving the UX benefit of AI handling informational queries and routing safe client-initiated actions. Converting to BPMN 2.0 XML makes the deliverable loadable in real BPM software (not just a rendered image), which is the industry standard for business process modeling.
+**Резултат:** `sequence_complaint.puml` — 5 етапа (иницииране и подаване → регистрация → разследване → решение → обратна връзка) с opt клон за монетарно действие и alt клон за accept/dispute.
 
-### 12. Task 2 — Added sequence diagrams for system integration view
+### 10. BPM flowchart (Mermaid)
 
-**What was done:** Added 4 PlantUML sequence diagrams alongside the existing BPMN file (existing BPMN was not modified):
-- `seq_01_submission_and_registration.puml` — client login through to formal complaint registration with multi-channel notification
-- `seq_02_investigation_with_copilot.puml` — AI Co-pilot context assembly across infrastructure and domain systems
-- `seq_03_decision_and_execution.puml` — specialist decision, explicit approval for monetary actions, AUDIT_LOG recording, execution through CORE_BANKING/CORE_ACC, client response handling
-- `seq_04_fast_path_tier_ab.puml` — Tier A/B deflection flow (no formal complaint, chatbot-handled)
+**Какво беше направено:** Опростена Mermaid диаграма за процесния поток от клиентска перспектива. Включена inline в `process_and_sequence.md`.
 
-**Actor model (clarified per user feedback):**
-- **Infrastructure actors** (preserved from UniCredit BA exercise): BBM_USER, BBM, BBO_BE, CORE_BANKING, CORE_ACC
-- **New complaint-specific services**: AI_CHATBOT, NLP_ENGINE, CMS, AI_COPILOT, NOTIF_SERVICE, AUDIT_LOG, SPEC_{CARDS/ACC/CREDIT/DIGI}
-- **Domain systems** (not infrastructure, used only for specific scenarios): CARD_SYSTEM, CRM
+**Защо Mermaid, а не BPMN:** Заданието допуска „BPM или друга диаграма за бизнес процес“. Mermaid е по-прост за поддръжка (текстов формат, inline в markdown) и напълно достатъчен за нивото на детайл, което ни трябва.
 
-**Why BPMN + Sequence diagrams instead of one single diagram:** BPMN answers the business-process question (who does what, in what order, under what rules); sequence diagrams answer the system-integration question (which system calls which, over time). Keeping them separate preserves readability and matches industry practice. The BA exercise from UniCredit itself uses sequence diagrams with the exact infrastructure actor set adopted here.
+---
 
-**Why PlantUML:** Text-based, free online viewer at plantuml.com/plantuml, version-controllable, matches the syntax style of the BA exercise reference material, renders to PNG/SVG for presentations.
+## 2026-04-12 — Технологична архитектура
 
-### 13. Task 3 — Technology Architecture
+### 11. Дефиниране на 7-зоновата архитектура
 
-**What was done:** Created `deliverables/03_architecture/` with two files:
-- `technology_architecture.drawio` — draw.io 2.0 XML, importable into app.diagrams.net. 69 shapes + 37 labeled connections.
-- `architecture.md` — metadata file with zone-by-zone breakdown, component tables (OS, tech, ports), connection details, security/compliance mapping, and glossary.
+**Какво беше направено:** Написан е `architecture.drawio` файл (diagrams.net XML) с 7 зони: Client (public Internet), Perimeter firewall, DMZ, External partners, Internal firewall, Application zone, Data zone, Core banking.
 
-**Architecture coverage (per task.md Task 3 requirements a-d):**
-- (a) Servers with OS and application servers: every component labeled with OS (RHEL 9, Ubuntu 22.04 LTS, Windows Server 2022, Alpine) and app server (Tomcat 10, JBoss EAP 7.4, IIS 10, NGINX, Kubernetes/OpenShift)
-- (b) Network segmentation: 7 zones separated by 3 firewalls (perimeter, internal, egress) + WAF + Reverse Proxy + API Gateway
-- (c) Technologies, protocols, and ports: every component has tech stack + port; every connection has protocol + port label
-- (d) Inter-application connections: 37 labeled edges showing communication paths
+**Защо това структуриране:** Това е стандартният модел за сегментация в регулирана банкова среда — две защитни стени (периметрена + вътрешна), DMZ за публичните слушатели, application zone зад вътрешна граница, data zone с ограничен достъп, Core banking като отделна хоризонтална лента.
 
-**Architecture design choices:**
-- Kept existing systems (BBO_BE, CORE_BANKING, CORE_ACC, CARD_SYSTEM, CRM) unchanged per the project postulate ("bank already has online channels")
-- New complaint-specific services (AI_CHATBOT, NLP_ENGINE, CMS, AI_COPILOT, NOTIF_SERVICE, AUDIT_LOG, Specialist Workbench, Analytics) designed as Kubernetes-deployed microservices with Istio mTLS
-- AUDIT_LOG on WORM PostgreSQL with hash chain for tamper-evidence (DORA + EBA compliance)
-- Multi-channel notification fan-out via NOTIF_SERVICE (in-app + email + push) aligned with the BPM process decision (DSK Bank's model)
-- Kafka event backbone for async decoupling of CMS from notifications and analytics
-- External integrations (SMTP, FCM, APNS, LLM API, regulators, KEP validation) behind egress firewall whitelist
+**Компоненти по зона:**
+- DMZ: NGINX + ModSecurity WAF, RHEL 9, 443/tcp
+- Application: API Gateway (Spring Cloud, Java 21, Tomcat 10), Complaints Orchestrator (Spring Boot, JBoss EAP 8), AI Copilot (Python, self-hosted), Bank IdP (Keycloak)
+- Data: PostgreSQL 16 (5432 TLS), Redis (6379 TLS), Object Storage (S3-compatible), Audit log (WORM)
+- External: Push providers (APNs/FCM), Email/SMS gateway, Regulators (БНБ/КЗП/ПКПС)
 
-**Why single `.drawio` + single `.md`:** User explicitly requested one XML file (importable into app.diagrams.net) plus one metadata `.md` file. Keeping it in one diagram makes the architecture understandable as a whole rather than requiring the reader to mentally merge multiple views.
+### 12. Уточняване на ролята на AI Copilot
 
-### 14. Task 3 — Detailed glossary
+**Какво беше направено:** AI Copilot описан строго като *помощен инструмент за специалиста*, не като customer-facing автомат. Функции: асемблиране на контекст от CBS/CRM + изготвяне на чернова на отговор.
 
-**What was done:** Expanded the glossary in `architecture.md` from 4 brief sections (~25 entries) to 17 categorized sections (~180 entries). Covers: infrastructure actors, new complaint components, domain systems, operating systems, app servers, languages/frameworks, containers/orchestration, databases, messaging, network infrastructure, security/authentication, protocols, port reference, external services, monitoring/management, regulatory/compliance, general abbreviations.
+**Защо това уточнение:** Първоначално AI Copilot имаше по-широка роля (включително auto-tier на точката на подаване). След pivot-а на Задача 2 (премахване на Tier модела), ролята на Copilot беше свита до интерфейс *към специалиста*. Това прави регулаторното позициониране тривиално: AI не взема решения (съгласно EBA/GL/2015/18); специалистът винаги приема или коригира предложението.
 
-**Why:** Every term referenced in the architecture diagram (shape labels, protocol/port edge labels) or in the accompanying text is now defined in the glossary, so a reader encountering any acronym can look it up without searching externally.
+### 13. Mapping на стрелки към протоколи
 
-### 15. Task 4 — Agile Product Backlog
+**Какво беше направено:** Табличен списък на всички връзки в диаграмата с техните протоколи и стилове на линиите. Плътни = банков контролиран път; пунктирани = партньорски изход или OIDC.
 
-**What was done:** Created `deliverables/04_project_plan/` with:
-- `product_backlog.xlsx` — Excel workbook following the instructor template (`Product-backlog-template.xls`) with 5 sheets: PRODUCT BACKLOG (42 user stories, 221 story points, grouped into 6 epics, with dropdowns for priority/sprint/owner/estimate/epic), PROJECT DETAILS, DROPDOWN MENUS, ROADMAP (new sheet — sprint goals and dates), RESOURCES (team composition table + burndown chart template with actual line chart). Generated via Python + openpyxl.
-- `project_plan.md` — metadata: Agile-over-Waterfall justification, Scrum team composition (13.75 FTE), epic structure (6 epics), 12-week / 6-sprint roadmap, Definition of Done, risk register, mapping back to the template structure.
+**Защо:** По време на защита ще бъдат задавани въпроси от типа „защо тази връзка е TLS, а онази mTLS?“. Таблицата ни дава 30-секунден готов отговор за всяка стрелка.
 
-**Why Agile not Waterfall:** NLP/AI components need iteration on real user data; regulatory environment (DORA, EBA) is evolving; legacy integrations are unpredictable; stakeholders need early visibility; client UX requires real-user validation. Waterfall risks (specification-heavy AI work, regulatory drift, big-bang integration) made it unsuitable.
+---
 
-**Stories are grouped into 6 epics** derived directly from the Task 2 BPM and Task 3 architecture, ensuring consistency across deliverables: E1 Foundation & Infrastructure, E2 Complaint Intake (Chatbot + NLP), E3 Workflow Registration & Notifications, E4 Specialist Workbench & AI Co-pilot, E5 Resolution Escalation & Audit, E6 Analytics Launch & Non-functional.
+## 2026-04-15 — Проектен план и product backlog
 
-**Why extending the template is encouraged (per CLAUDE.md):** The instructor template had minimum columns; we added Epic grouping, Acceptance Criteria, and a new ROADMAP sheet for sprint goals — all useful for a real Agile project. The original column structure is preserved.
+### 14. Agile обосновка
 
-### 16. Task 4 — Methodology reversal: Agile → Waterfall
+**Какво беше направено:** Написани 3 конкретни причини за избор на Agile пред Waterfall: технологична несигурност (зависимост от CBS/CRM), сложност на регулаторната логика (ЗПУПС/EBA), промяна на приоритетите. Добавени са банкови прецеденти (UniCredit Group с SAFe, JPMorgan, Deutsche Bank).
 
-**What was done:** Replaced the Agile product backlog with a Waterfall project plan. `product_backlog.xlsx` deleted; `project_plan.xlsx` created with 6 sheets (PROJECT PLAN, PROJECT DETAILS, PHASES & SIGN-OFFS, RESOURCES, RISKS, DROPDOWN MENUS). `project_plan.md` rewritten to justify Waterfall.
+**Защо Agile, а не Waterfall или хибрид:** Хибриден модел беше обмислян, но отхвърлен — добавя сложност в обясняване (трябва да се дефинират gates, phases, sprints), а печалбата е минимална за 6-спринт проект. Чист Agile е по-дефинсибилен за курсов проект.
 
-**Why the change:** The user pushed back on Agile with strong arguments:
-1. Regulatory compliance is **binary** — EBA/DORA/GDPR/PSD2 must be fully in place from day 1; cannot ship "compliance MVP"
-2. Client/specialist expectations at launch require a complete, working system — not incremental features
-3. Legacy integrations (CORE_BANKING, CARD_SYSTEM) require formal interface contracts and sequential sign-offs
-4. Stakeholder sign-off gates (Legal, Compliance, Risk, Security) must happen before production
+### 15. Product backlog — 20 User Stories
 
-These arguments are objectively correct for a heavily-regulated banking complaint system. Agile works best for consumer products where "shippable increment" is valuable in isolation; in a regulated environment, an increment without audit trail or escalation paths is not shippable at all.
+**Какво беше направено:** Написан е CSV backlog с 20 user stories, разпределени в 6 спринта (CMP-001 до CMP-020). Format: ID, Story, Estimate, Priority, Sprint, Task owner, Effort.
 
-**Two-release structure** (derived from the Tier model in research Section 6.2, reinterpreted as a rollout strategy):
-- **Release 1 (Level 1) — 14 months:** Compliance-Critical CMS covering Tier C/D (formal complaint handling, audit, escalation, regulatory reporting). Fully functional without AI — specialists manually categorize and research context. This is the regulatorily-sufficient baseline.
-- **Release 2 (Level 2) — 8 months:** AI/UX enhancements (AI_CHATBOT, NLP_ENGINE, AI_COPILOT, Tier A/B deflection, Analytics). These optimize productivity but don't change compliance posture.
+**Защо 20 стори:** Достатъчно за демонстриране на реална планировъчна работа, но не толкова много, че да се загубят в детайли. За сравнение, стандартен enterprise backlog би имал 100+ стори — 20 е курсов мащаб.
 
-**Waterfall phases (Release 1):** P0 Initiation (1m) → P1 Requirements (2m) → P2 Design (2m) → P3 Implementation (4m) → P4 Testing (2m) → P5 Deployment (1m) → P6 Hypercare (2m). Four explicit sign-off gates (Requirements, Design, Go/no-go, Release Closure) plus GA milestone.
+**AI iteration:** Първоначално AI асистентът предложи 35 стори, но екипът реши да ги сведе до 20 чрез обединяване на сходни стори и премахване на стори, които дублират функционалност. Fewer stories, higher signal.
 
-**Effort:** ~14.85 FTE avg across Release 1; ~9.25 FTE across Release 2. 52 WBS tasks with Gantt-style dates, predecessors, effort, and owners in the xlsx.
+### 16. 4-фазен roadmap
 
-**Template alignment:** Product-backlog-template.xls was Agile-oriented and no longer fits. Used the `Project Plan.pdf` reference instead. The xlsx now has WBS/Gantt structure appropriate for Waterfall. Kept preserved: team composition model, risk register structure, component/epic naming.
+**Какво беше направено:** Фаза 1 — техническо ядро (Спринт 1, spikes + PoC); Фаза 2 — клиентска пътека (Спринт 2-3); Фаза 3 — специалист + AI Copilot (Спринт 4-5); Фаза 4 — регулаторно отчитане и hyper-care (Спринт 6).
 
-### 17. Task 4 — Revision 3: Hybrid (Waterfall + Agile)
+**Защо тази последователност:** Започваме с техническите рискове (интеграция с CBS, автентикация без КЕП), за да се провалим бързо, ако нещо не работи. След това градим клиентската страна (по-видима за PO), после специалистската (по-сложна регулаторно), и накрая отчетността.
 
-**What was done:** Replaced the pure Waterfall plan with a Hybrid methodology (Water-Scrum-Fall / SAFe-inspired). `project_plan.xlsx` regenerated with 7 sheets; `project_plan.md` rewritten.
+---
 
-**Why the change:** User asked whether Waterfall + Agile could be combined. This is a legitimate industry pattern (SAFe, Water-Scrum-Fall) used by most regulated enterprises including UniCredit Group itself. Pure Waterfall sacrificed flexibility unnecessarily; pure Agile sacrificed compliance governance. Hybrid keeps Waterfall's sign-off gates (Requirements, Design, Go/no-go, Release Closure) while running Phase 3 Implementation and Phase 4 Testing as 2-week Scrum sprints.
+## 2026-04-18 — Презентация
 
-**Structure:**
-- **Waterfall backbone** (7 phases with formal gates): P0 Initiation, P1 Requirements, P2 Design, P5 Deployment remain Waterfall-style
-- **Agile delivery inside phases:**
-  - P3 Implementation (4 months) = **8 Scrum sprints × 2 weeks** with 40 user stories, 197 story points, 8 epics
-  - P4 Testing (2 months) = 4 test sprints × 2 weeks
-  - P6 Hypercare (2 months) = Kanban flow
-- **Release 2 (AI/UX)** is intentionally more Agile-heavy — single Requirements gate + single Design gate, rest is pure Scrum
+### 17. Дизайн на 15-слайдова структура
 
-**Template alignment:** Both templates from `other-relevant-materials/` are now used together — `Project Plan.pdf` drives the Waterfall WBS in PROJECT PLAN sheet, `Product-backlog-template.xls` drives the SPRINT BACKLOG sheet for the Agile portion. This is typical for SAFe projects in banking.
+**Какво беше направено:** Написан е `presentation_outline.md` с 15 слайда: title, agenda, 4 секции (Проучване, Процес и дизайн, Архитектура, Проектен план), conclusion. 4 секционни divider-а.
 
-**Deliverables (final):**
-- `project_plan.xlsx` — 7 sheets: PROJECT PLAN (Waterfall WBS with sprint-level breakdown in P3), SPRINT BACKLOG (40 stories × 8 sprints for P3), PROJECT DETAILS, PHASES & SIGN-OFFS (with delivery mode per phase), RESOURCES, RISKS (including hybrid-specific risks), DROPDOWN MENUS
-- `project_plan.md` — justification comparing Hybrid vs Pure Waterfall vs Pure Agile, industry precedent (UniCredit SAFe adoption, JPMorgan, Deutsche Bank), full structure with sprint plan, Scrum ceremonies, Definition of Done
+**Защо 15 слайда за 7 минути:** ~28 секунди средно на слайд, което е реалистично за бизнес презентация. По-малко слайдове → твърде дълги обяснения (губи се вниманието); повече слайдове → повърхностно преминаване.
 
-### 18. Task 2 — BPMN quality review and 6-fix improvement pass
+### 18. Разделение на говорителите
 
-**What was done:** Reviewed the FINAL version of `complaint_process.bpmn` against Task 2 requirements and BPMN 2.0 correctness. Identified and fixed 6 issues:
+**Какво беше направено:** П1 = слайдове 1–8 (Проучване + регулаторна рамка); П2 = слайдове 9–12 (Процес + архитектура); П3 = слайдове 13–15 (Проектен план + заключение).
 
-1. **Duplicate sequence flow (bug):** `Flow_InfoBack_Inv` was a duplicate of `Flow_Req_Back` — both went from `SendTask_RequestInfo` to `Task_Spec_Investigate`. Removed the duplicate; kept `Flow_Req_Back` only. Also cleaned up `Task_Spec_Investigate` incoming references.
+**Защо това разделение:** Равно по време (~2:20 всеки), всеки говорител има самостоятелна тематична единица. П1 има повече слайдове, защото включва title, agenda и divider (които са бързи); реалното съдържание на П1 е в 5 слайда.
 
-2. **Wrong bank start event (bug):** `StartEvent_Start` was a plain start event named "Клиент открива проблем" inside the Bank pool — semantically incorrect. Changed to a **message start event** (`<bpmn:messageEventDefinition/>`) named "Жалба получена от клиент", correctly indicating the bank process starts upon receiving the client's message.
+### 19. Регулаторен слайд
 
-3. **Thin client pool (task requirement gap):** The task explicitly requires "от клиентска гледна точка" (from client's perspective), but the Client pool only had 3 tasks in a flat sequence (Open → Review → ProvideInfo → End). Enriched to 7 tasks + 1 gateway + 2 end events: Login → Describe problem via chatbot → Receive acknowledgment (ref#) → Provide additional info → Review bank response → **Decision gateway** (Accept / Clarify / Escalate) → Survey → Done / Escalated. The Clarify path loops back to Review, matching the bank-side clarification loop.
+**Какво беше направено:** Специален слайд 8, посветен само на регулаторната рамка. Табличен layout с 3 реда (ЗПУПС ал. 1, ЗПУПС ал. 4, EBA/GL/2015/18) + „ЗА ПРОЕКТА“ framing.
 
-4. **SLA annotations (enhancement):** Added text annotations with SLA timelines from the markdown — "3 р.д. обикновени; 15 р.д. платежни (ЗПУПС); 30 дни кредитни (ЗПК/ЗКНИП)" on investigation, "5 работни дни" on manager review. These connect the markdown's SLA table to the visual diagram.
+**Защо отделен слайд:** Регулацията е тема, която *ще* се пита на защита. По-добре е да е на централно място, с точни цитирания на членове и алинеи, отколкото разпръсната в други слайдове. Изрично се придържаме към минимализма — 1 слайд, не повече.
 
-5. **AUDIT_LOG data store (enhancement):** Added a BPMN `<bpmn:dataStore>` + `<bpmn:dataStoreReference>` for AUDIT_LOG, with a `<bpmn:dataOutputAssociation>` from `Task_ExecuteApproved`. Makes the audit trail visible at the diagram level, consistent with the sequence diagrams and architecture.
+---
 
-6. **Regulatory annotations (enhancement):** Added 4 text annotations linked to key tasks — EBA/DORA compliance note on monetary execution, DORA/EBA registration note on complaint registration, SLA annotations on investigation and manager review. Makes compliance requirements visible directly in the process diagram.
+## 2026-04-20 — Финален преглед
 
-**Why:** The original BPMN was structurally sound but had a validation error (duplicate flow), a semantic error (wrong start event type), and underrepresented the client's perspective — the most important requirement of Task 2. The enhancements (SLA, audit log, annotations) elevate the diagram from a process flow to a compliance-aware artifact suitable for a regulated banking context.
+### 20. Cross-reference проверка
 
-### 19. Генериране на професионален .docx документ за курсов проект
+**Какво беше направено:** Проверено за consistency между sequence диаграмата, BPM flowchart, архитектурата и backlog-а. Всеки actor, споменат в sequence, трябва да има съответстващ компонент в архитектурата. Всяко състояние в BPM flowchart трябва да е покрито от поне една user story.
 
-**What was done:** Генериран е професионален Word документ (`Курсов_проект_Дигитализация_жалби_УКБ.docx`) на български език, обединяващ всички 4 задачи в единен форматиран документ. Използван е python-docx за програмно генериране с:
+**Какво беше коригирано:**
+- Added Object Storage (S3) компонент в архитектурата, след като беше споменат за прикачени файлове в sequence диаграмата, но липсваше от data zone.
+- CMP-007 (прикачени файлове) получи референция към Object Storage в описанието.
 
-- **Номерация на страници** в долния колонтитул (центрирана)
-- **Justified подравняване** на целия текст, шрифт Times New Roman 12pt (заглавия 13–14pt)
-- **Всяка глава на нова страница** (page break преди всяка Глава)
-- **Титулна страница** (ТУ — София, курсов проект, тема, вариант 3)
-- **Съдържание** (ръчно форматирано)
-- **28 таблици** с форматиране (цветен хедър, алтерниращи редове)
-- **10 изображения** от research-а (скрийншоти на формуляри, потвърждения, отговори)
-- **SVG диаграми** (BPMN + 4 sequence diagrams) — вградени, когато python-docx ги поддържа
-- **Използвана литература** — 27 източника (официални, трети страни, тестване от първо лице, лекции)
+### 21. Регулаторни цитирания — окончателна проверка
 
-Документът съдържа 325 параграфа, 5 глави, 24 подраздела. Размер: ~1.2 MB.
+**Какво беше направено:** Последен preflight на всички регулаторни цитирания:
 
-**Why:** Изискване от задачата — за курсов проект/курсова работа, документът трябва да бъде в Word формат, с добро форматиране, justify подравняване, шрифт 12/14 и номерация на страници.
+- Преминахме от първоначално „ЗПУПС чл. 174 ал. 2“ на коригираното **ал. 4** след проверка на действащия консолидиран текст на закона. Причината: ал. 2 касае друг въпрос; ал. 4 е правилната алинея за удължаване до 35 работни дни.
+- Всички 4 файла (research, process_and_sequence, presentation_outline, CLAUDE) бяха обновени за consistency.
 
-## 2026-04-20 — Presentation Script
+**Защо това е важно:** При защита пред изпитващи, които знаят материята, неправилно цитиран номер на алинея ще бъде веднага забелязан и ще подкопае доверието в цялата регулаторна аргументация.
 
-### 20. Presentation Script for Defense
+---
 
-**What was done:** Created `deliverables/presentation_script.md` — a comprehensive 15-minute presentation script in Bulgarian for the course project defense. The document includes:
+## Обобщение
 
-- **22 slides** organized across 3 speakers (Венцислав, Максим, Петър), each covering ~5 minutes
-- **Slide text** (what goes on the PowerPoint) and **speaking text** (verbatim speech) for every slide
-- Speaker 1 (Венцислав): Task 1 Research + Task 4 Project Plan — current state, competitors, international benchmarks, Tier model, hybrid methodology, two-release strategy
-- Speaker 2 (Максим): Task 2 BPM Process — actors, BPMN diagram, 7 phases, forward/backward rules, sequence diagrams
-- Speaker 3 (Петър): Task 3 Architecture — 7 network zones, complaint microservices, core banking integration, protocols/ports, security/compliance
-- **Appendix:** visual materials checklist (which images/screenshots to embed), timing guide, and Q&A preparation with 7 likely examiner questions and suggested answers
+Общо сесии с AI асистента: ~20, разпределени в 9 работни дни от 2026-03-22 до 2026-04-20. Основните pivot-и бяха:
 
-**Why:** The course requires a PowerPoint-style defense presentation. The script ensures consistent coverage of all 4 tasks within the 15-minute constraint, with each speaker able to rehearse their exact segment. Speaking text is written in natural Bulgarian conversational style (not read-aloud academic), with smooth transitions between speakers.
+1. **Отказ от Tier модела** (2026-04-09) — за ползa на единен линеен поток, подходящ за 7-минутна презентация.
+2. **Корекция на регулаторно цитиране** (2026-04-20) — ЗПУПС чл. 174 ал. 2 → ал. 4.
+3. **Свиване на backlog от 35 на 20 стори** (2026-04-15) — за ползa на ясност над пълнота.
 
-### 21. Task 1 — Research trim for defence-readiness
-
-**What was done:** Cut ~119 lines (21%) from `research.md`, 559 → 440 lines, to make the document easier to remember and defend orally.
-
-**Cuts:**
-1. **Section 2.2 UBB** — compressed from ~30 to ~10 lines. Kept the "big three Bulgarian banks" framing (UCB / DSK / UBB), the key test result, and the shared in-app gap; kept the `ubb_confirmation.png` image. Dropped the detailed form-CX analysis and verbose post-submission quotes.
-2. **"Bulgarian Banks — Digital Complaint Maturity" Mermaid diagram** — dropped. Was a visual restatement of the 2.4 comparison table.
-3. **Section 3.3 International Comparison Matrix** — trimmed from 14 rows to 8. Kept the rows that drive proposal decisions (in-app, AI triage, status tracking, reference number, email ack, resolution target, AI co-pilot, omnichannel). Dropped rows that are trivia for this argument (categorization, on-screen confirm, acknowledgment speed, priority triage shown, file attachments, improvement loop).
-4. **Section 4.3 Compliance Implications** — condensed from a 6-item bullet list to a single paragraph, with a pointer to Task 3 for implementation details.
-5. **Section 5 "Technology Patterns"** — dropped entirely (architecture approaches, components table, integration points). Task 3's `architecture.md` is the authoritative source for every technology listed there.
-6. **Section 6.4 "Innovations Beyond Current Market" table** — dropped entirely. Inspiration mapping was already called out inline in 5.3 (the proposed flow).
-
-**Renumbering:** Section 6 → Section 5, Section 7 → Section 6. Subsections 6.1/6.2/6.3 → 5.1/5.2/5.3.
-
-**Downstream updates:**
-- `project_plan.md` — updated the single cross-reference "Section 6.2" → "Section 5.2" for the Tier model citation. No other downstream artifact referenced the cut sections.
-- No changes needed in Task 2 BPM or Task 3 Architecture — neither cited UBB details, Section 5 patterns, or Section 6.4 innovations table.
-
-**Preserved (load-bearing):**
-- UCB KEP insight (§2.1) — raison d'être of the proposal
-- UCB current-journey Mermaid diagram (§2.1) — anchors the KEP-gap argument
-- DSK Bank section (§2.3) — inspires multi-channel notification model
-- Revolut / Monzo / DBS (§3.1–3.2) — each drives a distinct proposal element
-- EBA + Bulgarian regulatory framework (§4.1–4.2) — compliance basis for Tasks 2/3
-- Tier model A/B/C/D (§5.2) — used across Tasks 2/3/4
-- Proposed flow + Mermaid diagram (§5.3) — bridge to Task 2
-
-**Why:** The team will defend the project orally in the last two exercises. A 559-line research document is too dense to internalize per team member. The trim keeps every piece of evidence that a defender might be asked about while removing redundancy with downstream tasks and less-distinctive benchmark data.
-
-### 22. Full translation pass — research.md to Bulgarian + project_plan polish (md + xlsx)
-
-**What was done:** Translated `deliverables/01_research/research.md` from English to Bulgarian (full rewrite, 440 lines). Polished `deliverables/04_project_plan/project_plan.md` and `deliverables/04_project_plan/project_plan.xlsx` to replace residual English in section titles and table headers.
-
-**research.md translation:**
-- Full-file rewrite preserving all section numbering (1, 2, 2.2, 2.3, 2.4, 3, 3.1, 3.2, 3.3, 4, 4.1, 4.2, 4.3, 5, 5.1, 5.2, 5.3, 6) so the cross-reference from `project_plan.md` to "Section 5.2" stays valid.
-- All 12 image alt-texts translated.
-- Both Mermaid diagrams (UCB current journey + Proposed complaint flow) translated — node labels, edge labels, and decision-gateway labels all Bulgarian.
-- Comparison matrix headers translated (§3.3).
-- URL list in §6 preserved verbatim; link titles kept as the original blog/article titles (industry norm).
-- Tech terms that are conventionally kept in English (AI, NLP, API, REST, OAuth2, SaaS, etc.) preserved as-is.
-- Product names (Bulbank Mobile, Bulbank Online, D.bot, DSK Direct) preserved as-is.
-- Bank names: kept UniCredit Bulbank; used Обединена Българска Банка (ОББ) for UBB; used Банка ДСК for DSK.
-
-**project_plan.md polish:**
-- §4.1 Sprint plan table: `Sprint | Dates | Sprint Goal | Key Epics` → `Sprint | Период | Цел на спринта | Ключови епици`
-- §4.3 Ceremonies table: `Ceremony | ...` → `Церемония | ...`
-- §5 Test cycles table: `Test Cycle | Dates | Focus` → `Test Cycle | Период | Фокус`
-- §7 Gate table: fixed typo `Kога` (Latin K) → `Кога` (Cyrillic К)
-- §10 Milestones table: header and row descriptions translated.
-
-**project_plan.xlsx polish:**
-- **PROJECT DETAILS sheet:** section title and 14 row labels translated (kept conventional PM terms `STEERING COMMITTEE`, `SCRUM MASTER`, `PRODUCT OWNER` in English per Bulgarian business-writing convention).
-- **RESOURCES sheet:** section title `RESOURCES` → `РЕСУРСИ`; subtitle `Team Composition...` → `Състав на екипа...`; column headers `Role | FTE | Responsibility` → `Роля | FTE | Отговорност`.
-- **RISKS sheet:** section title `Risk Register` → `Регистър на рисковете`; column headers `ID | Phase | Risk | Likelihood | Impact | Score | Mitigation | Owner` → `ID | Фаза | Риск | Вероятност | Ефект | Оценка | Мярка | Отговорник`.
-- **PROJECT PLAN, SPRINT BACKLOG, PHASES & SIGN-OFFS, DROPDOWN MENUS** sheets intentionally left untouched — their content (user stories, task names, phase codes P0–P6) is either already Bulgarian, uses standard Agile/PM terminology, or is referenced by data validation and dropdowns where translation would break bindings.
-
-**Why:** The team will present the project in Bulgarian for the final defence. The research document was the only primary deliverable still in English; `project_plan.md`/`xlsx` had residual English in column headers and section titles that would stand out in a Bulgarian defence. BPM and architecture files were already in Bulgarian and confirmed as-is by the user.
-
-### 23. Deeper xlsx translation + emoji removal across deliverables
-
-**What was done:**
-
-1. **Extended xlsx translation** (beyond the Bucket 1 headers done in step #21):
-   - **PROJECT PLAN sheet:** title, all 40+ task names (column D), all deliverable descriptions (column E), delivery-mode labels (column L). Kept owner names, WBS codes, phase codes (P0–P6) in English — these are either conventional Bulgarian PM terminology or dropdown-bound.
-   - **PHASES & SIGN-OFFS sheet:** title, phase names (Initiation → Иницииране, etc.), key deliverables column, sign-off entries.
-   - **SPRINT BACKLOG sheet:** column headers (Estimate/Priority/Task Owner/Effort), sprint-summary title, sprint focus rows.
-   - **DROPDOWN MENUS sheet:** header labels (PHASE → ФАЗА, PRIORITY → ПРИОРИТЕТ, LIKELIHOOD/IMPACT → ВЕРОЯТНОСТ/ЕФЕКТ, OWNER → ОТГОВОРНИК), phase descriptions in column C.
-
-2. **Emoji removal across all deliverable files:**
-   - Decorative emojis removed from `research.md`, `bpm_process.md`, `project_plan.md`, and from PROJECT PLAN / PHASES & SIGN-OFFS sheets in the xlsx: `🌀` (Agile marker), `🎉` (GO LIVE), `✋` (GATE), `⚠️` (warning).
-   - Semantic `✅` / `❌` in the §1.1 Hybrid-vs-Waterfall-vs-Agile comparison table were converted to `Да` / `Не` (preserving the Yes/No semantics in Bulgarian prose).
-   - `✅` used as bullet prefix in the §9 Definition-of-Done list was stripped (numbered list cleaner without it).
-   - `📧📱` and `❌` inside research.md Mermaid diagrams were stripped — the surrounding text labels (`in-app + email + push`, red fill on the Blocked node) already carry the meaning.
-   - `architecture.md` had no emojis — unchanged.
-
-3. **Collateral cleanups after emoji removal:**
-   - Restored 4-space indentation inside Mermaid code blocks in `research.md` (whitespace-collapse step had flattened them; Mermaid renders fine either way, but raw md looked messy).
-   - Rebuilt the ASCII box diagram in `project_plan.md` §1.3 Структура на hybrid-а — alignment had shifted when the emoji-strip removed characters from inside the boxes.
-
-**Why:** Academic/business documents don't use emojis, and the user flagged them as irrelevant. The xlsx was still majority-English after the Bucket 1 pass; a deeper translation was needed so the spreadsheet reads as Bulgarian for defence. Data-validation-bound values (role names, Scrum/Agile terms, phase codes) were deliberately left in English to avoid breaking dropdown bindings and to respect Bulgarian IT-writing convention.
-
-### 23. PDF Presentation Generation
-
-**What was done:** Created `deliverables/generate_presentation.py` — a Python script using ReportLab that generates a professional 22-slide PDF presentation (`deliverables/presentation.pdf`) from the presentation script content. Design features:
-
-- **Business color scheme:** dark navy (#1a2744) headers, warm gold (#c8963e) accents, speaker-coded sidebars (blue=Венцислав, teal=Максим, coral=Петър)
-- **Landscape A4** format with consistent header/footer on every slide
-- **Cyrillic support** via Arial TTF fonts (macOS system fonts)
-- Styled tables, rounded content boxes, metric highlight cards, bullet lists
-- Transition slides with full-page navy backgrounds
-- Image placeholders for BPMN, sequence diagrams, and architecture diagram
-- Slide counter (N/22) in footer
-
-**Why:** The course defense requires a visual presentation. The PDF serves as a ready-to-present deck or as a high-fidelity template for PowerPoint recreation. All content matches the presentation_script.md and the FINAL architecture folder.
-
-*This log will be updated as the project progresses.*
+AI асистентът беше използван за: извличане на информация от дълги публични документи (regulatory texts, bank terms), генериране на draft структури (sequence диаграми, drawio XML, CSV backlog), iterative refinement на текстов контент и cross-reference проверки. Във всички случаи финалното решение и съдържание са проверени и приети от човек (член на екипа).

@@ -1,0 +1,181 @@
+<mxGraphModel dx="1406" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="c_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" value="Technology Architecture — Digital Complaints Handling — UniCredit Bulbank" vertex="1">
+      <mxGeometry height="40" width="1880" x="60" y="20" as="geometry" />
+    </mxCell>
+    <mxCell id="c_sub" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555" value="Actors aligned with sequence_complaint.puml · Complaints are submitted only via authenticated Bulbank Mobile / Online — no KEP required (identity proven by login)" vertex="1">
+      <mxGeometry height="28" width="1880" x="60" y="52" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_z_client" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=10" value="1. Client — public Internet" vertex="1">
+      <mxGeometry height="200" width="1880" x="60" y="88" as="geometry" />
+    </mxCell>
+    <mxCell id="c_actor_client" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" value="Клиент" vertex="1">
+      <mxGeometry height="54" width="160" x="170" y="180" as="geometry" />
+    </mxCell>
+    <mxCell id="c_mobile" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565C0;fontSize=11;fontStyle=1" value="Bulbank Mobile / Online&lt;br&gt;iOS / Android / Web&lt;br&gt;TLS 1.2+ · OIDC login · биометрия / ПИН" vertex="1">
+      <mxGeometry height="130" width="360" x="570" y="128" as="geometry" />
+    </mxCell>
+    <mxCell id="c_push_client" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11" value="Push delivery (device)&#xa;APNs / FCM · end-user channel&#xa;Triggered by bank server via Push API" vertex="1">
+      <mxGeometry height="110" width="240" x="950" y="138" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_fw_perim" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;dashed=1" value="Perimeter firewall (L3/L4) — allow inbound TCP 443 (HTTPS) from Internet to DMZ edge only" vertex="1">
+      <mxGeometry height="28" width="1880" x="60" y="298" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_z_dmz" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=10" value="2a. DMZ (Linux perimeter)" vertex="1">
+      <mxGeometry height="200" width="640" x="60" y="334" as="geometry" />
+    </mxCell>
+    <mxCell id="c_z_ext" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#43A047;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=10" value="2b. External — trusted partners (egress-controlled)" vertex="1">
+      <mxGeometry height="200" width="1220" x="720" y="334" as="geometry" />
+    </mxCell>
+    <mxCell id="c_waf_rp" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#e65100;fontSize=11" value="Reverse proxy + WAF&#xa;NGINX + ModSecurity&#xa;OS: RHEL 9 · public 443/tcp HTTPS" vertex="1">
+      <mxGeometry height="110" width="560" x="100" y="394" as="geometry" />
+    </mxCell>
+    <mxCell id="c_push_ext" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11" value="Push providers (APNs / FCM)&#xa;HTTPS 443" vertex="1">
+      <mxGeometry height="100" width="320" x="760" y="388" as="geometry" />
+    </mxCell>
+    <mxCell id="c_email" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11" value="Email / SMS gateway&#xa;SMTP TLS 587 · HTTPS 443" vertex="1">
+      <mxGeometry height="100" width="320" x="1120" y="388" as="geometry" />
+    </mxCell>
+    <mxCell id="c_reg" parent="1" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11" value="Regulators&#xa;БНБ / КЗП / ПКПС · SFTP + HTTPS&#xa;(periodic reporting)" vertex="1">
+      <mxGeometry height="100" width="320" x="1500" y="388" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_fw_int" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;dashed=1" value="Internal firewall — segmented rules; application tier accepts mTLS from DMZ reverse proxy only" vertex="1">
+      <mxGeometry height="28" width="1880" x="60" y="542" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_z_app" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#8e24aa;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=10" value="3. Application zone — Complaints service &amp; bank integration tier (Linux)" vertex="1">
+      <mxGeometry height="320" width="1880" x="60" y="578" as="geometry" />
+    </mxCell>
+    <mxCell id="c_gateway" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fillColor=#c5e1a5;strokeColor=#558b2f;fontSize=11" value="API Gateway&#xa;Spring Cloud Gateway&#xa;Java 21 · Tomcat 10 (embedded)&#xa;Internal HTTPS 8443 / mTLS" vertex="1">
+      <mxGeometry height="130" width="380" x="370" y="635" as="geometry" />
+    </mxCell>
+    <mxCell id="c_orch" parent="1" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#aed581;strokeColor=#33691e;fontSize=11" value="Complaints Orchestrator&lt;br&gt;Spring Boot · JBoss EAP 8&lt;br&gt;REST/JSON · OIDC client · async callbacks" vertex="1">
+      <mxGeometry height="150" width="520" x="800" y="720" as="geometry" />
+    </mxCell>
+    <mxCell id="c_ai" parent="1" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#b3e5fc;strokeColor=#0277bd;fontSize=11" value="AI Copilot service&lt;br&gt;Context assembly + response drafting&lt;br&gt;Python · self-hosted · internal REST" vertex="1">
+      <mxGeometry height="130" width="340" x="1400" y="730" as="geometry" />
+    </mxCell>
+    <mxCell id="c_idp" parent="1" style="shape=folder;tabWidth=320;tabHeight=20;tabPosition=left;html=1;boundedLbl=1;whiteSpace=wrap;fillColor=#c5e1a5;strokeColor=#558b2f;fontSize=11" value="Bank IdP / IAM&lt;br&gt;Keycloak · OIDC/OAuth2 · 443" vertex="1">
+      <mxGeometry height="90" width="320" x="100" y="790" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_z_data" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;fontSize=13;fontStyle=1;verticalAlign=top;align=left;spacing=10" value="4. Data zone — sensitive / high-assurance" vertex="1">
+      <mxGeometry height="260" width="1880" x="60" y="908" as="geometry" />
+    </mxCell>
+    <mxCell id="c_pg" parent="1" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=11" value="Complaints DB&#xa;PostgreSQL 16 · RHEL 9&#xa;5432/tcp (TLS)" vertex="1">
+      <mxGeometry height="100" width="200" x="300" y="970" as="geometry" />
+    </mxCell>
+    <mxCell id="c_redis" parent="1" style="shape=datastore;whiteSpace=wrap;html=1;bpmn=0;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=11" value="Redis&#xa;sessions / idempotency&#xa;6379/tcp (TLS)" vertex="1">
+      <mxGeometry height="110" width="240" x="720" y="990" as="geometry" />
+    </mxCell>
+    <mxCell id="c_s3" parent="1" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=11" value="Object Storage&#xa;MinIO / S3-compatible&#xa;HTTPS 443 · за прикачени файлове" vertex="1">
+      <mxGeometry height="110" width="240" x="1120" y="990" as="geometry" />
+    </mxCell>
+    <mxCell id="c_audit" parent="1" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=11" value="Audit log&#xa;append-only · WORM&#xa;регулаторна проследимост" vertex="1">
+      <mxGeometry height="110" width="240" x="1500" y="990" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_cbs" parent="1" style="shape=tape;whiteSpace=wrap;html=1;size=0.2;fillColor=#e1bee7;strokeColor=light-dark(#6A1B9A,#515175);fontSize=11" value="Банкова система (CBS) + CRM + CARD_SYSTEM — Core Banking&lt;br&gt;Internal API · REST/JSON · mTLS + allowlist" vertex="1">
+      <mxGeometry height="64" width="1880" x="60" y="1180" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c_e_cl_m" edge="1" parent="1" source="c_actor_client" style="endArrow=classic;html=1;strokeColor=#6c8ebf;strokeWidth=1;fontSize=9" target="c_mobile" value="uses">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="c_e_m_w" edge="1" parent="1" source="c_mobile" style="endArrow=classic;html=1;strokeColor=#1565C0;strokeWidth=2;fontSize=10;fontColor=#1565C0;entryX=0.5;entryY=0;exitX=0.5;exitY=1;" target="c_waf_rp" value="HTTPS / 443">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="750" y="310" />
+          <mxPoint x="380" y="310" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_w_g" edge="1" parent="1" source="c_waf_rp" style="endArrow=classic;html=1;strokeColor=#e65100;strokeWidth=2;fontSize=10;fontColor=#bf360c;entryX=0.5;entryY=0;exitX=0.5;exitY=1;" target="c_gateway" value="HTTPS (mTLS to app tier)">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="380" y="560" />
+          <mxPoint x="560" y="560" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_g_o" edge="1" parent="1" source="c_gateway" style="endArrow=classic;html=1;strokeColor=#33691e;strokeWidth=2;fontSize=10;fontColor=#33691e;" target="c_orch" value="REST / JSON">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="c_e_g_i" edge="1" parent="1" source="c_gateway" style="endArrow=classic;html=1;strokeColor=#558b2f;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=10;fontColor=#33691e;" target="c_idp" value="OIDC">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="c_e_o_ai" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#0277bd;strokeWidth=2;fontSize=10;fontColor=#0277bd;" target="c_ai" value="REST / JSON (internal)">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="c_e_o_pg" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#bf360c;strokeWidth=2;fontSize=10;fontColor=#bf360c;exitX=0.313;exitY=0.98;entryX=0.5;entryY=0;" target="c_pg" value="JDBC (TLS)">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="963" y="930" />
+          <mxPoint x="400" y="930" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_rd" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#bf360c;strokeWidth=2;fontSize=10;fontColor=#bf360c;exitX=0.423;exitY=1.007;" target="c_redis" value="Redis TLS">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1020" y="960" />
+          <mxPoint x="840" y="960" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_s3" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#bf360c;strokeWidth=2;fontSize=10;fontColor=#bf360c;entryX=0.5;entryY=0;exitX=0.558;exitY=1;" target="c_s3" value="S3 API (HTTPS)">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1090" y="930" />
+          <mxPoint x="1240" y="930" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_audit" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#bf360c;strokeWidth=2;fontSize=10;fontColor=#bf360c;entryX=0.5;entryY=0;exitX=0.75;exitY=1;" target="c_audit" value="append (TLS)">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1180" y="930" />
+          <mxPoint x="1620" y="930" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_cbs" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#6a1b9a;strokeWidth=2;fontSize=10;fontColor=#6a1b9a;entryX=0.534;entryY=0.125;" target="c_cbs" value="REST / JSON (mTLS)">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1060" y="930" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_ps" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=10;fontColor=#2e7d32;entryX=0.5;entryY=1;exitX=0.25;exitY=0;" target="c_push_ext" value="Push API">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="930" y="520" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_em" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=10;fontColor=#2e7d32;entryX=0.5;entryY=1;exitX=0.5;exitY=0;" target="c_email" value="SMTP TLS / HTTPS">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1060" y="630" />
+          <mxPoint x="1280" y="630" />
+          <mxPoint x="1280" y="500" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="c_e_o_reg" edge="1" parent="1" source="c_orch" style="endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;dashed=1;dashPattern=8 8;fontSize=10;fontColor=#2e7d32;entryX=0.5;entryY=1;exitX=0.75;exitY=0;" target="c_reg" value="HTTPS + SFTP">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1190" y="670" />
+          <mxPoint x="1660" y="670" />
+          <mxPoint x="1660" y="500" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+  </root>
+</mxGraphModel>
